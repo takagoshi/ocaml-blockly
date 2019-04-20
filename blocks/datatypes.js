@@ -677,6 +677,43 @@ Blockly.Blocks['alist_type_constructor_typed'] = {
   }
 };
 
+Blockly.Blocks['variable_pattern_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['PATTERN_HUE']);
+    var A = Blockly.TypeExpr.generateTypeVar();
+    var variable = Blockly.FieldBoundVariable.newValue(A, 'a');
+    this.appendDummyInput()
+        .appendField(variable, 'VAR')
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(A));
+    this.setInputsInline(true);
+  },
+
+  transformToValue: function(workspace) {
+    var valueBlock = workspace.newBlock('variable_pattern_typed');
+    valueBlock.initSvg();
+    valueBlock.render();
+    var variable = this.getField('VAR');
+    valueBlock.getField('VAR').setVariableName(variable.getText());
+    return valueBlock;
+  },
+
+  updateUpperContext: function(ctx) {
+    var variable = this.getField('VAR').getVariable();
+    ctx.addVariable(variable);
+  },
+
+  getTypeScheme: function(fieldName) {
+    if (fieldName !== 'VAR') {
+      return null;
+    }
+    var variable = this.getField('VAR');
+    var typeExpr = variable.defaultTypeExpr_;
+    // TODO(asai): avoid referring to private variable defaultTypeExpr_
+    return Blockly.Scheme.monoType(typeExpr);
+  }
+};
+
 Blockly.Blocks['empty_construct_pattern_typed'] = {
   init: function() {
     var A = Blockly.TypeExpr.generateTypeVar();
@@ -694,151 +731,137 @@ Blockly.Blocks['empty_construct_pattern_typed'] = {
     valueBlock.initSvg();
     valueBlock.render();
     return valueBlock;
+  },
+
+  updateUpperContext: function(ctx) {
   }
 };
 
 Blockly.Blocks['cons_construct_pattern_typed'] = {
   init: function() {
+    this.setColour(Blockly.Msg['PATTERN_HUE']);
     var A = Blockly.TypeExpr.generateTypeVar();
     var list = new Blockly.TypeExpr.LIST(A);
-    var validator = Blockly.BoundVariables.variableNameValidator.bind(null,
-        Blockly.BoundVariableAbstract.VARIABLE);
-    this.setColour(Blockly.Msg['PATTERN_HUE']);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput('x', validator), 'FIRST')
+    this.appendValueInput('FIRST')
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(A));
+    this.appendValueInput('CONS')
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(list))
         .appendField('::')
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput('xs', validator), 'CONS');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(list));
     this.setInputsInline(true);
   },
 
   transformToValue: function(workspace) {
-    var valueBlock = workspace.newBlock(
-        'cons_construct_pattern_value_typed');
-    var first = this.getField('FIRST');
-    var cons = this.getField('CONS');
+    var valueBlock = workspace.newBlock('cons_construct_pattern_typed');
+    var first = this.getInput('FIRST').connection.targetConnection;
+    if (first) {
+      var newLeft = first.getSourceBlock().transformToValue(workspace);
+      var connection = valueBlock.getInput('FIRST').connection;
+      connection.connect(newLeft.outputConnection);
+    }
+    var cons = this.getInput('CONS').connection.targetConnection;
+    if (cons) {
+      var newLeft = cons.getSourceBlock().transformToValue(workspace);
+      var connection = valueBlock.getInput('CONS').connection;
+      connection.connect(newLeft.outputConnection);
+    }
     valueBlock.initSvg();
     valueBlock.render();
-    valueBlock.typedValue['FIRST'].setVariableName(first.getText());
-    valueBlock.typedValue['CONS'].setVariableName(cons.getText());
     return valueBlock;
-  }
-};
-
-Blockly.Blocks['cons_construct_pattern_value_typed'] = {
-  init: function() {
-    this.setColour(Blockly.Msg['PATTERN_HUE']);
-    var A = Blockly.TypeExpr.generateTypeVar();
-    var list = new Blockly.TypeExpr.LIST(A);
-    var firstVariable = Blockly.FieldBoundVariable.newValue(A, 'x');
-    var consVariable = Blockly.FieldBoundVariable.newValue(list, 'xs');
-
-    this.appendDummyInput()
-        .appendField(firstVariable, 'FIRST')
-        .appendField(':: ')
-    this.appendDummyInput()
-        .appendField(consVariable, 'CONS');
-     this.setOutput(true);
-    this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(list));
-    this.setInputsInline(true);
-  },
-
-  getTypeScheme: function(fieldName) {
-    if (fieldName !== 'FIRST' && fieldName !== 'CONS') {
-      return null;
-    }
-    if (fieldName === 'FIRST') {
-      var type = this.typedValue['FIRST'].getTypeExpr();
-    } else {
-      var type = this.typedValue['CONS'].getTypeExpr();
-    }
-    return Blockly.Scheme.monoType(type);
   },
 
   updateUpperContext: function(ctx) {
-    var parent = this.getParent();
-    if (parent && parent.type !== 'match_typed') {
-      return;
+    var first = this.getInput('FIRST').connection.targetConnection;
+    if (first) {
+      first.getSourceBlock().updateUpperContext(ctx);
     }
-    ctx.addVariable(this.typedValue['FIRST']);
-    ctx.addVariable(this.typedValue['CONS']);
+    var cons = this.getInput('CONS').connection.targetConnection;
+    if (cons) {
+      cons.getSourceBlock().updateUpperContext(ctx);
+    }
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var expected1 = this.getInput('FIRST').connection.typeExpr;
+    var arg1 = this.callInfer('FIRST', ctx);
+    if (arg1) {
+      arg1.unify(expected1);
+    }
+    var expected2 = this.getInput('CONS').connection.typeExpr;
+    var arg2 = this.callInfer('CONS', ctx);
+    if (arg2) {
+      arg2.unify(expected2);
+    }
+    return expected;
   }
 };
 
 Blockly.Blocks['pair_pattern_typed'] = {
   init: function() {
-    var validator = Blockly.BoundVariables.variableNameValidator.bind(null,
-        Blockly.BoundVariableAbstract.VARIABLE);
     this.setColour(Blockly.Msg['PATTERN_HUE']);
+    var A = Blockly.TypeExpr.generateTypeVar();
+    var B = Blockly.TypeExpr.generateTypeVar();
     this.appendDummyInput()
         .appendField('(');
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput('a', validator), 'LEFT')
+    this.appendValueInput('LEFT')
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(A));
+    this.appendValueInput('RIGHT')
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(B))
         .appendField(',');
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput('b', validator), 'RIGHT')
         .appendField(')');
     this.setOutput(true);
 
-    var A = Blockly.TypeExpr.generateTypeVar();
-    var B = Blockly.TypeExpr.generateTypeVar();
     var pairType = new Blockly.TypeExpr.TUPLE(A, B);
     this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(pairType));
     this.setInputsInline(true);
   },
 
   transformToValue: function(workspace) {
-    var valueBlock = workspace.newBlock('pair_pattern_value_typed');
-    var left = this.getField('LEFT');
-    var right = this.getField('RIGHT');
+    var valueBlock = workspace.newBlock('pair_pattern_typed');
+    var left = this.getInput('LEFT').connection.targetConnection;
+    if (left) {
+      var newLeft = left.getSourceBlock().transformToValue(workspace);
+      var connection = valueBlock.getInput('LEFT').connection;
+      connection.connect(newLeft.outputConnection);
+    }
+    var right = this.getInput('RIGHT').connection.targetConnection;
+    if (right) {
+      var newLeft = right.getSourceBlock().transformToValue(workspace);
+      var connection = valueBlock.getInput('RIGHT').connection;
+      connection.connect(newLeft.outputConnection);
+    }
     valueBlock.initSvg();
     valueBlock.render();
-    valueBlock.typedValue['LEFT'].setVariableName(left.getText());
-    valueBlock.typedValue['RIGHT'].setVariableName(right.getText());
     return valueBlock;
-  }
-};
-
-Blockly.Blocks['pair_pattern_value_typed'] = {
-  init: function() {
-    this.setColour(Blockly.Msg['PATTERN_HUE']);
-    var A = Blockly.TypeExpr.generateTypeVar();
-    var B = Blockly.TypeExpr.generateTypeVar();
-    var leftVariable = Blockly.FieldBoundVariable.newValue(A, 'a');
-    var rightVariable = Blockly.FieldBoundVariable.newValue(B, 'b');
-    this.appendDummyInput()
-        .appendField('(');
-    this.appendDummyInput()
-        .appendField(leftVariable, 'LEFT')
-        .appendField(', ')
-    this.appendDummyInput()
-        .appendField(rightVariable, 'RIGHT')
-        .appendField(')');
-     this.setOutput(true);
-    var pairType = new Blockly.TypeExpr.TUPLE(A, B);
-    this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(pairType));
-    this.setInputsInline(true);
-  },
-
-  getTypeScheme: function(fieldName) {
-    if (fieldName !== 'LEFT' && fieldName !== 'RIGHT') {
-      return null;
-    }
-    var type = this.typedValue[fieldName].getTypeExpr();
-    return Blockly.Scheme.monoType(type);
   },
 
   updateUpperContext: function(ctx) {
-    var parent = this.getParent();
-    if (parent && parent.type !== 'match_typed') {
-      return;
+    var left = this.getInput('LEFT').connection.targetConnection;
+    if (left) {
+      left.getSourceBlock().updateUpperContext(ctx);
     }
-    var leftValue = this.typedValue['LEFT'];
-    var rightValue = this.typedValue['RIGHT'];
-    ctx.addVariable(leftValue);
-    ctx.addVariable(rightValue);
+    var right = this.getInput('RIGHT').connection.targetConnection;
+    if (right) {
+      right.getSourceBlock().updateUpperContext(ctx);
+    }
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var expected1 = this.getInput('LEFT').connection.typeExpr;
+    var arg1 = this.callInfer('LEFT', ctx);
+    if (arg1) {
+      arg1.unify(expected1);
+    }
+    var expected2 = this.getInput('RIGHT').connection.typeExpr;
+    var arg2 = this.callInfer('RIGHT', ctx);
+    if (arg2) {
+      arg2.unify(expected2);
+    }
+    return expected;
   }
 };
 
@@ -863,21 +886,34 @@ Blockly.Blocks['record_pattern_typed'] = {
   transformToValue: function(workspace) {
     var recordValue = this.getField('RECORD').getBoundValue();
     var recordName = recordValue.getVariableName();
-    var patternValueBlock = workspace.newBlock('record_pattern_value_typed');
+    var patternValueBlock = workspace.newBlock('record_pattern_typed');
     var reference = patternValueBlock.getField('RECORD').getVariable();
     reference.setVariableName(recordName);
     reference.setBoundValue(recordValue);
     var children = recordValue.getChildren();
+    /*
     for (var i = 0; i < children.length; i++) {
-      var textField = this.getField('TEXT' + i);
-      var value = patternValueBlock.getField('TEXT' + i).getVariable();
+      var textField = this.getInput('TEXT' + i);
+      var value = patternValueBlock.getInput('TEXT' + i).getVariable();
       value.setVariableName(textField.getText());
-    }
+    } */
     if (goog.isFunction(patternValueBlock.initSvg)) {
       patternValueBlock.initSvg();
       patternValueBlock.render();
     }
     return patternValueBlock;
+  },
+
+  updateUpperContext: function(ctx) {
+    var reference = this.getField('RECORD').getVariable();
+    var value = reference.getBoundValue();
+    var children = value ? value.getChildren() : [];
+    for (var i = 0; i < children.length; i++) {
+      var con = this.getInput('TEXT' + i).connection.targetConnection;
+      if (con) {
+        con.getSourceBlock().updateUpperContext(ctx);
+      }
+    }
   },
 
   appendFieldInput: function(index, fieldValue) {
@@ -891,27 +927,60 @@ Blockly.Blocks['record_pattern_typed'] = {
     input.appendField(field, 'FIELD' + index)
     input.appendField('=');
 
-    this.appendFieldText_(index, input);
+    var A = Blockly.TypeExpr.generateTypeVar();
+    this.appendValueInput('TEXT' + index)
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(A));
+    // TODO(asai): How can I set A to the declared type?
+    // this.appendFieldText_(index, input);
 
     field.initModel();
     this.fieldCount_++;
     return input;
   },
 
-  appendFieldText_: function(index, input) {
-    var validator = Blockly.BoundVariables.variableNameValidator.bind(null,
-        Blockly.BoundVariableAbstract.VARIABLE);
-    var field = new Blockly.FieldTextInput('a', validator);
-    input.appendField(field, 'TEXT' + index);
+  updateStructure: function() {
+    var reference = this.getField('RECORD').getVariable();
+    var value = reference.getBoundValue();
+    var children = value ? value.getChildren() : [];
+    while (children.length < this.fieldCount_) {
+      var index = --this.fieldCount_;
+      this.removeInput('FIELD_INP' + index);
+    }
+    for (var i = 0; i < children.length; i++) {
+      if (this.fieldCount_ <= i) {
+        var input = this.appendFieldInput(i, children[i]);
+      } else {
+        var input = this.getInput('FIELD_INP' + i);
+      }
+      this.setChildInputTypeExpr_(input, children[i]);
+    }
+    if (goog.array.last(this.inputList).name != 'RBRACE') {
+      this.removeInput('RBRACE');
+      this.appendDummyInput('RBRACE')
+          .appendField('}');
+    }
+    if (goog.isFunction(this.initSvg)) {
+      this.initSvg();
+    }
   },
-
-  updateStructure: Blockly.Blocks['create_record_typed'].updateStructure,
 
   setChildInputTypeExpr_: function(input, fieldValue) {
-    // NOP.
+    // TODO(asai): this function does not work.
+    var field = goog.array.find(input.fieldRow,
+        function(field) {return field.name && field.name.startsWith('TEXT');});
+    if (!field) {
+      return;
+    }
+    var variable = field.getVariable();
+    var typeExpr = variable.getTypeExpr();
+    var def = fieldValue.getStructureTypeDef();
+    variable.setTypeExpr(def ? def : new Blockly.TypeExpr.UNKNOWN(), true);
   },
 
-  infer: Blockly.Blocks['create_record_typed'].infer
+  infer: function() {
+    this.updateStructure();
+    return this.outputConnection.typeExpr;
+  }
 };
 
 Blockly.Blocks['record_pattern_value_typed'] = {
