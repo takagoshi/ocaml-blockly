@@ -909,7 +909,7 @@ Blockly.Blocks['record_pattern_typed'] = {
     var value = reference.getBoundValue();
     var children = value ? value.getChildren() : [];
     for (var i = 0; i < children.length; i++) {
-      var con = this.getInput('TEXT' + i).connection.targetConnection;
+      var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
       if (con) {
         con.getSourceBlock().updateUpperContext(ctx);
       }
@@ -917,7 +917,26 @@ Blockly.Blocks['record_pattern_typed'] = {
   },
 
   appendFieldInput: function(index, fieldValue) {
-    var input = this.appendDummyInput('FIELD_INP' + index);
+    var storedRendered = this.rendered;
+    this.rendered = false;
+    var field = Blockly.FieldBoundVariable.newReferenceRecordField(null,
+        fieldValue.getVariableName());
+    field.setBoundValue(fieldValue);
+
+    var input = this.appendValueInput('FIELD_INP' + index);
+    if (index != 0) {
+      input.appendField(';');
+    }
+    input.appendField(field, 'FIELD' + index)
+    input.appendField('=');
+    field.initModel();
+    this.rendered = storedRendered;
+    this.fieldCount_++;
+    return input;
+  },
+
+  appendFieldInput2: function(index, fieldValue) {
+    var input = this.appendValueInput('FIELD_INP' + index);
     if (index != 0) {
       input.appendField(';');
     }
@@ -927,9 +946,11 @@ Blockly.Blocks['record_pattern_typed'] = {
     input.appendField(field, 'FIELD' + index)
     input.appendField('=');
 
+/*
     var A = Blockly.TypeExpr.generateTypeVar();
     this.appendValueInput('TEXT' + index)
         .setTypeExpr(new Blockly.TypeExpr.PATTERN(A));
+*/
     // TODO(asai): How can I set A to the declared type?
     // this.appendFieldText_(index, input);
 
@@ -965,71 +986,16 @@ Blockly.Blocks['record_pattern_typed'] = {
   },
 
   setChildInputTypeExpr_: function(input, fieldValue) {
-    // TODO(asai): this function does not work.
-    var field = goog.array.find(input.fieldRow,
-        function(field) {return field.name && field.name.startsWith('TEXT');});
-    if (!field) {
-      return;
-    }
-    var variable = field.getVariable();
-    var typeExpr = variable.getTypeExpr();
     var def = fieldValue.getStructureTypeDef();
-    variable.setTypeExpr(def ? def : new Blockly.TypeExpr.UNKNOWN(), true);
+    if (def && !def.hasUnknown()) {
+      input.setTypeExpr(new Blockly.TypeExpr.PATTERN(def), true);
+    } else {
+      input.setTypeExpr(new Blockly.TypeExpr.UNKNOWN(), true);
+    }
   },
 
   infer: function() {
     this.updateStructure();
     return this.outputConnection.typeExpr;
   }
-};
-
-Blockly.Blocks['record_pattern_value_typed'] = {
-  init: Blockly.Blocks['record_pattern_typed'].init,
-
-  getTypeScheme: function(fieldName) {
-    var m = fieldName && fieldName.match(/^TEXT(\d+)$/);
-    if (!m || this.fieldCount_ <= parseInt(m[1])) {
-      return null;
-    }
-    var variable = this.typedValue[fieldName];
-    return Blockly.Scheme.monoType(variable.getTypeExpr());
-  },
-
-  updateUpperContext: function(ctx) {
-    var parent = this.getParent();
-    if (parent && parent.type !== 'match_typed') {
-      return;
-    }
-    for (var i = 0; i < this.fieldCount_; i++) {
-      ctx.addVariable(this.typedValue['TEXT' + i]);
-    }
-  },
-
-  appendFieldInput: Blockly.Blocks['record_pattern_typed'].appendFieldInput,
-
-  appendFieldText_: function(index, input) {
-    var A = Blockly.TypeExpr.generateTypeVar();
-    var field = Blockly.FieldBoundVariable.newValue(A, 'a');
-    input.appendField(field, 'TEXT' + index);
-    // Call initModel on the field after it's attached to a block. Otherwise
-    // variable can not store information about where it's located. (e.g.,
-    // field, block, and workspace)
-    field.initModel();
-  },
-
-  updateStructure: Blockly.Blocks['record_pattern_typed'].updateStructure,
-
-  setChildInputTypeExpr_: function(input, fieldValue) {
-    var field = goog.array.find(input.fieldRow,
-        function(field) {return field.name && field.name.startsWith('TEXT');});
-    if (!field) {
-      return;
-    }
-    var variable = field.getVariable();
-    var typeExpr = variable.getTypeExpr();
-    var def = fieldValue.getStructureTypeDef();
-    variable.setTypeExpr(def ? def : new Blockly.TypeExpr.UNKNOWN(), true);
-  },
-
-  infer: Blockly.Blocks['record_pattern_typed'].infer
 };
