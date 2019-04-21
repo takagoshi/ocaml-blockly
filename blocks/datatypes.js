@@ -935,30 +935,6 @@ Blockly.Blocks['record_pattern_typed'] = {
     return input;
   },
 
-  appendFieldInput2: function(index, fieldValue) {
-    var input = this.appendValueInput('FIELD_INP' + index);
-    if (index != 0) {
-      input.appendField(';');
-    }
-    var field = Blockly.FieldBoundVariable.newReferenceRecordField(null,
-        fieldValue.getVariableName());
-    field.setBoundValue(fieldValue);
-    input.appendField(field, 'FIELD' + index)
-    input.appendField('=');
-
-/*
-    var A = Blockly.TypeExpr.generateTypeVar();
-    this.appendValueInput('TEXT' + index)
-        .setTypeExpr(new Blockly.TypeExpr.PATTERN(A));
-*/
-    // TODO(asai): How can I set A to the declared type?
-    // this.appendFieldText_(index, input);
-
-    field.initModel();
-    this.fieldCount_++;
-    return input;
-  },
-
   updateStructure: function() {
     var reference = this.getField('RECORD').getVariable();
     var value = reference.getBoundValue();
