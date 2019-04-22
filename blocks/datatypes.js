@@ -197,16 +197,19 @@ Blockly.Blocks['create_record_typed'] = {
   },
 
   updateStructure: function(ctx) {
+    var changed_ = false;
     var reference = this.getField('RECORD').getVariable();
     var value = reference.getBoundValue();
     var children = value ? value.getChildren() : [];
     while (children.length < this.fieldCount_) {
       var index = --this.fieldCount_;
       this.removeInput('FIELD_INP' + index);
+      changed_ = true;
     }
     for (var i = 0; i < children.length; i++) {
       if (this.fieldCount_ <= i) {
         var input = this.appendFieldInput(i, children[i]);
+        changed_ = true;
       } else {
         var input = this.getInput('FIELD_INP' + i);
       }
@@ -222,7 +225,7 @@ Blockly.Blocks['create_record_typed'] = {
       this.appendDummyInput('RBRACE')
           .appendField('}');
     }
-    if (goog.isFunction(this.initSvg)) {
+    if (changed_ && goog.isFunction(this.initSvg)) {
       this.initSvg();
     }
   },
