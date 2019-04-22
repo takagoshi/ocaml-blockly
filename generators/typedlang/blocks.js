@@ -467,35 +467,27 @@ Blockly.TypedLang['alist_type_constructor_typed'] = function(block) {
   return [param + ' list', Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['variable_pattern_typed'] = function(block) {
+  var code = block.getField('VAR').getVariableName();
+  return [code, Blockly.TypedLang.ORDER_ATOMIC];
+};
+
 Blockly.TypedLang['empty_construct_pattern_typed'] = function(block) {
   return ['[]', Blockly.TypedLang.ORDER_ATOMIC];
 };
 
 Blockly.TypedLang['cons_construct_pattern_typed'] = function(block) {
-  var first = block.getField('FIRST');
-  var cons = block.getField('CONS');
-  return [first.getText() + ' :: ' + cons.getText(),
-      Blockly.TypedLang.ORDER_CONS];
-};
-
-Blockly.TypedLang['cons_construct_pattern_value_typed'] = function(block) {
-  var first = block.typedValue['FIRST'].getVariableName();
-  var cons = block.typedValue['CONS'].getVariableName();
-  return [first + ' :: ' + cons,
-      Blockly.TypedLang.ORDER_CONS];
+  var order = Blockly.TypedLang.ORDER_CONS;
+  var first = Blockly.TypedLang.valueToCode(block, 'FIRST', order) || '?';
+  var cons = Blockly.TypedLang.valueToCode(block, 'CONS', order) || '?';
+  return [first + ' :: ' + cons, order];
 };
 
 Blockly.TypedLang['pair_pattern_typed'] = function(block) {
-  var left = block.getField('LEFT');
-  var right = block.getField('RIGHT');
-  return ['(' + left.getText() + ', ' + right.getText() + ')',
-      Blockly.TypedLang.ORDER_ATOMIC];
-};
-
-Blockly.TypedLang['pair_pattern_value_typed'] = function(block) {
-  var left = block.typedValue['LEFT'].getVariableName();
-  var right = block.typedValue['RIGHT'].getVariableName();
-  return ['(' + left + ', ' + right + ')', Blockly.TypedLang.ORDER_ATOMIC];
+  var order = Blockly.TypedLang.ORDER_ATOMIC;
+  var left = Blockly.TypedLang.valueToCode(block, 'LEFT', order) || '?';
+  var right = Blockly.TypedLang.valueToCode(block, 'RIGHT', order) || '?';
+  return ['(' + left + ', ' + right + ')', order];
 };
 
 Blockly.TypedLang['record_pattern_typed'] = function(block) {
@@ -503,19 +495,9 @@ Blockly.TypedLang['record_pattern_typed'] = function(block) {
   for (var i = 0; i < block.fieldCount_; i++) {
     var recordField = block.getField('FIELD' + i);
     var fieldName = recordField.getVariableName();
-    var fieldInput = block.getField('TEXT' + i).getText();
-    pairs.push([fieldName, fieldInput]);
-  }
-  return [Blockly.TypedLang.recordTypeUtil_(pairs),
-      Blockly.TypedLang.ORDER_ATOMIC];
-};
-
-Blockly.TypedLang['record_pattern_value_typed'] = function(block) {
-  var pairs = [];
-  for (var i = 0; i < block.fieldCount_; i++) {
-    var recordField = block.getField('FIELD' + i);
-    var fieldName = recordField.getVariableName();
-    var fieldInput = block.getField('TEXT' + i).getVariableName();
+    var order = Blockly.TypedLang.ORDER_NONE;
+    var fieldInput = Blockly.TypedLang.valueToCode(block, 'FIELD_INP' + i,
+	order) || '?';
     pairs.push([fieldName, fieldInput]);
   }
   return [Blockly.TypedLang.recordTypeUtil_(pairs),
