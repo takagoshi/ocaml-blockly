@@ -658,12 +658,33 @@ Blockly.Connection.prototype.checkTypeExprAndVariables_ = function(
     otherConnection, opt_context) {
   var context = opt_context ? opt_context : {};
   var collector = context.errorCollector;
-  if (!this.typeExpr.ableToUnify(otherConnection.typeExpr, collector)) {
-    return Blockly.Connection.REASON_TYPE_UNIFICATION;
-  }
   var superior = this.isSuperior() ? this : otherConnection;
   var inferior = superior == this ? otherConnection : this;
   var childBlock = inferior.getSourceBlock();
+
+  if (!this.typeExpr.ableToUnify(otherConnection.typeExpr, collector)) {
+    return Blockly.Connection.REASON_TYPE_UNIFICATION;
+  }
+  // Check if type inference is successful. Assume that two connection can be
+  // connected to each other.
+  var tmpLocalTargetConnection = this.targetConnection;
+  var tmpParentTargetConnection = otherConnection.targetConnection;
+  Blockly.Connection.connectReciprocally_(this, otherConnection);
+  try {
+    childBlock.updateTypeInference(true);
+  } catch (e) {
+    if (collector) {
+      // Currently this type unification error can not be specified, so store
+      // a dummy type error.
+      collector.addTypeError(Blockly.TypeExpr.errorNotSpecified());
+    }
+    return Blockly.Connection.REASON_TYPE_UNIFICATION;
+  } finally {
+    // Clear temporary connection and revert type inference on blocks.
+    this.targetConnection = tmpLocalTargetConnection;
+    otherConnection.targetConnection = tmpParentTargetConnection;
+    childBlock.updateTypeInference(true);
+  }
 
   var bindNewly = context.finalCheck === true;
   var resolved =
