@@ -196,7 +196,7 @@ Blockly.Blocks['create_record_typed'] = {
     return input;
   },
 
-  updateStructure: function() {
+  updateStructure: function(ctx) {
     var reference = this.getField('RECORD').getVariable();
     var value = reference.getBoundValue();
     var children = value ? value.getChildren() : [];
@@ -211,6 +211,11 @@ Blockly.Blocks['create_record_typed'] = {
         var input = this.getInput('FIELD_INP' + i);
       }
       this.setChildInputTypeExpr_(input, children[i]);
+      var expected = input.connection.typeExpr;
+      var arg = this.callInfer('FIELD_INP' + i, ctx);
+      if (arg) {
+        arg.unify(expected);
+      }
     }
     if (goog.array.last(this.inputList).name != 'RBRACE') {
       this.removeInput('RBRACE');
@@ -231,8 +236,8 @@ Blockly.Blocks['create_record_typed'] = {
     }
   },
 
-  infer: function() {
-    this.updateStructure();
+  infer: function(ctx) {
+    this.updateStructure(ctx);
     return this.outputConnection.typeExpr;
   }
 };
@@ -935,7 +940,7 @@ Blockly.Blocks['record_pattern_typed'] = {
     return input;
   },
 
-  updateStructure: function() {
+  updateStructure: function(ctx) {
     var reference = this.getField('RECORD').getVariable();
     var value = reference.getBoundValue();
     var children = value ? value.getChildren() : [];
@@ -950,6 +955,11 @@ Blockly.Blocks['record_pattern_typed'] = {
         var input = this.getInput('FIELD_INP' + i);
       }
       this.setChildInputTypeExpr_(input, children[i]);
+      var expected = input.connection.typeExpr;
+      var arg = this.callInfer('FIELD_INP' + i, ctx);
+      if (arg) {
+        arg.unify(expected);
+      }
     }
     if (goog.array.last(this.inputList).name != 'RBRACE') {
       this.removeInput('RBRACE');
@@ -970,8 +980,8 @@ Blockly.Blocks['record_pattern_typed'] = {
     }
   },
 
-  infer: function() {
-    this.updateStructure();
+  infer: function(ctx) {
+    this.updateStructure(ctx);
     return this.outputConnection.typeExpr;
   }
 };

@@ -496,8 +496,8 @@ Blockly.TypedLang['record_pattern_typed'] = function(block) {
     var recordField = block.getField('FIELD' + i);
     var fieldName = recordField.getVariableName();
     var order = Blockly.TypedLang.ORDER_NONE;
-    var fieldInput = Blockly.TypedLang.valueToCode(block, 'TEXT' + i, order)
-        || '?';
+    var fieldInput = Blockly.TypedLang.valueToCode(block, 'FIELD_INP' + i,
+	order) || '?';
     pairs.push([fieldName, fieldInput]);
   }
   return [Blockly.TypedLang.recordTypeUtil_(pairs),
