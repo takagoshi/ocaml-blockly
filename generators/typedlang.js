@@ -63,7 +63,8 @@ Blockly.TypedLang.ORDER_MOD = 5.3;            // mod (INFIXOP3)
 Blockly.TypedLang.ORDER_SUBTRACTION = 6.1;    // - (INFIXOP2)
 Blockly.TypedLang.ORDER_ADDITION = 6.2;       // + (INFIXOP2)
 Blockly.TypedLang.ORDER_CONS = 7;             // ::
-Blockly.TypedLang.ORDER_CONCAT_STRING = 8;    // ^ (INFIXOP1)
+Blockly.TypedLang.ORDER_CONCAT_STRING = 8.1;  // ^ (INFIXOP1)
+Blockly.TypedLang.ORDER_APPEND_LIST = 8.2;    // @ (INFIXOP1)
 Blockly.TypedLang.ORDER_RELATIONAL = 9;       // < <= > >= = <> (INFIXOP0)
 Blockly.TypedLang.ORDER_LOGICAL_AND = 13;     // &&
 Blockly.TypedLang.ORDER_LOGICAL_OR = 14;      // ||
