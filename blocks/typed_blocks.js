@@ -650,6 +650,35 @@ Blockly.Blocks['list_cons_typed'] = {
   }
 };
 
+Blockly.Blocks['list_append_typed'] = {
+  init: function() {
+    this.setColour(260);
+    var element_type = Blockly.TypeExpr.generateTypeVar();
+    var listType = new Blockly.TypeExpr.LIST(element_type);
+    this.appendValueInput('LEFT')
+        .setTypeExpr(listType);
+    this.appendValueInput('RIGHT')
+        .setTypeExpr(listType)
+        .appendField('@');
+    this.setOutput(true);
+    this.setOutputTypeExpr(listType);
+    this.setInputsInline(true);
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var leftType = this.callInfer('LEFT', ctx);
+    var rightType = this.callInfer('RIGHT', ctx);
+    if (leftType) {
+      expected.unify(leftType);
+    }
+    if (rightType) {
+      expected.unify(rightType);
+    }
+    return expected;
+  }
+}
+
 /**
  * Pairs
  */
