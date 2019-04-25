@@ -140,9 +140,10 @@ Blockly.PatternWorkbench.prototype.updateFlyoutTree = function() {
 Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
   var map = {
     'variable': ['variable_pattern_typed'],
+    'pair': ['pair_pattern_typed'],
+    'record' : [],
     'list': ['empty_construct_pattern_typed',
-        'cons_construct_pattern_typed'],
-    'pair': ['pair_pattern_typed']
+        'cons_construct_pattern_typed']
   };
   var keys = Object.keys(map);
   var contentsMap = {};
