@@ -506,6 +506,9 @@ Blockly.Blocks['lists_create_with_typed'] = {
    * @this Blockly.Block
    */
   domToMutation: function(xmlElement) {
+    // xmlElement = <mutation items="n"></mutation>
+    // where n is the number of elements.
+    // returns a list block with n elements
     this.removeInput('LPAREN');
     for (var x = 0; x < this.itemCount_; x++) {
       this.removeInput('ADD' + x);
@@ -803,6 +806,33 @@ Blockly.Blocks['function_app_typed'] = {
 
   updateStructure: function() {
     var variable = this.typedReference['VAR'];
+    var currentValue = variable.getBoundValue();
+    if (currentValue && currentValue.getMainFieldName() === 'VAR') {
+      // resize only when variable is a function (not an argument)
+      var newParamCount = currentValue.sourceBlock_.argumentCount_;
+      while (newParamCount < this.paramCount_) {
+        var index = this.paramCount_ - 1;
+        this.removeInput('PARAM' + index);
+        this.paramCount_--;
+      }
+      for (var i = 0; i < newParamCount; i++) {
+        var inputName = 'PARAM' + i;
+        if (this.paramCount_ <= i) {
+          var rendered = this.rendered;
+          this.rendered = false;
+          this.appendValueInput(inputName);
+          this.rendered = rendered;
+          this.paramCount_++;
+        }
+      }
+    }
+    this.updateFunArgTypes();
+    // if updateFunArgTypes is not called, f will have higher-order type
+  },
+
+  // Can be called after binding is resolved.
+  updateFunArgTypes: function() {
+    var variable = this.typedReference['VAR'];
     var type = variable.getTypeExpr();
     var types = Blockly.TypeExpr.functionToArray(type);
     //goog.asserts.assert(2 <= types.length, 'Function type is expected.');
@@ -815,22 +845,9 @@ Blockly.Blocks['function_app_typed'] = {
       var argTypes = [];
     }
 
-    while (argTypes.length < this.paramCount_) {
-      var index = this.paramCount_ - 1;
-      this.removeInput('PARAM' + index);
-      this.paramCount_--;
-    }
     for (var i = 0; i < argTypes.length; i++) {
       var inputName = 'PARAM' + i;
-      if (this.paramCount_ <= i) {
-        var rendered = this.rendered;
-        this.rendered = false;
-        var input = this.appendValueInput(inputName);
-        this.rendered = rendered;
-        this.paramCount_++;
-      } else {
-        var input = this.getInput(inputName);
-      }
+      var input = this.getInput(inputName);
       input.setTypeExpr(types[i], true);
     }
     this.setOutputTypeExpr(returnType, true);
@@ -846,17 +863,21 @@ Blockly.Blocks['function_app_typed'] = {
     container.setAttribute('params', this.paramCount_);
     return container;
   },
+
   /**
    * Parse XML to restore the application inputs.
    * @param {!Element} xmlElement XML storage element.
    * @this Blockly.Block
    */
   domToMutation: function(xmlElement) {
-    var newParamCount = parseInt(xmlElement.getAttribute('params'), 0);
-    // Update parameter inputs depending on the type of the reference value.
-    this.updateStructure();
-    if (this.paramCount_ == newParamCount) {
-      return;
+    // xmlElement = <mutation params="n"></mutation>
+    // where n is the number of arguments.
+    // returns an application block with n arguments
+    var newParamCount = parseInt(xmlElement.getAttribute('params'), 10);
+    // Remove params.  Necessary if paramCount_ is set to >0 in init.
+    while (newParamCount < this.paramCount_) {
+      var index = --this.paramCount_;
+      this.removeInput('PARAM' + index);
     }
     // The type of the reference value might not be determined yet. For such
     // cases (e.g., [let f x y = <> in f <[0]> <[0]>]), append dummy parameter
@@ -884,10 +905,10 @@ Blockly.Blocks['function_app_typed'] = {
     if (schemeInEnv) {
       // Fix: let rec c = ... c
       schemeInEnv.unify(variable.getTypeExpr());
-      this.updateStructure();
+      this.updateFunArgTypes();
     } else if (ctx.canUnifyOrphan()) {
       variable.unifyTypeExpr();
-      this.updateStructure();
+      this.updateFunArgTypes();
     }
 
     for (var i = 0; i < this.paramCount_; i++) {
@@ -1614,6 +1635,8 @@ Blockly.Blocks['let_typed'] = {
       this.argumentCount_++;
     }
     if (contextChanged) {
+      var variable = this.typedValue['VAR'];
+      variable.updateReferenceStructure();
       this.updateTypeInference(true);
       // Do not call the following functions. Newly created fields are not
       // initialized yet. They will be called by mutator instance after the

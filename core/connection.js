@@ -247,6 +247,7 @@ Blockly.Connection.prototype.connect_ = function(childConnection) {
   }
 
   if (this.typeExprEnabled()) {
+    // Asai: The following statement should be put out of this if block.
     if (!childBlock.resolveReference(parentConnection, true)) {
       throw 'Connecting these blocks will occur invalid variable reference.';
     }
@@ -686,6 +687,7 @@ Blockly.Connection.prototype.checkTypeExprAndVariables_ = function(
     childBlock.updateTypeInference(true);
   }
 
+  // Asai: The following statements should be placed before type checking.
   var bindNewly = context.finalCheck === true;
   var resolved =
       childBlock.resolveReference(superior, bindNewly, null, collector);

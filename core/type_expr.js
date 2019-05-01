@@ -1190,6 +1190,7 @@ Blockly.TypeExpr.prototype.unify = function(other) {
       } else if (t1.id) {
         t2.id = t1.id;
       } else {
+        console.log('Both are undefined structure: ' + t1 + ', '+ t2);
         goog.asserts.fail('Both are undefined structure.');
       }
     } else {

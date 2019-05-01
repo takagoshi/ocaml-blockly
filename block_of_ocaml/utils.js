@@ -89,11 +89,16 @@ BlockOfOCamlUtils.codeToBlockImpl_ = function(code, opt_workspace) {
     result.errCode = BlockOfOCamlUtils.ERROR_INVALID_BLOCK_XML;
     return result;
   }
-  // Note: Do type inference first before checking variable bindings.
-  // Block XML can specify the size of parameter inputs on an application block
-  // (e.g., f x y), but the application block will remove these inputs if its
-  // type expression doesn't indicate a function type. To avoid this, detect
-  // types first.
+  // check variable binding
+  var collector = new Blockly.ErrorCollector();
+  if (!block.resolveReference(null, true, null, collector, false)) {
+    var undefineds = collector.getUnboundVariables();
+    result.undefines = goog.array.map(undefineds, x => x.getVariableName());
+    result.errCode = BlockOfOCamlUtils.ERROR_UNDEFINED_VARIABLE;
+    BlockOfOCamlUtils.forceDispose(block);
+    return result;
+  }
+  // type inference
   var typeCheck = true;
   try {
     block.updateTypeInference();
@@ -102,14 +107,6 @@ BlockOfOCamlUtils.codeToBlockImpl_ = function(code, opt_workspace) {
   }
   if (!typeCheck) {
     result.errCode = BlockOfOCamlUtils.ERROR_TYPE_INFERENCE;
-    BlockOfOCamlUtils.forceDispose(block);
-    return result;
-  }
-  var collector = new Blockly.ErrorCollector();
-  if (!block.resolveReference(null, true, null, collector)) {
-    var undefineds = collector.getUnboundVariables();
-    result.undefines = goog.array.map(undefineds, x => x.getVariableName());
-    result.errCode = BlockOfOCamlUtils.ERROR_UNDEFINED_VARIABLE;
     BlockOfOCamlUtils.forceDispose(block);
     return result;
   }
