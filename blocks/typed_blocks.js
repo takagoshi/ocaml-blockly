@@ -1185,10 +1185,10 @@ Blockly.Blocks['match_typed'] = {
     switch (name) {
       case 'list':
         patternValueNames = ['empty_construct_pattern_typed',
-            'cons_construct_pattern_value_typed'];
+            'cons_construct_pattern_typed'];
         break;
       case 'pair':
-        patternValueNames = ['pair_pattern_value_typed'];
+        patternValueNames = ['pair_pattern_typed'];
         break;
       default:
         goog.asserts.fail('Unknown auto match operator.');
