@@ -2187,7 +2187,8 @@ Blockly.Block.VariableContext.prototype.getEnvWithLabel_ = function(label) {
       Blockly.BoundVariableAbstract.isConstructorLabel(label)) {
     return this.variableEnv_;
   }
-  if (Blockly.BoundVariableAbstract.isRecordLabel(label)) {
+  if (Blockly.BoundVariableAbstract.isRecordLabel(label) ||
+      Blockly.BoundVariableAbstract.isRecordFieldLabel(label)) {
     return this.structureEnv_;
   }
   goog.asserts.fail('Unexpected variable label.');
@@ -2249,7 +2250,8 @@ Blockly.Block.VariableContext.prototype.getStructureVariables = function() {
 };
 Blockly.Block.VariableContext.prototype.addStructureVariable = function(
     variable) {
-  goog.asserts.assert(!variable.isReference() && variable.isRecord(),
+  goog.asserts.assert(!variable.isReference() && (variable.isRecord() ||
+     variable.isRecordField()),
      'Only structure variable values are acceptable.');
   var name = variable.getVariableName();
   this.structureEnv_[name] = variable;

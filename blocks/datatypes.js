@@ -53,6 +53,10 @@ Blockly.Blocks['defined_recordtype_typed'] = {
     if (conn && this.nextConnection == conn) {
       var variable = this.getField('DATANAME').getVariable();
       ctx.addStructureVariable(variable);
+      for (var index = 0; index < this.itemCount_; index++) {
+        var fieldVariable = this.getField('FIELD' + index).getVariable();
+        ctx.addStructureVariable(fieldVariable);
+      }
     }
   },
 

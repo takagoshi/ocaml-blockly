@@ -232,7 +232,7 @@ Blockly.BoundVariables.getBlockVariableDB = function(variable) {
   if (variable.isVariable() || variable.isConstructor()) {
     return block.typedReference;
   }
-  if (variable.isRecord()) {
+  if (variable.isRecord() || variable.isRecordField()) {
     return block.typedStructureReference;
   }
   return null;
