@@ -465,6 +465,8 @@ Blockly.Workbench.prototype.blocksForFlyout_ = function(flyoutWorkspace) {
     } else if (variable.isRecord()) {
       var prototypeName = 'create_record_typed';
       var fieldName = 'RECORD';
+    } else if (variable.isRecordField()) {
+      continue;
     } else {
       goog.asserts.fail('Not supported type of variable.');
     }
