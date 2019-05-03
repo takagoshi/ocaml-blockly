@@ -61,6 +61,12 @@ Blockly.PatternWorkbench.prototype.setContextConnection = function(connection,
  * @override
  */
 Blockly.PatternWorkbench.prototype.getContext = function(opt_includeImplicit) {
+  if (this.block_) {
+    // Unless this workbench is in the process of being deleted.
+    var includeImplicit = opt_includeImplicit !== false;
+    return this.block_.allVisibleVariables(this.block_.outputConnection,
+        includeImplicit);
+  }
   return new Blockly.Block.VariableContext();
 };
 

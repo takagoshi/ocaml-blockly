@@ -951,12 +951,14 @@ Blockly.Blocks['record_pattern_typed'] = {
     reference.setVariableName(recordName);
     reference.setBoundValue(recordValue);
     var children = recordValue.getChildren();
-    /*
     for (var i = 0; i < children.length; i++) {
-      var textField = this.getInput('TEXT' + i);
-      var value = patternValueBlock.getInput('TEXT' + i).getVariable();
-      value.setVariableName(textField.getText());
-    } */
+      var child = this.getInput('FIELD_INP' + i).connection.targetConnection;
+      if (child) {
+        var newChild = child.getSourceBlock().transformToValue(workspace);
+        var connection = patternValueBlock.getInput('FIELD_INP' + i).connection;
+        connection.connect(newChild.outputConnection);
+      }
+    }
     if (goog.isFunction(patternValueBlock.initSvg)) {
       patternValueBlock.initSvg();
       patternValueBlock.render();
