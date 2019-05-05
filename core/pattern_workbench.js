@@ -144,25 +144,29 @@ Blockly.PatternWorkbench.prototype.updateFlyoutTree = function() {
  *     to block XML list.
  */
 Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
-  var map = {
-    'variable': ['variable_pattern_typed'],
-    'pair': ['pair_pattern_typed'],
-    'record' : [],
-    'list': ['empty_construct_pattern_typed',
-        'cons_construct_pattern_typed']
-  };
-  var keys = Object.keys(map);
   var contentsMap = {};
-  var children = [];
-  for (var i = 0, name; name = keys[i]; i++) {
-    var blockXmlList = [];
-    var blockNames = map[name];
-    for (var j = 0, blockName; blockName = blockNames[j]; j++) {
-      var blockXml = goog.dom.createDom('block', {'type': blockName});
-      blockXmlList.push(blockXml);
-    }
-    contentsMap[name] = blockXmlList;
-  }
+  // pair
+  var b1 = Blockly.PatternWorkbench.createVariableDom('a', 'true');
+  var v1 = Blockly.PatternWorkbench.createValueDom('LEFT', b1);
+  var b2 = Blockly.PatternWorkbench.createVariableDom('b', 'true');
+  var v2 = Blockly.PatternWorkbench.createValueDom('RIGHT', b2);
+  var xml = Blockly.PatternWorkbench.createPairDom([v1, v2]);
+  contentsMap['pair'] = [xml];
+  // record (later), placed here to fix the order of patterns
+  contentsMap['record'] = [];
+  // list
+  var xml1 = Blockly.PatternWorkbench.createEmptyListDom();
+  var b1 = Blockly.PatternWorkbench.createVariableDom('first', 'true');
+  var v1 = Blockly.PatternWorkbench.createValueDom('FIRST', b1);
+  var b2 = Blockly.PatternWorkbench.createVariableDom('rest', 'true');
+  var v2 = Blockly.PatternWorkbench.createValueDom('CONS', b2);
+  var xml2 = Blockly.PatternWorkbench.createConsDom([v1, v2]);
+  contentsMap['list'] = [xml1, xml2];
+  // variable
+  var xml = Blockly.PatternWorkbench.createVariableDom('x', 'true');
+  contentsMap['variable'] = [xml];
+
+  // record
   var parentConnection = this.block_.outputConnection ?
       this.block_.outputConnection.targetConnection : null;
   var parentBlock = parentConnection &&
@@ -190,9 +194,63 @@ Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
       field.appendChild(valueDom);
 
       blockXml.appendChild(field);
+      for (var n = 0; n < val.childValues_.length; n++) {
+        var name = val.childValues_[n].getVariableName();
+        var b = Blockly.PatternWorkbench.createVariableDom(name + '_v', 'true');
+        var v = Blockly.PatternWorkbench.createValueDom('FIELD_INP' + n, b);
+        blockXml.appendChild(v);
+      }
       blockXmlList.push(blockXml);
     }
     contentsMap['record'] = blockXmlList;
   }
   return contentsMap;
+};
+
+/**
+ * create Dom for variables
+ */
+Blockly.PatternWorkbench.createVariableDom = function(name, isvalue) {
+  var f = goog.dom.createDom('field', {}, name);
+  f.setAttribute('name', 'VAR');
+  f.setAttribute('isvalue', isvalue);
+  f.setAttribute('variable-type', 'variable');
+  var xml = goog.dom.createDom('block', {'type': 'variable_pattern_typed'}, f);
+  return xml;
+};
+
+/**
+ * create value Dom
+ */
+Blockly.PatternWorkbench.createValueDom = function(name, child) {
+  var xml = goog.dom.createDom('value', {}, child);
+  xml.setAttribute('name', name);
+  return xml;
+};
+
+/**
+ * create Dom for pairs
+ */
+Blockly.PatternWorkbench.createPairDom = function(children) {
+  var xml = goog.dom.createDom('block', {'type': 'pair_pattern_typed'},
+      children);
+  return xml;
+};
+
+/**
+ * create Dom for empty list
+ */
+Blockly.PatternWorkbench.createEmptyListDom = function() {
+  var xml = goog.dom.createDom('block',
+      {'type': 'empty_construct_pattern_typed'});
+  return xml;
+};
+
+/**
+ * create Dom for cons
+ */
+Blockly.PatternWorkbench.createConsDom = function(children) {
+  var xml = goog.dom.createDom('block',
+      {'type': 'cons_construct_pattern_typed'}, children);
+  return xml;
 };

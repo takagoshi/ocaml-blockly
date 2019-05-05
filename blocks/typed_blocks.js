@@ -1184,25 +1184,48 @@ Blockly.Blocks['match_typed'] = {
     var patternValueNames;
     switch (name) {
       case 'list':
-        patternValueNames = ['empty_construct_pattern_typed',
-            'cons_construct_pattern_typed'];
+        this.mutator.setVisible(false);
+        this.resizePatternInput(2);
+        // Initialize icons SVG.
+        this.initSvg();
+        // set pattern for empty
+        var xml = Blockly.PatternWorkbench.createEmptyListDom();
+        var valueBlock = Blockly.Xml.domToBlock(xml, this.workspace, true);
+        valueBlock.initSvg();
+        valueBlock.render();
+        var patternConn = this.getInput('PATTERN' + 0).connection;
+        patternConn.connect(valueBlock.outputConnection);
+        // set pattern for cons
+        var b1 = Blockly.PatternWorkbench.createVariableDom('first', 'true');
+        var v1 = Blockly.PatternWorkbench.createValueDom('FIRST', b1);
+        var b2 = Blockly.PatternWorkbench.createVariableDom('rest', 'true');
+        var v2 = Blockly.PatternWorkbench.createValueDom('CONS', b2);
+        var xml = Blockly.PatternWorkbench.createConsDom([v1, v2]);
+        var valueBlock = Blockly.Xml.domToBlock(xml, this.workspace, true);
+        valueBlock.initSvg();
+        valueBlock.render();
+        var patternConn = this.getInput('PATTERN' + 1).connection;
+        patternConn.connect(valueBlock.outputConnection);
         break;
       case 'pair':
-        patternValueNames = ['pair_pattern_typed'];
+        this.mutator.setVisible(false);
+        this.resizePatternInput(1);
+        // Initialize icons SVG.
+        this.initSvg();
+        // set pattern
+        var b1 = Blockly.PatternWorkbench.createVariableDom('a', 'true');
+        var v1 = Blockly.PatternWorkbench.createValueDom('LEFT', b1);
+        var b2 = Blockly.PatternWorkbench.createVariableDom('b', 'true');
+        var v2 = Blockly.PatternWorkbench.createValueDom('RIGHT', b2);
+        var xml = Blockly.PatternWorkbench.createPairDom([v1, v2]);
+        var valueBlock = Blockly.Xml.domToBlock(xml, this.workspace, true);
+        valueBlock.initSvg();
+        valueBlock.render();
+        var patternConn = this.getInput('PATTERN' + 0).connection;
+        patternConn.connect(valueBlock.outputConnection);
         break;
       default:
         goog.asserts.fail('Unknown auto match operator.');
-    }
-    this.mutator.setVisible(false);
-    this.resizePatternInput(patternValueNames.length);
-    // Initialize icons SVG.
-    this.initSvg();
-    for (var i = 0, name; name = patternValueNames[i]; i++) {
-      var patternConn = this.getInput('PATTERN' + i).connection;
-      var valueBlock = this.workspace.newBlock(name);
-      valueBlock.initSvg();
-      valueBlock.render();
-      patternConn.connect(valueBlock.outputConnection);
     }
   },
 
