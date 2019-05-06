@@ -882,7 +882,7 @@ Blockly.Blocks['function_app_typed'] = {
     // The type of the reference value might not be determined yet. For such
     // cases (e.g., [let f x y = <> in f <[0]> <[0]>]), append dummy parameter
     // inputs.
-    for (var i = 0; i < newParamCount; i++) {
+    for (var i = this.paramCount_; i < newParamCount; i++) {
       var inputName = 'PARAM' + i;
       var rendered = this.rendered;
       this.rendered = false;
