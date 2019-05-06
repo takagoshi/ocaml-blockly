@@ -161,7 +161,18 @@ Typed.runCode = function() {
 Typed.onClickConvert = function(event) {
   event.preventDefault();
   var input = document.querySelector(".ocamlCode");
-  var code = input.value;
+  var check1 = document.querySelector(".checkbox1").checked;
+  var check2 = document.querySelector(".checkbox2").checked;
+  var code = '';
+  if (check1) {
+    code += 'type ekimei_t = {kanji : string; kana : string;'
+          + 'romaji : string; ken : string; shozoku : string}';
+  }
+  if (check2) {
+    code += 'type ekikan_t = {kiten : string; kenk : string; shuten : string;'
+          + 'kens : string; keiyu : string; kyori : float; jikan : int}';
+  }
+  code += input.value;
   if (code) {
     BlockOfOCamlUtils.codeToBlock(code);
   }
