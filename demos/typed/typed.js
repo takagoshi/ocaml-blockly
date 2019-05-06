@@ -165,12 +165,24 @@ Typed.onClickConvert = function(event) {
   var check2 = document.querySelector(".checkbox2").checked;
   var code = '';
   if (check1) {
-    code += 'type ekimei_t = {kanji : string; kana : string;'
-          + 'romaji : string; ken : string; shozoku : string}';
+    code += 'type ekimei_t = {\n' +
+            '  kanji   : string; (* 漢字の駅名 *)\n' +
+            '  kana    : string; (* 読み *)\n' +
+            '  romaji  : string; (* ローマ字 *)\n' +
+            '  ken     : string; (* 県名 *)\n' +
+            '  shozoku : string; (* 所属路線名 *)\n' +
+            '}\n'
   }
   if (check2) {
-    code += 'type ekikan_t = {kiten : string; kenk : string; shuten : string;'
-          + 'kens : string; keiyu : string; kyori : float; jikan : int}';
+    code += 'type ekikan_t = {\n' +
+            '  kiten  : string; (* 起点 *)\n' +
+            '  kenk   : string; (* 起点の県名 *)\n' +
+            '  shuten : string; (* 終点 *)\n' +
+            '  kens   : string; (* 終点の県名 *)\n' +
+            '  keiyu  : string; (* 経由路線名 *)\n' +
+            '  kyori  : float;  (* 距離 *)\n' +
+            '  jikan  : int;    (* 所要時間 *)\n' +
+            '}\n'
   }
   code += input.value;
   if (code) {

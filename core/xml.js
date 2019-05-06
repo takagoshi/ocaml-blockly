@@ -950,11 +950,15 @@ Blockly.Xml.domToFieldVariable_ = function(workspace, xml, text, field) {
 Blockly.Xml.domToFieldBoundVariable_ = function(block, xml, text, field) {
   var isForValue = xml.getAttribute('isvalue') == 'true';
   var typeName = xml.getAttribute('variable-type');
+  var inlineComment = xml.getAttribute('inline-comment');
   if (isForValue != field.isForValue()) {
     throw 'Inconsistant variable type (value or reference).';
   }
   if (Blockly.BoundVariableAbstract.nameToLabel(typeName) != field.label_) {
     throw 'Inconsistant variable type (variable, constructor, or etc).';
+  }
+  if (inlineComment) {
+    field.inlineComment = inlineComment;
   }
   function getWorkspaceFromDom(xml) {
     var workspaceId = xml.getAttribute('workspace-id');
