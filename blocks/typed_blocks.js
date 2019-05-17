@@ -848,7 +848,9 @@ Blockly.Blocks['function_app_typed'] = {
     for (var i = 0; i < argTypes.length; i++) {
       var inputName = 'PARAM' + i;
       var input = this.getInput(inputName);
-      input.setTypeExpr(types[i], true);
+      if (input) {
+        input.setTypeExpr(types[i], true);
+      }
     }
     this.setOutputTypeExpr(returnType, true);
   },
