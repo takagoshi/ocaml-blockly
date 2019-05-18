@@ -779,6 +779,7 @@ Blockly.Blocks['function_app_typed'] = {
     this.appendDummyInput()
         .appendField(Blockly.FieldBoundVariable.newReference(A), 'VAR')
 
+    this.paramFixed_ = false;
     this.paramCount_ = 0;
     this.setInputsInline(true);
     this.setOutput(true);
@@ -804,17 +805,16 @@ Blockly.Blocks['function_app_typed'] = {
     }
   },
 
-  updateStructure: function() {
+  resizeStructure: function(newParamCount) {
     var variable = this.typedReference['VAR'];
-    var currentValue = variable.getBoundValue();
-    if (currentValue && currentValue.getMainFieldName() === 'VAR') {
-      // resize only when variable is a function (not an argument)
-      var newParamCount = currentValue.sourceBlock_.argumentCount_;
-      while (newParamCount < this.paramCount_) {
-        var index = this.paramCount_ - 1;
-        this.removeInput('PARAM' + index);
-        this.paramCount_--;
-      }
+    while (newParamCount < this.paramCount_) {
+      var index = this.paramCount_ - 1;
+      this.removeInput('PARAM' + index);
+      this.paramCount_--;
+    }
+    if (this.paramFixed_) {
+      this.paramFixed_ = false;
+    } else {
       for (var i = 0; i < newParamCount; i++) {
         var inputName = 'PARAM' + i;
         if (this.paramCount_ <= i) {
@@ -825,6 +825,16 @@ Blockly.Blocks['function_app_typed'] = {
           this.paramCount_++;
         }
       }
+    }
+  },
+
+  updateStructure: function() {
+    var variable = this.typedReference['VAR'];
+    var currentValue = variable.getBoundValue();
+    if (currentValue && currentValue.getMainFieldName() === 'VAR') {
+      // resize only when variable is a function (not an argument)
+      var newParamCount = currentValue.sourceBlock_.argumentCount_;
+      this.resizeStructure(newParamCount);
     }
     this.updateFunArgTypes();
     // if updateFunArgTypes is not called, f will have higher-order type
@@ -845,14 +855,53 @@ Blockly.Blocks['function_app_typed'] = {
       var argTypes = [];
     }
 
-    for (var i = 0; i < argTypes.length; i++) {
+    while (argTypes.length < this.paramCount_) {
+      var t1 = Blockly.TypeExpr.generateTypeVar();
+      var t2 = Blockly.TypeExpr.generateTypeVar();
+      returnType.unify(new Blockly.TypeExpr.FUN(t1, t2));
+      argTypes.push(t1);
+      returnType = t2;
+    }
+    for (var i = 0; i < this.paramCount_; i++) {
       var inputName = 'PARAM' + i;
       var input = this.getInput(inputName);
       if (input) {
-        input.setTypeExpr(types[i], true);
+        var type = argTypes.shift();
+        input.setTypeExpr(type, true);
       }
     }
+    if (0 < argTypes.length) {
+      argTypes.push(returnType);
+      returnType = Blockly.TypeExpr.createFunType(argTypes);
+    }
     this.setOutputTypeExpr(returnType, true);
+  },
+
+  increaseDecreaseHole: function(delta) {
+    this.paramFixed_ = false;
+    this.resizeStructure(this.paramCount_ + delta);
+
+    this.updateTypeInference();
+    this.workspace.renderTypeChangedWorkspaces();
+  },
+
+  customContextMenu: function(options) {
+    if (this.isInFlyout) {
+      return;
+    }
+
+    // TODO: Enable only when increasing/decreasing a hole is type safe.
+    var option = {enabled: true};
+    option.text = 'increase hole';
+    option.callback = this.increaseDecreaseHole.bind(this, 1);
+    options.push(option);
+
+    var isEnabled = 0 < this.paramCount_;
+    var option = {enabled: isEnabled};
+    option.text = 'decrease hole';
+    option.callback = this.increaseDecreaseHole.bind(this, -1);
+    options.push(option);
+    // TODO: When a hole is removed, remove the block inside the hole, too.
   },
 
   /**
@@ -893,6 +942,7 @@ Blockly.Blocks['function_app_typed'] = {
       this.rendered = rendered;
       this.paramCount_++;
     }
+    this.paramFixed_ = true;
     this.setOutputTypeExpr(Blockly.TypeExpr.generateTypeVar(), true);
   },
 
