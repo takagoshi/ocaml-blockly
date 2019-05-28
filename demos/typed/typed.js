@@ -163,6 +163,8 @@ Typed.onClickConvert = function(event) {
   var input = document.querySelector(".ocamlCode");
   var check1 = document.querySelector(".checkbox1").checked;
   var check2 = document.querySelector(".checkbox2").checked;
+  var check3 = document.querySelector(".checkbox3").checked;
+  var check4 = document.querySelector(".checkbox4").checked;
   var code = '';
   if (check1) {
     code += 'type ekimei_t = {\n' +
@@ -183,6 +185,20 @@ Typed.onClickConvert = function(event) {
             '  kyori  : float;  (* 距離 *)\n' +
             '  jikan  : int;    (* 所要時間 *)\n' +
             '}\n'
+  }
+  if (check3) {
+    code += 'type eki_t = {\n' +
+            '  namae        : string * string;        (* 駅名ペア *)\n' +
+            '  saitan_kyori : float;                  (* 最短距離 *)\n' +
+            '  temae_list   : (string * string) list; (* 手前リスト *)\n' +
+            '}\n'
+  }
+  if (check4) {
+    code += '(* 目的：lst の各要素に f を施したリストを返す *)\n' +
+            '(* map : (\'a -> \'b) -> \'a list -> \'b list *)\n' +
+            'let rec map f lst = match lst with\n' +
+            '    [] -> []\n' +
+            '  | first :: rest -> f first :: map f rest\n'
   }
   code += input.value;
   if (code) {
