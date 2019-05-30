@@ -1214,3 +1214,8 @@ Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = 'Say something...';
 Blockly.Msg.ADD_REC = 'Add rec';
 /// context menu - Remove 'rec' from a let block
 Blockly.Msg.REMOVE_REC = 'Remove rec';
+
+/// context menu - Add 'in' to a let block
+Blockly.Msg.ADD_IN = 'Add in';
+/// context menu - Remove 'in' from a let block
+Blockly.Msg.REMOVE_IN = 'Remove in';
