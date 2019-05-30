@@ -22,6 +22,8 @@
 	"REMOVE_COMMENT": "コメントを削除",
 	"ADD_REC": "rec を追加",
 	"REMOVE_REC": "rec を削除",
+	"ADD_IN": "in を追加",
+	"REMOVE_IN": "in を削除",
 	"EXTERNAL_INPUTS": "外部入力",
 	"INLINE_INPUTS": "インライン入力",
 	"DELETE_BLOCK": "ブロックを削除",

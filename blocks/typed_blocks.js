@@ -1603,9 +1603,9 @@ Blockly.Blocks['let_typed'] = {
 
     var option = {enabled: this.canToggleIsStatement()};
     if (this.isStatement_) {
-      option.text = 'Add in';
+      option.text = Blockly.Msg['ADD_IN'];
     } else {
-      option.text = 'Remove in';
+      option.text = Blockly.Msg['REMOVE_IN'];
     }
     option.callback = this.setIsStatement.bind(this, !this.isStatement_);
     options.push(option);
