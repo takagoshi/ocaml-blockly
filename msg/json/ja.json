@@ -269,8 +269,8 @@
 	"TEXT_REPLACE_TOOLTIP": "文に含まれるキーワードを置換する。",
 	"TEXT_REVERSE_MESSAGE0": "%1を逆順に",
 	"TEXT_REVERSE_HELPURL": "https://github.com/google/blockly/wiki/Text#reversing-text",
-	"TEXT_REVERSE_TOOLTIP": "文の文字を逆順にする。",
-	"LISTS_CREATE_EMPTY_HELPURL": "https://github.com/google/blockly/wiki/Lists#create-empty-list",
+  "TEXT_REVERSE_TOOLTIP": "文の文字を逆順にする。",
+  "LISTS_CREATE_EMPTY_HELPURL": "https://github.com/google/blockly/wiki/Lists#create-empty-list",
 	"LISTS_CREATE_EMPTY_TITLE": "空のリストを作成",
 	"LISTS_CREATE_EMPTY_TOOLTIP": "長さ０でデータ・レコードを含まない空のリストを返す",
 	"LISTS_CREATE_WITH_TOOLTIP": "項目数が不定のリストを作成。",
@@ -375,5 +375,11 @@
 	"PROCEDURES_HIGHLIGHT_DEF": "関数の内容を強調表示します。",
 	"PROCEDURES_CREATE_DO": "'%1' を作成",
 	"PROCEDURES_IFRETURN_TOOLTIP": "1番目の値が true の場合、2番目の値を返します。",
-	"PROCEDURES_IFRETURN_WARNING": "警告: このブロックは、関数定義内でのみ使用できます。"
+  "PROCEDURES_IFRETURN_WARNING": "警告: このブロックは、関数定義内でのみ使用できます。",
+  "DEFINE_RECORD_TOOLTIP": "レコードを宣言",
+  "DEFINE_VARIABLE_TOOLTIP": "変数の定義",
+	"DEFINE_LET_REC_TOOLTIP": "再帰関数の定義",
+	"DEFINE_LET_IN_TOOLTIP": "局所変数の定義",
+  "PAIR_GET_FIRST_TOOLTIP": "ペアの一つ目を取得する",
+  "PAIR_GET_SECOND_TOOLTIP": "ペアの二つ目を取得する"
 }

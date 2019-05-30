@@ -1214,3 +1214,10 @@ Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = 'Say something...';
 Blockly.Msg.ADD_REC = 'Add rec';
 /// context menu - Remove 'rec' from a let block
 Blockly.Msg.REMOVE_REC = 'Remove rec';
+
+Blockly.Msg.DEFINE_RECORD_TOOLTIP = 'Record type';
+Blockly.Msg.DEFINE_VARIABLE_TOOLTIP = 'Define variable';
+Blockly.Msg.DEFINE_LET_REC_TOOLTIP = 'Define recursion function';
+Blockly.Msg.DEFINE_LET_IN_TOOLTIP = 'Define function';
+Blockly.Msg.PAIR_GET_FIRST_TOOLTIP = 'Get the first element of pair';
+Blockly.Msg.PAIR_GET_SECOND_TOOLTIP = 'Get the second element of pair';
