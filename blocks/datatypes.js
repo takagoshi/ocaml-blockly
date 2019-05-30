@@ -11,6 +11,7 @@ Blockly.Blocks['defined_recordtype_typed'] = {
   // Declare record types.
   init: function() {
     this.setColour('#008b8b');
+    this.setTooltip(Blockly.Msg.DEFINE_RECORD_TOOLTIP);
 
     this.recordId_ = Blockly.utils.genUid();
     var record_type = new Blockly.TypeExpr.RECORD(this.recordId_);

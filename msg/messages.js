@@ -1219,3 +1219,11 @@ Blockly.Msg.REMOVE_REC = 'Remove rec';
 Blockly.Msg.ADD_IN = 'Add in';
 /// context menu - Remove 'in' from a let block
 Blockly.Msg.REMOVE_IN = 'Remove in';
+
+/// tooltip
+Blockly.Msg.DEFINE_RECORD_TOOLTIP = 'Declare a record type';
+Blockly.Msg.DEFINE_VARIABLE_TOOLTIP = 'Define a variable';
+Blockly.Msg.DEFINE_LET_REC_TOOLTIP = 'Define a recursive function';
+Blockly.Msg.DEFINE_LET_IN_TOOLTIP = 'Define a function';
+Blockly.Msg.PAIR_GET_FIRST_TOOLTIP = 'Get the first element of a pair';
+Blockly.Msg.PAIR_GET_SECOND_TOOLTIP = 'Get the second element of a pair';

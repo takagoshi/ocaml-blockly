@@ -7,6 +7,7 @@
 goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
+
 Blockly.Blocks['logic_boolean_typed'] = {
   /**
    * Block for boolean data type: true and false.
@@ -51,8 +52,8 @@ Blockly.Blocks['logic_operator_typed'] = {
     this.setTooltip(function() {
       var mode = thisBlock.getFieldValue('OP_BOOL');
       var TOOLTIPS = {
-        'AND': 'Logical product operator.',
-        'OR': 'Logical sum operator.'
+        'AND': Blockly.Msg.LOGIC_OPERATION_AND,
+        'OR': Blockly.Msg.LOGIC_OPERATION_OR
       };
       return TOOLTIPS[mode];
     });
@@ -620,6 +621,7 @@ Blockly.Blocks['list_empty_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(listType);
     this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_EMPTY_TOOLTIP);
   }
 };
 
@@ -636,6 +638,7 @@ Blockly.Blocks['list_cons_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(listType);
     this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_CONTAINER_TOOLTIP);
   },
 
   infer: function(ctx) {
@@ -685,6 +688,7 @@ Blockly.Blocks['list_append_typed'] = {
 /**
  * Pairs
  */
+
 Blockly.Blocks['pair_create_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['PAIRS_HUE']);
@@ -729,7 +733,7 @@ Blockly.Blocks['pair_first_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(A);
     this.setInputsInline(true);
-    this.setTooltip('Get the first and second elements of a pair.');
+    this.setTooltip(Blockly.Msg.PAIR_GET_FIRST_TOOLTIP);
   },
 
   infer: function(ctx) {
@@ -757,7 +761,7 @@ Blockly.Blocks['pair_second_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(B);
     this.setInputsInline(true);
-    this.setTooltip('Get the second and second elements of a pair.');
+    this.setTooltip(Blockly.Msg.PAIR_GET_SECOND_TOOLTIP);
   },
 
   infer: function(ctx) {
@@ -1416,6 +1420,7 @@ Blockly.Blocks['let_typed'] = {
         .setAlign(Blockly.ALIGN_RIGHT);
     this.setMutator(new Blockly.Mutator(['parameters_arg_item']));
     this.setInputsInline(false);
+    this.setTooltip(Blockly.Msg.DEFINE_VARIABLE_TOOLTIP);
 
     var defaultRecFlag = opt_recur === true;
     this.isRecursive_ = false;
@@ -1560,12 +1565,14 @@ Blockly.Blocks['let_typed'] = {
       if (flag) {
         var recLabel = new Blockly.FieldLabel('rec');
         input.insertFieldAt(1, recLabel, 'REC_LABEL');
+        this.setTooltip(Blockly.Msg.DEFINE_LET_REC_TOOLTIP);
       } else {
         var refs = this.getRecursiveReferences();
         for (var i = 0, ref; ref = refs[i]; i++) {
           ref.getSourceBlock().dispose();
         }
         input.removeField('REC_LABEL');
+        this.setTooltip(Blockly.Msg.DEFINE_LET_REC_TOOLTIP);
       }
       this.isRecursive_ = flag;
 
