@@ -165,6 +165,9 @@ Typed.onClickConvert = function(event) {
   var check2 = document.querySelector(".checkbox2").checked;
   var check3 = document.querySelector(".checkbox3").checked;
   var check4 = document.querySelector(".checkbox4").checked;
+  var check5 = document.querySelector(".checkbox5").checked;
+  var check6 = document.querySelector(".checkbox6").checked;
+  var check7 = document.querySelector(".checkbox7").checked;
   var code = '';
   if (check1) {
     code += 'type ekimei_t = {\n' +
@@ -199,6 +202,28 @@ Typed.onClickConvert = function(event) {
             'let rec map f lst = match lst with\n' +
             '    [] -> []\n' +
             '  | first :: rest -> f first :: map f rest\n'
+  }
+  if (check5) {
+    code += '(* 目的：lst の要素の中で p を満たすもののみのリストを返す *)\n' +
+            '(* filter : (\'a -> bool) -> \'a list -> \'a list *)\n' +
+            'let rec filter p lst = match lst with\n' +
+            '    [] -> []\n' +
+            '  | first :: rest -> if p first then first :: filter p rest\n' +
+            '                     else filter p rest\n'
+  }
+  if (check6) {
+    code += '(* 目的：init から始めて lst の要素を右から f 施し込む *)\n' +
+            '(* fold_right : (\'a -> \'b -> \'b) -> \'a list -> \'b -> \'b *)\n' +
+            'let rec fold_right f lst init = match lst with\n' +
+            '    [] -> init\n' +
+            '  | first :: rest -> f first (fold_right f rest init)\n'
+  }
+  if (check7) {
+    code += '(* 目的：lst の長さを返す *)\n' +
+            '(* length : \'a list -> int *)\n' +
+            'let rec length lst = match lst with\n' +
+            '    [] -> 0\n' +
+            '  | first :: rest -> 1 + length rest\n'
   }
   code += input.value;
   if (code) {
