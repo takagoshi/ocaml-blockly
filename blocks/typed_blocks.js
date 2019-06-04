@@ -213,14 +213,6 @@ Blockly.Blocks['max_int_typed'] = {
       };
       return TOOLTIPS[ints];
     });
-  },
-
-  infer: function(ctx) {
-    var expected = new Blockly.TypeExpr.INT();
-    var arg = this.callInfer('A', ctx);
-    if (arg)
-      arg.unify(expected);
-    return expected;
   }
 };
 
