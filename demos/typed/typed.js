@@ -15,7 +15,6 @@ Typed.SCRIPTS_FOR_DEV = [
   "../../blocks/datatypes.js",
   "../../generators/typedlang.js",
   "../../generators/typedlang/blocks.js",
-  "../../msg/js/en.js",
   "../../msg/js/ja.js",
   "../../block_of_ocaml/converter.js",
   "../../block_of_ocaml/utils.js",

@@ -84,7 +84,7 @@ Blockly.Blocks['not_operator_typed'] = {
         .setTypeExpr(new Blockly.TypeExpr.BOOL())
         .appendField('not');
     this.setInputsInline(true);
-    this.setTooltip('Logical negation operator.');
+    this.setTooltip(Blockly.Msg.LOGIC_NEGATE_TOOLTIP);
   },
 
   infer: function(ctx) {
@@ -205,9 +205,18 @@ Blockly.Blocks['max_int_typed'] = {
         .appendField(new Blockly.FieldDropdown(INTS), 'INT');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
-    this.setTooltip('special int value.');
+    var thisBlock = this;
+    this.setTooltip(function() {
+      var ints = thisBlock.getFieldValue('INT');
+      var TOOLTIPS = {
+        'MAX_INT': Blockly.Msg.MATH_SPECIALINT_MAX,
+        'MIN_INT': Blockly.Msg.MATH_SPECIALINT_MIN
+      };
+      return TOOLTIPS[ints];
+    });
   }
-}
+};
+
 
 Blockly.Blocks['infinity_typed'] = {
   init: function() {
@@ -220,7 +229,16 @@ Blockly.Blocks['infinity_typed'] = {
         .appendField(new Blockly.FieldDropdown(FLOATS), 'FLOAT');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.FLOAT());
-    this.setTooltip('special float value.')
+    var thisBlock = this;
+    this.setTooltip(function() {
+      var floats = thisBlock.getFieldValue('FLOAT');
+      var TOOLTIPS = {
+        'INFINITY': Blockly.Msg.MATH_SPECIALFLOAT_INFINITY,
+        'NEG_INFINITY': Blockly.Msg.MATH_SPECIALFLOAT_NEGINFINITY,
+	'NAN': Blockly.Msg.MATH_SPECIALFLOAT_NAN
+      };
+      return TOOLTIPS[floats];
+    })
   }
 };
 
@@ -272,7 +290,7 @@ Blockly.Blocks['int_arithmetic_typed'] = {
         'MINUS_INT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
         'MULTIPLY_INT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
         'DIVIDE_INT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE,
-        'MOD_INT': '整数の割り算の余りを計算する演算子'
+        'MOD_INT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MOD
       };
       return TOOLTIPS[mode];
     });
@@ -303,7 +321,7 @@ Blockly.Blocks['int_abs_typed'] = {
         .setTypeExpr(new Blockly.TypeExpr.INT())
         .appendField('abs');
     this.setInputsInline(true);
-    this.setTooltip('整数の絶対値を計算する関数');
+    this.setTooltip(Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS);
   },
 
   infer: function(ctx) {
@@ -363,7 +381,7 @@ Blockly.Blocks['float_arithmetic_typed'] = {
         'MINUS_FLOAT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
         'MULTIPLY_FLOAT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
         'DIVIDE_FLOAT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE,
-        'POWER_FLOAT': '実数のべき乗の演算子'
+        'POWER_FLOAT': Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_POWER
       };
       return TOOLTIPS[mode];
     });
@@ -394,7 +412,7 @@ Blockly.Blocks['float_sqrt_typed'] = {
         .setTypeExpr(new Blockly.TypeExpr.FLOAT())
         .appendField('sqrt');
     this.setInputsInline(true);
-    this.setTooltip('実数の平方根を計算する関数');
+    this.setTooltip(Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT);
   },
 
   infer: function(ctx) {
@@ -415,6 +433,7 @@ Blockly.Blocks['string_typed'] = {
         .appendField('"');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.STRING());
+    this.setTooltip(Blockly.Msg.STRING_FOO);
   }
 };
 
@@ -429,6 +448,7 @@ Blockly.Blocks['concat_string_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.STRING());
     this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.STRING_CONCAT);
   },
 
   infer: function(ctx) {
@@ -452,6 +472,7 @@ Blockly.Blocks['string_of_int_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.STRING());
     this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.STRING_OF_INT);
   },
 
   infer: function(ctx) {
@@ -460,6 +481,27 @@ Blockly.Blocks['string_of_int_typed'] = {
     if (param)
       param.unify(expected_param);
     return new Blockly.TypeExpr.STRING();
+  }
+};
+
+Blockly.Blocks['int_of_float_typed'] = {
+  init: function() {
+    this.setColour(230);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.FLOAT())
+        .appendField('int_of_float');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.MATH_INT_OF_FLOAT);
+  },
+
+  infer: function(ctx) {
+    var expected_param = new Blockly.TypeExpr.FLOAT();
+    var param = this.callInfer('PARAM', ctx);
+    if (param)
+      param.unify(expected_param);
+    return new Blockly.TypeExpr.INT();
   }
 };
 
