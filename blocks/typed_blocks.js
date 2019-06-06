@@ -493,7 +493,7 @@ Blockly.Blocks['float_of_int_typed'] = {
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.FLOAT());
     this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg.MATH_INT_OF_STRING);
+    this.setTooltip(Blockly.Msg.MATH_FLOAT_OF_INT);
   },
 
   infer: function(ctx) {

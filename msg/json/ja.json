@@ -221,7 +221,7 @@
 	"MATH_RANDOM_FLOAT_HELPURL": "https://en.wikipedia.org/wiki/Random_number_generation",
 	"MATH_RANDOM_FLOAT_TITLE_RANDOM": "1未満の正の乱数",
 	"MATH_RANDOM_FLOAT_TOOLTIP": "0.0以上で1.0未満の範囲の乱数を返します。",
-	"MATH_INT_OF_STRING": "実数を整数に変換します。",
+	"MATH_FLOAT_OF_INT": "整数を実数に変換します。",
 	"STRING_FOO": "文字列です。",
 	"STRING_CONCAT": "文字列を結合します。",
 	"STRING_OF_INT": "整数を文字列に変換します。",
