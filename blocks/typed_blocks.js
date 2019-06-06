@@ -484,6 +484,27 @@ Blockly.Blocks['string_of_int_typed'] = {
   }
 };
 
+Blockly.Blocks['float_of_int_typed'] = {
+  init: function() {
+    this.setColour(100);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.INT())
+        .appendField('float_of_int');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.FLOAT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.MATH_FLOAT_OF_INT);
+  },
+
+  infer: function(ctx) {
+    var expected_param = new Blockly.TypeExpr.INT();
+    var param = this.callInfer('PARAM', ctx);
+    if (param)
+      param.unify(expected_param);
+    return new Blockly.TypeExpr.FLOAT();
+  }
+};
+
 Blockly.Blocks['int_of_float_typed'] = {
   init: function() {
     this.setColour(230);
