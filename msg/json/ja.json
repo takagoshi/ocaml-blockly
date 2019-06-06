@@ -225,6 +225,8 @@
 	"STRING_FOO": "文字列です。",
 	"STRING_CONCAT": "文字列を結合します。",
 	"STRING_OF_INT": "整数を文字列に変換します。",
+	"STRING_OF_BOOL": "真偽値を文字列表現して返します。",
+	"BOOL_OF_STRING": "文字列を真偽値に変換して返します。",
 	"TEXT_TEXT_HELPURL": "https://ja.wikipedia.org/wiki/文字列",
 	"TEXT_TEXT_TOOLTIP": "文字、単語、または行のテキスト。",
 	"TEXT_JOIN_TITLE_CREATEWITH": "テキストの作成：",
