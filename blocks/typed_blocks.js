@@ -546,6 +546,48 @@ Blockly.Blocks['int_of_float_typed'] = {
   }
 };
 
+Blockly.Blocks['string_of_bool_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['STRING_HUE']);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.BOOL())
+        .appendField('string_of_bool');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.STRING());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.STRING_OF_BOOL);
+  },
+
+  infer: function(ctx) {
+    var expected_param = new Blockly.TypeExpr.BOOL();
+    var param = this.callInfer('PARAM', ctx);
+    if (param)
+      param.unify(expected_param);
+    return new Blockly.TypeExpr.STRING();
+  }
+};
+
+Blockly.Blocks['bool_of_string_typed'] = {
+  init: function() {
+    this.setColour(210);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.STRING())
+        .appendField('string_of_bool');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.BOOL());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.STRING_OF_BOOL);
+  },
+
+  infer: function(ctx) {
+    var expected_param = new Blockly.TypeExpr.STRING();
+    var param = this.callInfer('PARAM', ctx);
+    if (param)
+      param.unify(expected_param);
+    return new Blockly.TypeExpr.BOOL();
+  }
+};
+
 Blockly.Blocks['lists_create_with_typed'] = {
   /**
    * Block for creating a list with any number of elements of any type.
