@@ -577,9 +577,7 @@ Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = 'random fraction';
 /// tooltip - Return a random fraction between 0 and 1.  The value may be equal to 0 but must be less than 1.
 Blockly.Msg.MATH_RANDOM_FLOAT_TOOLTIP = 'Return a random fraction between 0.0 (inclusive) and 1.0 (exclusive).';
 
-Blockly.Msg.MATH_INT_OF_STRING = 'Convert an float to a integer.';
-
-Blockly.Msg.STRING_FOO = 'Write a string.';
+Blockly.Msg.MATH_INT_OF_STRING = 'Convert a float to an integer.';
 
 Blockly.Msg.STRING_OF_INT = 'Convert an integer to a string.';
 

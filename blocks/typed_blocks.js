@@ -432,7 +432,6 @@ Blockly.Blocks['string_typed'] = {
         .appendField('"');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.STRING());
-    this.setTooltip(Blockly.Msg.STRING_FOO);
   }
 };
 
