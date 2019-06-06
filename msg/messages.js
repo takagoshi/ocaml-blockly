@@ -1246,3 +1246,5 @@ Blockly.Msg.PAIR_GET_FIRST_TOOLTIP = 'Get the first element of a pair';
 Blockly.Msg.PAIR_GET_SECOND_TOOLTIP = 'Get the second element of a pair';
 Blockly.Msg.MATH_FLOAT_OF_INT = 'Convert integer to float';
 Blockly.Msg.MATH_STRING_OF_FLOAT = 'Convert float to string';
+Blockly.Msg.STRING_OF_BOOL = 'Convert bool to string';
+Blockly.Msg.BOOL_OF_STRING = 'Convert string to bool';
