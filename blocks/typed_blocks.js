@@ -719,6 +719,74 @@ Blockly.Blocks['list_cons_typed'] = {
   }
 };
 
+/*Blockly.Blocks['list_assoc_typed'] = {
+  init: function() {
+    this.setColour(260);
+    var element_type = Blockly.TypeExpr.generateTypeVar();
+    var listType = new Blockly.TypeExpr.LIST(element_type);
+    this.appendValueInput('FIRST')
+        .setTypeExpr(element_type);
+    this.appendValueInput('CONS')
+        .setTypeExpr(listType)
+        .appendField('::');
+    this.setOutput(true);
+    this.setOutputTypeExpr(listType);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_CONTAINER_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var expectedElementType = expected.element_type;
+    var listType = this.callInfer('CONS', ctx);
+    var elementType = this.callInfer('FIRST', ctx);
+    if (listType) {
+      expected.unify(listType);
+    }
+    if (elementType) {
+      expectedElementType.unify(elementType);
+    }
+    return expected;
+  }
+};
+*/
+
+
+Blockly.Blocks['list_assoc_typed'] = {
+  init: function() {
+    this.setColour(260);
+    var a_type = Blockly.TypeExpr.generateTypeVar();
+    var b_type = Blockly.TypeExpr.generateTypeVar();
+    var pair_t = new Blockly.TypeExpr.TUPLE(a_type, b_type);
+    var listType = new Blockly.TypeExpr.LIST(pair_t);
+    this.appendValueInput('A')
+        .setTypeExpr(a_type)
+        .appendField('List.assoc');
+    this.appendValueInput('A_B_list')
+        .setTypeExpr(listType);
+    this.setOutput(true);
+    this.setOutputTypeExpr(b_type);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_ASSOC_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var listType = this.callInfer('A_B_list', ctx);
+    var a_type = this.callInfer('A', ctx);
+    var expected = this.outputConnection.typeExpr; 
+    var expected_arg_a = this.getInput('A').connection.typeExpr;
+    var expected_arg_lst = this.getInput('A_B_list').connection.typeExpr;
+
+    if (a_type) {
+      expected_arg_a.unify(a_type);
+    }
+    if (listType) {
+      expected_arg_lst.unify(listType);
+    }
+    return expected;
+  }
+};
+
 Blockly.Blocks['list_append_typed'] = {
   init: function() {
     this.setColour(260);
