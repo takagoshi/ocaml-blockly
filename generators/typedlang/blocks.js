@@ -198,11 +198,11 @@ Blockly.TypedLang['list_cons_typed'] = function(block) {
 
 Blockly.TypedLang['list_assoc_typed'] = function(block) {
   var first = Blockly.TypedLang.valueToCode(block, 'A',
-      Blockly.TypedLang.ORDER_CONS) || '?';
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var rest = Blockly.TypedLang.valueToCode(block, 'A_B_list',
-      Blockly.TypedLang.ORDER_CONS) || '?';
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = "List.assoc " + first + ' ' + rest;
-  return [code, Blockly.TypedLang.ORDER_CONS];
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
 Blockly.TypedLang['list_append_typed'] = function(block) {
