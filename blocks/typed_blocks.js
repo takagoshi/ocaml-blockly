@@ -781,6 +781,40 @@ Blockly.Blocks['list_cons_typed'] = {
   }
 };
 
+Blockly.Blocks['list_filter_typed'] = {
+  init: function() {
+    this.setColour(260);
+    var element_bool = new Blockly.TypeExpr.BOOL()
+    var element_A = Blockly.TypeExpr.generateTypeVar()
+    var funType = new Blockly.TypeExpr.FUN(element_A,element_bool)
+    var listType = new Blockly.TypeExpr.LIST(element_A);
+    this.appendValueInput('FUN')
+        .setTypeExpr(funType)
+        .appendField('List.filter');
+    this.appendValueInput('LST')
+        .setTypeExpr(listType);
+    this.setOutput(true);
+    this.setOutputTypeExpr(listType);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_FILTER_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;//a list
+    var expectedElementType = expected.element_type;//a
+    var expectedlist = new Blockly.TypeExpr.FUN(expectedElementType,
+        new Blockly.TypeExpr.BOOL())
+    var funType = this.callInfer('FUN', ctx);//a->bool
+    var listType = this.callInfer('LST', ctx);//a list
+    if (listType) {
+      expected.unify(listType);
+    }
+    if (funType) {
+      expectedlist.unify(funType);
+    }
+    return expected;
+  }
+};
 
 Blockly.Blocks['list_assoc_typed'] = {
   init: function() {
@@ -849,7 +883,7 @@ Blockly.Blocks['list_append_typed'] = {
 Blockly.Blocks['List_fold_left2_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['HIGHER_ORDER_HUE']);
-    //  List.fold_left2 :  ('a -> 'b -> 'c -> 'a) -> 'a -> 'b list -> 'c list -> 'a
+    // List.fold_left2: ('a -> 'b -> 'c -> 'a) -> 'a -> 'b list -> 'c list -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
     var C = Blockly.TypeExpr.generateTypeVar();
