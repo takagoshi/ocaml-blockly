@@ -235,7 +235,7 @@ Blockly.Blocks['infinity_typed'] = {
       var TOOLTIPS = {
         'INFINITY': Blockly.Msg.MATH_SPECIALFLOAT_INFINITY,
         'NEG_INFINITY': Blockly.Msg.MATH_SPECIALFLOAT_NEGINFINITY,
-	'NAN': Blockly.Msg.MATH_SPECIALFLOAT_NAN
+        'NAN': Blockly.Msg.MATH_SPECIALFLOAT_NAN
       };
       return TOOLTIPS[floats];
     })
@@ -484,25 +484,25 @@ Blockly.Blocks['string_of_int_typed'] = {
 };
 
 Blockly.Blocks['int_of_string_typed'] = {
-    init: function() {
-	this.setColour(Blockly.Msg['MATH_HUE']);
-	this.appendValueInput('PARAM')
-	.setTypeExpr(new Blockly.TypeExpr.STRING())
-	    .appendField('int_of_string');
-	this.setOutput(true);
-	this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
-	this.setInputsInline(true);
-	this.setTooltip(Blockly.Msg.INT_OF_STRING_TOOLTIP);
-	},
+  init: function() {
+    this.setColour(Blockly.Msg['MATH_HUE']);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.STRING())
+        .appendField('int_of_string');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.INT_OF_STRING_TOOLTIP);
+  },
 
-    infer: function(ctx) {
-	var expected_param = new Blockly.TypeExpr.STRING();
-	var param = this.callInfer('PARAM', ctx);
-	if (param)
-	param.unify(expected_param);
-	return new Blockly.TypeExpr.INT();
-	}
-    };
+  infer: function(ctx) {
+    var expected_param = new Blockly.TypeExpr.STRING();
+    var param = this.callInfer('PARAM', ctx);
+    if (param)
+      param.unify(expected_param);
+    return new Blockly.TypeExpr.INT();
+  }
+};
 
 Blockly.Blocks['string_of_float_typed'] = {
   init: function() {
