@@ -221,6 +221,19 @@ Blockly.TypedLang['list_append_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_APPEND_LIST];
 };
 
+Blockly.TypedLang['List_fold_left2_typed'] = function(block) {
+  var fun = Blockly.TypedLang.valueToCode(block, 'FUN',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var a = Blockly.TypedLang.valueToCode(block, 'ARG1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var blist = Blockly.TypedLang.valueToCode(block, 'ARG2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var clist = Blockly.TypedLang.valueToCode(block, 'ARG3',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'List.fold_left2 ' + fun + ' ' + a + ' ' + blist + ' ' + clist;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['pair_create_typed'] = function(block) {
   var fst = Blockly.TypedLang.valueToCode(block, 'FIRST',
       Blockly.TypedLang.ORDER_COMMA) || '?';
