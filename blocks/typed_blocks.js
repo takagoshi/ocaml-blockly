@@ -810,6 +810,61 @@ Blockly.Blocks['list_append_typed'] = {
   }
 }
 
+Blockly.Blocks['List_fold_left2_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['HIGHER_ORDER_HUE']);
+    // List.fold_left2 : ('a -> 'b -> 'c ->'c) -> 'a list -> 'b list -> 'c -> 'c
+    var A = Blockly.TypeExpr.generateTypeVar();
+    var B = Blockly.TypeExpr.generateTypeVar();
+    var C = Blockly.TypeExpr.generateTypeVar();
+    var B_listType = new Blockly.TypeExpr.LIST(B);
+    var C_listType = new Blockly.TypeExpr.LIST(C);
+    var functionType1 = new Blockly.TypeExpr.FUN(C, A);
+    var functionType2 = new Blockly.TypeExpr.FUN(B, functionType1);
+    var functionType3 = new Blockly.TypeExpr.FUN(A, functionType2);
+    this.appendValueInput('FUN')
+        .setTypeExpr(functionType3)
+        .appendField('List.fold_left2 ');
+    this.appendValueInput('ARG1')
+        .setTypeExpr(A)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(' ');
+    this.appendValueInput('ARG2')
+        .setTypeExpr(B_listType)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(' ');
+    this.appendValueInput('ARG3')
+        .setTypeExpr(C_listType)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(' ');
+    this.setInputsInline(true);
+    this.setOutput(true);
+    this.setOutputTypeExpr(C);
+    this.setInputsInline(true);
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var fun_type = this.callInfer('FUN', ctx);
+    var arg_type1 = this.callInfer('ARG1', ctx);
+    var arg_type2 = this.callInfer('ARG2', ctx);
+    var arg_type3 = this.callInfer('ARG3', ctx);
+    var fun_expected = this.getInput('FUN').connection.typeExpr;
+    var a_expected = this .getInput('ARG1').connection.typeExpr;
+    var blist_expected = this.getInput('ARG2').connection.typeExpr;
+    var clist_expected = this.getInput('ARG3').connection.typeExpr;
+    if (fun_type)
+      fun_type.unify(fun_expected);
+    if (arg_type1)
+      arg_type1.unify(a_expected);
+    if (arg_type2)
+      arg_type2.unify(blist_expected);
+    if (arg_type3)
+      arg_type3.unify(clist_expected);
+    return expected;
+  }
+}
+
 /**
  * Pairs
  */
