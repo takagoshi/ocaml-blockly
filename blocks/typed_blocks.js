@@ -883,7 +883,7 @@ Blockly.Blocks['list_append_typed'] = {
 Blockly.Blocks['list_fold_left_typed'] = {
   init: function() {
     this.setColour(260);
-    // List.fold_left2 : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a
+    // List.fold_left : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
     var B_listType = new Blockly.TypeExpr.LIST(B);
