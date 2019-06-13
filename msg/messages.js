@@ -1229,3 +1229,4 @@ Blockly.Msg.DEFINE_LET_IN_TOOLTIP = 'Define a function';
 Blockly.Msg.PAIR_GET_FIRST_TOOLTIP = 'Get the first element of a pair';
 Blockly.Msg.PAIR_GET_SECOND_TOOLTIP = 'Get the second element of a pair';
 Blockly.Msg.MATH_FLOAT_OF_INT = 'Convert integer to float';
+Blockly.Msg.INT_OF_STRING_TOOLTIP = 'change string to int.';
