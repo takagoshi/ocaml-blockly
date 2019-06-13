@@ -495,7 +495,7 @@ Blockly.Blocks['int_of_string_typed'] = {
 	this.setInputsInline(true);
 	this.setTooltip(Blockly.Msg.INT_OF_STRING_TOOLTIP);
 	},
-    
+
     infer: function(ctx) {
 	var expected_param = new Blockly.TypeExpr.STRING();
 	var param = this.callInfer('PARAM', ctx);
