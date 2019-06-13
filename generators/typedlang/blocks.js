@@ -221,7 +221,7 @@ Blockly.TypedLang['list_append_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_APPEND_LIST];
 };
 
-Blockly.TypedLang['List_fold_left2_typed'] = function(block) {
+Blockly.TypedLang['list_fold_left2_typed'] = function(block) {
   var fun = Blockly.TypedLang.valueToCode(block, 'FUN',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var a = Blockly.TypedLang.valueToCode(block, 'ARG1',
