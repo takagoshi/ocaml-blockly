@@ -813,7 +813,7 @@ Blockly.Blocks['list_append_typed'] = {
 Blockly.Blocks['List_fold_left2_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['HIGHER_ORDER_HUE']);
-    // List.fold_left2 : ('a -> 'b -> 'c ->'c) -> 'a list -> 'b list -> 'c -> 'c
+    //  List.fold_left2 :  ('a -> 'b -> 'c -> 'a) -> 'a -> 'b list -> 'c list -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
     var C = Blockly.TypeExpr.generateTypeVar();
@@ -839,7 +839,7 @@ Blockly.Blocks['List_fold_left2_typed'] = {
         .appendField(' ');
     this.setInputsInline(true);
     this.setOutput(true);
-    this.setOutputTypeExpr(C);
+    this.setOutputTypeExpr(A);
     this.setInputsInline(true);
   },
 
