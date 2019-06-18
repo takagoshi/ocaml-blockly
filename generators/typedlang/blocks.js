@@ -228,7 +228,7 @@ Blockly.TypedLang['list_fold_left_typed'] = function(block) {
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var blist = Blockly.TypedLang.valueToCode(block, 'ARG2',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-  var code = 'List.fold_left2 ' + fun + ' ' + a + ' ' + blist;
+  var code = 'List.fold_left ' + fun + ' ' + a + ' ' + blist;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
