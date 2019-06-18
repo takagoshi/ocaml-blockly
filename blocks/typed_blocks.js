@@ -805,7 +805,7 @@ Blockly.Blocks['list_cons_typed'] = {
 Blockly.Blocks['list_map_typed'] = {
   init: function() {
     this.setColour(260);
-    // List.map : ('a -> 'b) -> 'a list -> 'b list 
+    // List.map : ('a -> 'b) -> 'a list -> 'b list
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
     var A_listType = new Blockly.TypeExpr.LIST(A);
