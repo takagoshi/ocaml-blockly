@@ -57,15 +57,19 @@ Typed.BOOT = (function() {
 Typed.workspace = null;
 
 Typed.defaultCode =
-    "(* 目的：この関数の目的を書く *)\n" +
-    "(* f : 型 -> 型 *)\n" +
-    "let f 引数 =\n" +
-    "  ...\n" +
-    "\n" +
-    "(* テスト *)\n" +
-    "let test1 = f 値 = 値\n" +
-    "let test2 = f 値 = 値\n" +
-    "let test3 = f 値 = 値";
+  "let place_image image zahyou scene = ?\n" +
+  "let rectangle xFloat yFloat color = ?\n" +
+  "let make_color r g b = ?\n" +
+  "let empty_scene xFloat yFloat = ?\n" +
+  "let width = ?\n" +
+  "let height = ?\n" +
+  "let background = empty_scene width height\n" +
+  "type world_t = {\n" +
+  "  a : int;\n" +
+  "}\n" +
+  "\n" +
+  "let initial_world = ?\n" +
+  "\n";
 
 Typed.init = function() {
   Typed.setDocumentTitle_();
@@ -154,10 +158,62 @@ Typed.showCode = function() {
   }
 }
 
+Typed.programTop =
+  "open UniverseJs\n" +
+  "open Color\n" +
+  "open Image\n" +
+  "open World\n" +
+  "\n";
+
 Typed.runGame = function() {
-  // var gameWindow = window.open("", "game");
-  // var input = document.querySelector(".generatedCode");
-  // runGame(input.value);
+  var canvas = document.getElementById('CanvasForUniverse');
+  var newCanvas = document.createElement("canvas");
+  newCanvas.id = 'CanvasForUniverse';
+  canvas.replaceWith(newCanvas); // remove old canvas
+  try {
+    var code = Blockly.TypedLang.workspaceToCode(Typed.workspace);
+    if (code.indexOf('type world_t =') === -1) {
+      console.warn('The type world_t is not defined.');
+    } else if (code.indexOf('let initial_world =') === -1) {
+      console.warn('The variable initial_world is not defined.');
+    } else {
+      var program =
+        Typed.programTop +
+        code.substr(code.indexOf('let width =')) +
+        "\n" +
+        "let() =\n" +
+        "  big_bang initial_world\n";
+      if (code.indexOf('let draw ') !== -1) {
+        program += "           ~to_draw:draw\n";
+      }
+      if (code.indexOf('let width =') !== -1) {
+        program += "           ~width:(int_of_float width)\n";
+      }
+      if (code.indexOf('let height =') !== -1) {
+        program += "           ~height:(int_of_float height)\n";
+      }
+      if (code.indexOf('let on_mouse ') !== -1) {
+        program += "           ~on_mouse:on_mouse\n";
+      }
+      if (code.indexOf('let on_key ') !== -1) {
+        program += "           ~on_key_press:on_key\n";
+      }
+      if (code.indexOf('let on_tick ') !== -1) {
+        program += "           ~on_tick:on_tick\n";
+      }
+      if (code.indexOf('let rate =') !== -1) {
+        program += "           ~rate:rate\n";
+      }
+      if (code.indexOf('let finished ') !== -1) {
+        program += "           ~stop_when:finished\n";
+      }
+      if (code.indexOf('let draw_last ') !== -1) {
+        program += "           ~to_draw_last:draw_last\n";
+      }
+      program += "           ~onload:false\n";
+      console.log(program);
+      runGame(program);
+/*
   runGame(' \
 open UniverseJs \
 open Color \
@@ -289,7 +345,11 @@ let () = \
            ~stop_when:game_finished \
            ~to_draw_last:draw_game_over \
 	   ~onload:false \
-  ');
+  '); */
+    }
+  } catch (e) {
+    console.warn('Some of blocks are not supported for converting.');
+  }
 }
 
 Typed.runCode = function() {

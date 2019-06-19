@@ -16,13 +16,13 @@ body {
 
 #workspaceArea {
   height: 100%;
-  width: 50%;
+  width: 70%;
   float: left;
 }
 
 #rightArea {
   height: 100%;
-  width: 50%;
+  width: 30%;
   float: left;
   overflow-x: hidden;
   overflow-y: auto;
