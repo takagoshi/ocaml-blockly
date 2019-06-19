@@ -1320,6 +1320,19 @@ Blockly.Block.prototype.appendValueInput = function(name) {
 };
 
 /**
+ * Shortcut for appending a value input row.
+ * @param {string} name Language-neutral identifier which may used to find this
+ *     input again.  Should be unique to this block.
+ * @param {string} refName Name of input that comes after the inserted input.
+ * @return {!Blockly.Input} The input object created.
+ */
+Blockly.Block.prototype.appendValueInputBefore = function(name, refName) {
+  var input = this.appendInput_(Blockly.INPUT_VALUE, name);
+  this.moveInputBefore(name, refName);
+  return input;
+};
+
+/**
  * Shortcut for appending a statement input row.
  * @param {string} name Language-neutral identifier which may used to find this
  *     input again.  Should be unique to this block.

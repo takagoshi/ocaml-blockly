@@ -764,6 +764,13 @@ Blockly.Blocks['variable_pattern_typed'] = {
     ctx.addVariable(variable);
   },
 
+  updateUpperTypeContext: function(ctx) {
+    var variable = this.getField('VAR').getVariable();
+    var varName = variable.getVariableName();
+    var argScheme = Blockly.Scheme.monoType(variable.getTypeExpr());
+    ctx.addTypeToEnv(varName, argScheme);
+  },
+
   getTypeScheme: function(fieldName) {
     if (fieldName !== 'VAR') {
       return null;
@@ -792,9 +799,6 @@ Blockly.Blocks['empty_construct_pattern_typed'] = {
     valueBlock.initSvg();
     valueBlock.render();
     return valueBlock;
-  },
-
-  updateUpperContext: function(ctx) {
   }
 };
 
@@ -840,6 +844,17 @@ Blockly.Blocks['cons_construct_pattern_typed'] = {
     var cons = this.getInput('CONS').connection.targetConnection;
     if (cons) {
       cons.getSourceBlock().updateUpperContext(ctx);
+    }
+  },
+
+  updateUpperTypeContext: function(ctx) {
+    var first = this.getInput('FIRST').connection.targetConnection;
+    if (first) {
+      first.getSourceBlock().updateUpperTypeContext(ctx);
+    }
+    var cons = this.getInput('CONS').connection.targetConnection;
+    if (cons) {
+      cons.getSourceBlock().updateUpperTypeContext(ctx);
     }
   },
 
@@ -910,6 +925,17 @@ Blockly.Blocks['pair_pattern_typed'] = {
     }
   },
 
+  updateUpperTypeContext: function(ctx) {
+    var left = this.getInput('LEFT').connection.targetConnection;
+    if (left) {
+      left.getSourceBlock().updateUpperTypeContext(ctx);
+    }
+    var right = this.getInput('RIGHT').connection.targetConnection;
+    if (right) {
+      right.getSourceBlock().updateUpperTypeContext(ctx);
+    }
+  },
+
   infer: function(ctx) {
     var expected = this.outputConnection.typeExpr;
     var expected1 = this.getInput('LEFT').connection.typeExpr;
@@ -972,6 +998,15 @@ Blockly.Blocks['record_pattern_typed'] = {
       var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
       if (con) {
         con.getSourceBlock().updateUpperContext(ctx);
+      }
+    }
+  },
+
+  updateUpperTypeContext: function(ctx) {
+    for (var i = 0; i < this.fieldCount_; i++) {
+      var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
+      if (con) {
+        con.getSourceBlock().updateUpperTypeContext(ctx);
       }
     }
   },

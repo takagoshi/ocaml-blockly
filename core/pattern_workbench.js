@@ -64,8 +64,15 @@ Blockly.PatternWorkbench.prototype.getContext = function(opt_includeImplicit) {
   if (this.block_) {
     // Unless this workbench is in the process of being deleted.
     var includeImplicit = opt_includeImplicit !== false;
-    return this.block_.allVisibleVariables(this.block_.outputConnection,
-        includeImplicit);
+    if (this.block_.outputConnection) {
+      return this.block_.allVisibleVariables(this.block_.outputConnection,
+          includeImplicit);
+    } else if (this.block_.previousConnection) {
+      return this.block_.allVisibleVariables(this.block_.previousConnection,
+          includeImplicit);
+    } else {
+      return new Blockly.Block.VariableContext();
+    }
   }
   return new Blockly.Block.VariableContext();
 };
@@ -168,7 +175,9 @@ Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
 
   // record
   var parentConnection = this.block_.outputConnection ?
-      this.block_.outputConnection.targetConnection : null;
+      this.block_.outputConnection.targetConnection :
+      this.block_.previousConnection ?
+      this.block_.previousConnection.targetConnection : null;
   var parentBlock = parentConnection &&
       parentConnection.getSourceBlock();
   if (!parentBlock || !parentConnection) {

@@ -371,6 +371,37 @@ Blockly.TypedLang['let_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_EXPR];
 };
 
+Blockly.TypedLang['let_fun_pattern_typed'] = function(block) {
+  var args = [];
+  for (var i = 0; i < block.argumentCount_; i++) {
+    var pattern = Blockly.TypedLang.valueToCode(block, 'ARG' + i,
+        Blockly.TypedLang.ORDER_EXPR) || '?';
+    args.push(pattern);
+  }
+  var varname = block.typedValue['VAR'].getVariableName();
+  var arg = args.length == 0 ? '' : ' ' + args.join(' ');
+  var exp1 = Blockly.TypedLang.valueToCode(block, 'EXP1',
+      Blockly.TypedLang.ORDER_NONE) || '?';
+        // ORDER_NONE = no parenthesis needed for exp1
+
+  var code = 'let ';
+  if (block.isRecursive()) code += 'rec ';
+  if (args.length == 0) {
+    code += varname + ' = ' + exp1;
+  } else {
+    code += varname + arg + ' =\n  ' + exp1;
+  }
+
+  if (block.getIsStatement()) {
+    code += '\n';
+    return code;
+  }
+  var exp2 = Blockly.TypedLang.valueToCode(block, 'EXP2',
+      Blockly.TypedLang.ORDER_IN) || '?';
+  code += '\n  in ' + exp2;
+  return [code, Blockly.TypedLang.ORDER_EXPR];
+};
+
 Blockly.TypedLang['letrec_typed'] = function(block) {
   return Blockly.TypedLang['let_typed'].call(this, block);
 };
