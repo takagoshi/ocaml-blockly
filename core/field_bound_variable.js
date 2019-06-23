@@ -249,6 +249,8 @@ Blockly.FieldBoundVariable.prototype.initModel = function() {
  */
 Blockly.FieldBoundVariable.prototype.dispose = function(
     opt_removeReference) {
+  // Always remove reference.  (When do we need to keep them?)
+  opt_removeReference = true;
   goog.dom.removeNode(this.blockShapedPath_);
   this.blockShapedPath_ = null;
   Blockly.FieldBoundVariable.superClass_.dispose.call(this);
