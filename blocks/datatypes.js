@@ -96,6 +96,15 @@ Blockly.Blocks['defined_recordtype_typed'] = {
       // avoid the type inference for the removed input, update the size of
       // items first.
       this.itemCount_--;
+      var input = this.getInput('FIELD_INP' + index);
+      var connection = input.connection;
+      var typeBlock = connection.targetBlock();
+      if (typeBlock) {
+        connection.disconnect();
+        typeBlock.dispose();
+        // TODO: move the block to type workbench rather than dispose.
+        // TODO: Blocks connected to a record need to be disposed, too.
+      }
       this.removeInput('FIELD_INP' + index);
     }
     if (this.itemCount_ < expectedCount) {
