@@ -1546,6 +1546,22 @@ Blockly.Blocks['match_typed'] = {
       var outputInput = this.getInput('OUTPUT' + index);
       var workbench = outputInput.connection.contextWorkbench;
       workbench && workbench.dispose();
+      var outputConnection = outputInput.connection;
+      var outputBlock = outputConnection.targetBlock();
+      if (outputBlock) {
+        outputConnection.disconnect();
+        outputBlock.dispose();
+        // We have to dispose the block, because the scope workbench
+        // is disposed, too, and is no longer existent.
+      }
+      var patternInput = this.getInput('PATTERN' + index);
+      var patternConnection = patternInput.connection;
+      var patternBlock = patternConnection.targetBlock();
+      if (patternBlock) {
+        patternConnection.disconnect();
+        patternBlock.dispose();
+        // TODO: move the block to type workbench rather than dispose.
+      }
       // Decrement the size of items first. The function this.removeInput()
       // might disconnect some blocks from this block, and disconnecting blocks
       // triggers type inference, which causes a null pointer exception. To
@@ -2586,7 +2602,7 @@ Blockly.Blocks['let_fun_pattern_typed'] = {
         var argType = this.getInput('ARG' + x).connection.typeExpr;
         if (arg) {
           arg.unify(argType);
-	}
+        }
         // argType is a pattern.  Have to extract the type in it.
         funTypes.push(argType.pattExpr);
       }

@@ -102,7 +102,6 @@ Blockly.Blocks['defined_recordtype_typed'] = {
         connection.disconnect();
         typeBlock.dispose();
         // TODO: move the block to type workbench rather than dispose.
-        // TODO: Blocks connected to a record need to be disposed, too.
       }
       this.itemCount_--;
       this.removeInput('FIELD_INP' + index);
@@ -631,7 +630,7 @@ Blockly.Blocks['int_type_typed'] = {
         var connection = parentBlock.getInput('FIELD_INP' + i).connection;
         if (connection.targetBlock() === this) {
           fieldName = 'FIELD_INP' + i;
-	}
+        }
       }
       goog.asserts.assert(fieldName !== '', 'No FIELD_INP found.');
       var boundVariableValue = parentBlock.getField('DATANAME').getVariable();
