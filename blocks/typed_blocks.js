@@ -2490,7 +2490,7 @@ Blockly.Blocks['let_fun_pattern_typed'] = {
    * @this Blockly.Block
    */
   domToMutation: function(xmlElement) {
-    var newArgumentCount = parseInt(xmlElement.getAttribute('items')) || 0;
+    var newArgumentCount = parseInt(xmlElement.getAttribute('items')) || 1;
     this.resizePatternArgument(newArgumentCount);
   },
   /**
@@ -2651,6 +2651,12 @@ Blockly.Blocks['letstatement_typed'] =
   Object.assign({}, Blockly.Blocks['let_typed']);
 Blockly.Blocks['letstatement_typed'].init = function() {
   Blockly.Blocks['let_typed'].init.call(this, false, true);
+};
+
+Blockly.Blocks['letstatement_fun_pattern_typed'] =
+  Object.assign({}, Blockly.Blocks['let_fun_pattern_typed']);
+Blockly.Blocks['letstatement_fun_pattern_typed'].init = function() {
+  Blockly.Blocks['let_fun_pattern_typed'].init.call(this, false, true);
 };
 
 Blockly.Blocks['dummy_statement_typed'] = {
