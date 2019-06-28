@@ -359,71 +359,7 @@ Typed.runCode = function() {
 Typed.onClickConvert = function(event) {
   event.preventDefault();
   var input = document.querySelector(".ocamlCode");
-  var check1 = document.querySelector(".checkbox1").checked;
-  var check2 = document.querySelector(".checkbox2").checked;
-  var check3 = document.querySelector(".checkbox3").checked;
-  var check4 = document.querySelector(".checkbox4").checked;
-  var check5 = document.querySelector(".checkbox5").checked;
-  var check6 = document.querySelector(".checkbox6").checked;
-  var check7 = document.querySelector(".checkbox7").checked;
-  var code = '';
-  if (check1) {
-    code += 'type ekimei_t = {\n' +
-            '  kanji   : string; (* 漢字の駅名 *)\n' +
-            '  kana    : string; (* 読み *)\n' +
-            '  romaji  : string; (* ローマ字 *)\n' +
-            '  ken     : string; (* 県名 *)\n' +
-            '  shozoku : string; (* 所属路線名 *)\n' +
-            '}\n'
-  }
-  if (check2) {
-    code += 'type ekikan_t = {\n' +
-            '  kiten  : string; (* 起点 *)\n' +
-            '  kenk   : string; (* 起点の県名 *)\n' +
-            '  shuten : string; (* 終点 *)\n' +
-            '  kens   : string; (* 終点の県名 *)\n' +
-            '  keiyu  : string; (* 経由路線名 *)\n' +
-            '  kyori  : float;  (* 距離 *)\n' +
-            '  jikan  : int;    (* 所要時間 *)\n' +
-            '}\n'
-  }
-  if (check3) {
-    code += 'type eki_t = {\n' +
-            '  namae        : string * string;        (* 駅名ペア *)\n' +
-            '  saitan_kyori : float;                  (* 最短距離 *)\n' +
-            '  temae_list   : (string * string) list; (* 手前リスト *)\n' +
-            '}\n'
-  }
-  if (check4) {
-    code += '(* 目的：lst の各要素に f を施したリストを返す *)\n' +
-            '(* map : (\'a -> \'b) -> \'a list -> \'b list *)\n' +
-            'let rec map f lst = match lst with\n' +
-            '    [] -> []\n' +
-            '  | first :: rest -> f first :: map f rest\n'
-  }
-  if (check5) {
-    code += '(* 目的：lst の要素の中で p を満たすもののみのリストを返す *)\n' +
-            '(* filter : (\'a -> bool) -> \'a list -> \'a list *)\n' +
-            'let rec filter p lst = match lst with\n' +
-            '    [] -> []\n' +
-            '  | first :: rest -> if p first then first :: filter p rest\n' +
-            '                     else filter p rest\n'
-  }
-  if (check6) {
-    code += '(* 目的：init から始めて lst の要素を右から f 施し込む *)\n' +
-            '(* fold_right : (\'a -> \'b -> \'b) -> \'a list -> \'b -> \'b *)\n' +
-            'let rec fold_right f lst init = match lst with\n' +
-            '    [] -> init\n' +
-            '  | first :: rest -> f first (fold_right f rest init)\n'
-  }
-  if (check7) {
-    code += '(* 目的：lst の長さを返す *)\n' +
-            '(* length : \'a list -> int *)\n' +
-            'let rec length lst = match lst with\n' +
-            '    [] -> 0\n' +
-            '  | first :: rest -> 1 + length rest\n'
-  }
-  code += input.value;
+  var code = input.value;
   if (code) {
     BlockOfOCamlUtils.codeToBlock(code);
   }
