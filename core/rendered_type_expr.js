@@ -279,6 +279,60 @@ Blockly.RenderedTypeExpr.shape['unknown'] = {
   }
 };
 
+Blockly.RenderedTypeExpr.shape['Color.t'] = {
+  down: function(steps) {
+    steps.push('l 0,5 a 6,6,0,0,0,0,12 l 0,3');
+  },
+
+  up: function(steps) {
+    steps.push('l 0,-3 a 6,6,0,0,1,0,-12 l 0,-5');
+  },
+
+  height: function() {
+    return 20;
+  },
+
+  offsetsY: function() {
+    return [];
+  },
+};
+
+Blockly.RenderedTypeExpr.shape['Image.t'] = {
+  down: function(steps) {
+    steps.push('l 0,5 a 6,6,0,0,0,0,12 l 0,3');
+  },
+
+  up: function(steps) {
+    steps.push('l 0,-3 a 6,6,0,0,1,0,-12 l 0,-5');
+  },
+
+  height: function() {
+    return 20;
+  },
+
+  offsetsY: function() {
+    return [];
+  },
+};
+
+Blockly.RenderedTypeExpr.shape['scene_t'] = {
+  down: function(steps) {
+    steps.push('l 0,5 a 6,6,0,0,0,0,12 l 0,3');
+  },
+
+  up: function(steps) {
+    steps.push('l 0,-3 a 6,6,0,0,1,0,-12 l 0,-5');
+  },
+
+  height: function() {
+    return 20;
+  },
+
+  offsetsY: function() {
+    return [];
+  },
+};
+
 Blockly.RenderedTypeExpr.shape['typeVar'] = {
   down: function(steps) {
     steps.push('l 0,5 -8,0 0,15 8,0 0,5');

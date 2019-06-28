@@ -111,6 +111,9 @@ Blockly.TypeWorkbench.prototype.blocksForFlyout_ = function(flyoutWorkspace) {
   blocks.push(flyoutWorkspace.newBlock('pair_type_constructor_typed'));
   blocks.push(flyoutWorkspace.newBlock('triple_type_constructor_typed'));
   blocks.push(flyoutWorkspace.newBlock('alist_type_constructor_typed'));
+  blocks.push(flyoutWorkspace.newBlock('color_type_typed'));
+  blocks.push(flyoutWorkspace.newBlock('image_type_typed'));
+  blocks.push(flyoutWorkspace.newBlock('scene_type_typed'));
   for (var i = 0, block; block = blocks[i]; i++) {
     if (goog.isFunction(block.initSvg)) {
       block.initSvg();

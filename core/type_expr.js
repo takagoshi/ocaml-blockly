@@ -95,6 +95,14 @@ Blockly.TypeExpr.UNKNOWN_ = 165;
 Blockly.TypeExpr.TVAR_ = 170;
 
 /**
+ * @type {number} for universe
+ * @private
+ */
+Blockly.TypeExpr.COLOR_ = 180;
+Blockly.TypeExpr.IMAGE_ = 181;
+Blockly.TypeExpr.SCENE_ = 182;
+
+/**
  * Convert the type instance into plan text.
  * @param {boolean=} opt_deref
  * @return {string}
@@ -143,6 +151,12 @@ Blockly.TypeExpr.prototype.getTypeName = function() {
       return 'unknown';
     case Blockly.TypeExpr.TVAR_:
       return 'typeVar';
+    case Blockly.TypeExpr.COLOR_:
+      return 'Color.t';
+    case Blockly.TypeExpr.IMAGE_:
+      return 'Image.t';
+    case Blockly.TypeExpr.SCENE_:
+      return 'scene_t';
     default:
       goog.asserts.assert(false, 'Not implemented.');
   }
@@ -168,7 +182,9 @@ Blockly.TypeExpr.prototype.isPrimitive = function() {
   return this.label == Blockly.TypeExpr.INT_ ||
       this.label == Blockly.TypeExpr.FLOAT_ ||
       this.label == Blockly.TypeExpr.BOOL_ ||
-      this.label == Blockly.TypeExpr.STRING_;
+      this.label == Blockly.TypeExpr.COLOR_ ||
+      this.label == Blockly.TypeExpr.IMAGE_ ||
+      this.label == Blockly.TypeExpr.SCENE_;
 };
 Blockly.TypeExpr.prototype.isList = function() {
   return this.label == Blockly.TypeExpr.LIST_;
@@ -894,6 +910,90 @@ Blockly.TypeExpr.UNKNOWN.prototype.clone = function() {
  */
 Blockly.TypeExpr.UNKNOWN.prototype.deepDeref = function() {
   return new Blockly.TypeExpr.UNKNOWN();
+};
+
+/**
+ * @extends {Blockly.TypeExpr}
+ * @constructor
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.COLOR = function() {
+  Blockly.TypeExpr.call(this, Blockly.TypeExpr.COLOR_);
+};
+goog.inherits(Blockly.TypeExpr.COLOR, Blockly.TypeExpr);
+
+/**
+ * @override
+ * @param {boolean=} opt_deref
+ * @return {string}
+ */
+Blockly.TypeExpr.COLOR.prototype.toString = function(opt_deref) {
+  return "Color.t";
+};
+
+/**
+ * Deeply clone the object
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.COLOR.prototype.clone = function() {
+  return new Blockly.TypeExpr.COLOR();
+};
+
+/**
+ * @extends {Blockly.TypeExpr}
+ * @constructor
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.IMAGE = function() {
+  Blockly.TypeExpr.call(this, Blockly.TypeExpr.IMAGE_);
+};
+goog.inherits(Blockly.TypeExpr.IMAGE, Blockly.TypeExpr);
+
+/**
+ * @override
+ * @param {boolean=} opt_deref
+ * @return {string}
+ */
+Blockly.TypeExpr.IMAGE.prototype.toString = function(opt_deref) {
+  return "Image.t";
+};
+
+/**
+ * Deeply clone the object
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.IMAGE.prototype.clone = function() {
+  return new Blockly.TypeExpr.IMAGE();
+};
+
+/**
+ * @extends {Blockly.TypeExpr}
+ * @constructor
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.SCENE = function() {
+  Blockly.TypeExpr.call(this, Blockly.TypeExpr.SCENE_);
+};
+goog.inherits(Blockly.TypeExpr.SCENE, Blockly.TypeExpr);
+
+/**
+ * @override
+ * @param {boolean=} opt_deref
+ * @return {string}
+ */
+Blockly.TypeExpr.SCENE.prototype.toString = function(opt_deref) {
+  return "scene_t";
+};
+
+/**
+ * Deeply clone the object
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.SCENE.prototype.clone = function() {
+  return new Blockly.TypeExpr.SCENE();
 };
 
 /**

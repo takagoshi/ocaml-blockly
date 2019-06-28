@@ -815,6 +815,66 @@ Blockly.Blocks['alist_type_constructor_typed'] = {
   }
 };
 
+Blockly.Blocks['color_type_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+    this.appendDummyInput()
+        .appendField('Color.t');
+    this.setOutput(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  getTypeCtor: function() {
+    return new Blockly.TypeExpr.COLOR();
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function () {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
+Blockly.Blocks['image_type_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+    this.appendDummyInput()
+        .appendField('Image.t');
+    this.setOutput(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  getTypeCtor: function() {
+    return new Blockly.TypeExpr.IMAGE();
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function () {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
+Blockly.Blocks['scene_type_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+    this.appendDummyInput()
+        .appendField('scene_t');
+    this.setOutput(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  getTypeCtor: function() {
+    return new Blockly.TypeExpr.SCENE();
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function () {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
 Blockly.Blocks['variable_pattern_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['PATTERN_HUE']);
