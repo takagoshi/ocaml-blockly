@@ -1292,13 +1292,15 @@ Blockly.Blocks['function_app_typed'] = {
 
     // TODO: Enable only when increasing/decreasing a hole is type safe.
     var option = {enabled: true};
-    option.text = 'increase hole';
+    //option.text = 'increase hole';
+    option.text = Blockly.Msg['INCREASE_HOLE'];
     option.callback = this.increaseDecreaseHole.bind(this, 1);
     options.push(option);
 
     var isEnabled = 0 < this.paramCount_;
     var option = {enabled: isEnabled};
-    option.text = 'decrease hole';
+    //option.text = 'decrease hole';
+    option.text = Blockly.Msg['DECREASE_HOLE'];
     option.callback = this.increaseDecreaseHole.bind(this, -1);
     options.push(option);
     // TODO: When a hole is removed, remove the block inside the hole, too.
