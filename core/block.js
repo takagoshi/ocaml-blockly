@@ -2306,6 +2306,12 @@ Blockly.Block.VariableContext.prototype.assignEnv = function(ctx) {
  */
 Blockly.Block.prototype.resolveReference = function(parentConnection,
       opt_bind, opt_workspace, opt_collector) {
+  var context = this.obtainParentContext(parentConnection, opt_workspace);
+  return this.resolveReferenceOnDescendants(context, opt_bind, opt_collector);
+};
+
+Blockly.Block.prototype.obtainParentContext = function(parentConnection,
+      opt_workspace) {
   var contextWorkspace;
   var parentBlock;
 
@@ -2328,7 +2334,7 @@ Blockly.Block.prototype.resolveReference = function(parentConnection,
         true  /** Includes the potential context. */);
     context.assignEnv(parentsContext);
   }
-  return this.resolveReferenceOnDescendants(context, opt_bind, opt_collector);
+  return context;
 };
 
 /**
