@@ -213,17 +213,16 @@ Blockly.Connection.prototype.connect_ = function(childConnection) {
         if (nextBlock && !nextBlock.isShadow()) {
           newBlock = nextBlock;
         } else {
-          if (orphanBlock.previousConnection.checkType_(
-              newBlock.nextConnection)) {
-            newBlock.nextConnection.connect(orphanBlock.previousConnection);
-            orphanBlock = null;
-          }
+          newBlock.nextConnection.connect(orphanBlock.previousConnection,
+              true /** disable type check */ );
+          orphanBlock = null;
           break;
         }
       }
     }
     if (orphanBlock) {
       // Unable to reattach orphan.
+      // TODO(Asai): orphanBlock should be deleted rather than bumped.
       parentConnection.disconnect();
       if (Blockly.Events.recordUndo) {
         // Bump it off to the side after a moment.
@@ -668,6 +667,7 @@ Blockly.Connection.prototype.checkTypeExprAndVariables_ = function(
   var collector = context.errorCollector;
   var superior = this.isSuperior() ? this : otherConnection;
   var inferior = superior == this ? otherConnection : this;
+  var parentBlock = superior.getSourceBlock();
   var childBlock = inferior.getSourceBlock();
 
   if (!this.typeExpr.ableToUnify(otherConnection.typeExpr, collector)) {
@@ -702,19 +702,29 @@ Blockly.Connection.prototype.checkTypeExprAndVariables_ = function(
     return Blockly.Connection.REASON_VARIABLE_REFERENCE;
   }
 
-  // Check if the already connected block can be unplugged.
+  // Check if the new childBlock does not shadow the already connected block
   if (superior.isConnected()) {
     var connectedChildBlock = superior.targetBlock();
-    var canBeRoot = true;
-    if (collector) {
-      collector.setStateConnectedBlock();
-      canBeRoot = connectedChildBlock.canBeRoot(null, collector);
-      collector.clearState();
-    } else {
-      canBeRoot = connectedChildBlock.canBeRoot();
-    }
-    if (!canBeRoot) {
-      return Blockly.Connection.REASON_CANT_UNPLUG;
+    var context = parentBlock.obtainParentContext(superior);
+    if (superior.type == Blockly.NEXT_STATEMENT) {
+      // Statement connections.
+      // Statement blocks may be inserted into the middle of a stack.
+      var tailBlock = childBlock;
+      while (tailBlock.nextConnection) {
+        tailBlock.updateVariableEnvImpl(tailBlock.nextConnection, context);
+        var nextBlock = tailBlock.getNextBlock();
+        if (nextBlock && !nextBlock.isShadow()) {
+          tailBlock = nextBlock;
+        } else {
+          break;
+        }
+      }
+      var resolved = connectedChildBlock.resolveReferenceOnDescendants(context);
+      if (!resolved) {
+        // The childBlock captures bindings of connectedChildBlock.
+        // Should define a new error instead of using REASON_CANT_UNPLUG.
+        return Blockly.Connection.REASON_CANT_UNPLUG;
+      }
     }
   }
 
