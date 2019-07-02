@@ -439,6 +439,10 @@ Blockly.TypedLang['letstatement_typed'] = function(block) {
   return Blockly.TypedLang['let_typed'].call(this, block);
 };
 
+Blockly.TypedLang['letstatement_fun_pattern_typed'] = function(block) {
+  return Blockly.TypedLang['let_fun_pattern_typed'].call(this, block);
+};
+
 Blockly.TypedLang['dummy_statement_typed'] = function(block) {
   var code = Blockly.TypedLang.valueToCode(block, 'VALUE',
       Blockly.TypedLang.ORDER_ATOMIC) || '?';
