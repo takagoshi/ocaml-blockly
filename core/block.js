@@ -359,14 +359,26 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
       // Detach this block from the parent's tree.
       this.previousConnection.disconnect();
     }
-    var nextBlock = this.getNextBlock();
-    if (opt_healStack && nextBlock) {
-      // Disconnect the next statement.
-      var nextTarget = this.nextConnection.targetConnection;
-      nextTarget.disconnect();
-      if (previousTarget && previousTarget.checkType_(nextTarget)) {
-        // Attach the next statement to the previous statement.
-        previousTarget.connect(nextTarget);
+    var previousBlock = this.previousConnection.getSourceBlock();
+    if (opt_healStack) {
+      var context = previousBlock.obtainParentContext(previousTarget);
+      var nextBlock = this.getNextBlock();
+      // Check whether children can be unplugged one by one.
+      while (nextBlock) {
+        var resolved = nextBlock.resolveReferenceOnDescendants(context);
+        if (resolved) {
+          // The nextBlock does not refer to the binding of this block.
+          // Disconnect it.
+          var nextTarget = nextBlock.previousConnection;
+          nextTarget.disconnect();
+          // Attach nextBlock to the previous statement.
+          previousTarget.connect(nextTarget);
+          break;
+        } else {
+          // The nextBlock depends on the binding of this block.
+          // It has to be unplugged with this block.
+          nextBlock = nextBlock.getNextBlock();
+        }
       }
     }
   }

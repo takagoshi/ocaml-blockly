@@ -877,7 +877,8 @@ Blockly.BlockSvg.prototype.dispose = function(healStack, animate) {
   // When user deletes the first let block, variable f on the second let block
   // also must be deleted.
   // Until support for this case, always dispose of all the children blocks.
-  healStack = false;
+  // healStack = false;
+  // The case supported.
 
   Blockly.Tooltip.hide();
   Blockly.Field.startCache();
