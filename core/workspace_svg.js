@@ -1386,7 +1386,7 @@ Blockly.WorkspaceSvg.prototype.detectWorkspace = function(e,
     }
   }
   // Color the outside edge of all workspaces for debugging.
-  Blockly.utils.showRects(workspaceList, targetWS);
+  // Blockly.utils.showRects(workspaceList, targetWS);
 
   return targetWS;
 };
