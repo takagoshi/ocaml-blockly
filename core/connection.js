@@ -580,6 +580,12 @@ Blockly.Connection.prototype.disconnect = function() {
     // of the record definition.
     childBlock.searchFieldNameAndRemoveSpecifiedBlocks();
   }
+  if (goog.isFunction(childBlock.removePatternReference)) {
+    // About to remove a pattern block.
+    // Before disconnecting the pattern block, remove all the variable
+    // references that refer to this pattern block.
+    childBlock.removePatternReference();
+  }
   this.disconnectInternal_(parentBlock, childBlock);
   parentConnection.respawnShadow_();
 };

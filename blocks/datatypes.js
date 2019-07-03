@@ -908,6 +908,17 @@ Blockly.Blocks['variable_pattern_typed'] = {
     ctx.addTypeToEnv(varName, argScheme);
   },
 
+  removePatternReference: function() {
+    var variable = this.getField('VAR').getVariable();
+    // the folllowing code from: Blockly.BoundVariableValue.prototype.dispose
+    var referenceList = [].concat(variable.referenceList_);
+    for (var i = 0, ref; ref = referenceList[i]; i++) {
+      var refBlock = ref.getSourceBlock();
+      refBlock.dispose();
+    }
+    goog.asserts.assert(variable.referenceList_.length == 0);
+  },
+
   getTypeScheme: function(fieldName) {
     if (fieldName !== 'VAR') {
       return null;
@@ -995,6 +1006,17 @@ Blockly.Blocks['cons_construct_pattern_typed'] = {
     }
   },
 
+  removePatternReference: function() {
+    var first = this.getInput('FIRST').connection.targetConnection;
+    if (first) {
+      first.getSourceBlock().removePatternReference();
+    }
+    var cons = this.getInput('CONS').connection.targetConnection;
+    if (cons) {
+      cons.getSourceBlock().removePatternReference();
+    }
+  },
+
   infer: function(ctx) {
     var expected = this.outputConnection.typeExpr;
     var expected1 = this.getInput('FIRST').connection.typeExpr;
@@ -1070,6 +1092,17 @@ Blockly.Blocks['pair_pattern_typed'] = {
     var right = this.getInput('RIGHT').connection.targetConnection;
     if (right) {
       right.getSourceBlock().updateUpperTypeContext(ctx);
+    }
+  },
+
+  removePatternReference: function() {
+    var left = this.getInput('LEFT').connection.targetConnection;
+    if (left) {
+      left.getSourceBlock().removePatternReference();
+    }
+    var right = this.getInput('RIGHT').connection.targetConnection;
+    if (right) {
+      right.getSourceBlock().removePatternReference();
     }
   },
 
@@ -1263,6 +1296,15 @@ Blockly.Blocks['record_pattern_typed'] = {
     }
     if (goog.isFunction(this.initSvg)) {
       this.initSvg();
+    }
+  },
+
+  removePatternReference: function() {
+    for (var i = 0; i < this.fieldCount_; i++) {
+      var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
+      if (con) {
+        con.getSourceBlock().removePatternReference();
+      }
     }
   },
 

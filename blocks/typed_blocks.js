@@ -1598,7 +1598,7 @@ Blockly.Blocks['match_typed'] = {
       var index = this.itemCount_ - 1;
       var outputInput = this.getInput('OUTPUT' + index);
       var workbench = outputInput.connection.contextWorkbench;
-      workbench && workbench.dispose();
+      // dispose outputBlock
       var outputConnection = outputInput.connection;
       var outputBlock = outputConnection.targetBlock();
       if (outputBlock) {
@@ -1607,6 +1607,7 @@ Blockly.Blocks['match_typed'] = {
         // We have to dispose the block, because the scope workbench
         // is disposed, too, and is no longer existent.
       }
+      // dispose pattern
       var patternInput = this.getInput('PATTERN' + index);
       var patternConnection = patternInput.connection;
       var patternBlock = patternConnection.targetBlock();
@@ -1623,6 +1624,10 @@ Blockly.Blocks['match_typed'] = {
       this.itemCount_--;
       this.removeInput('PATTERN' + index);
       this.removeInput('OUTPUT' + index);
+      // dispose workbench.  Have to dispose after removing Inputs to
+      // avoid a null pointer exception (the one different from the
+      // above comment).
+      workbench && workbench.dispose();
     }
     this.rendered = storedRendered;
     while (this.itemCount_ < expectedCount) {
@@ -2526,6 +2531,15 @@ Blockly.Blocks['let_fun_pattern_typed'] = {
     this.rendered = false;
     while (expectedCount < this.argumentCount_) {
       var index = this.argumentCount_ - 1;
+      // dispose pattern
+      var patternInput = this.getInput('ARG' + index);
+      var patternConnection = patternInput.connection;
+      var patternBlock = patternConnection.targetBlock();
+      if (patternBlock) {
+        patternConnection.disconnect();
+        patternBlock.dispose();
+        // TODO: move the block to type workbench rather than dispose.
+      }
       // Decrement the size of items first. The function this.removeInput()
       // might disconnect some blocks from this block, and disconnecting blocks
       // triggers type inference, which causes a null pointer exception. To
