@@ -1258,4 +1258,5 @@ Blockly.Msg.BOOL_OF_STRING = 'Convert string to bool';
 Blockly.Msg.INCREASE_HOLE = 'increase hole';
 Blockly.Msg.DECREASE_HOLE = 'decrease hole';
 Blockly.Msg.READ_IMAGE_TOOLTIP = 'Reads an image';
-Blockly.Msg.PLACE_IMAGE_TOOLTIP = 'Place an image at the coordinates you defined on the scene';
+Blockly.Msg.PLACE_IMAGE_TOOLTIP = 'Places an image at the coordinates you defined on the scene';
+Blockly.Msg.PLACE_IMAGES_TOOLTIP = 'Places images at the coordinates you defined on the scene';
