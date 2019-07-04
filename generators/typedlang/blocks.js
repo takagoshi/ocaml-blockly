@@ -66,6 +66,19 @@ Blockly.TypedLang['polygon_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['color_typed'] = function(block) {
+  // Boolean values true and false.
+  var code = fieldValue === 'RED' ? 'red'
+      : fieldValue === 'BLUE' ? 'blue'
+      : fieldValue === 'BLACK' ? 'black'
+      : fieldValue === 'WHITE' ? 'white'
+      : fieldValue === 'YELLOW' ? 'yellow'
+      : fieldValue === 'GREEN' ? 'green'
+      : fieldValue === 'PINK' ? 'pink'
+      : 'cyan';
+  return [code, Blockly.TypedLang.ORDER_ATOMIC];
+};
+
 Blockly.TypedLang['logic_boolean_typed'] = function(block) {
   // Boolean values true and false.
   var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'true' : 'false';
