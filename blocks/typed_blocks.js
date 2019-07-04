@@ -101,6 +101,25 @@ Blockly.Blocks['place_images_typed'] = {
   }
 };
 
+Blockly.Blocks['color_typed'] = {
+  /**
+   * Block for boolean data type: true and false.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var COLORS =
+        [['red', 'RED'], ['blue', 'BLUE'], ['black', 'BLACK'], ['white', 'WHITE'],
+	 ['yellow', 'YELLOW'], ['green', 'GREEN'], ['pink', 'PINK'], ['cyan', 'CYAN']];
+    this.setColour(210);
+    this.setOutput(true);
+    // TODO(harukam): Define a function to create a type expression in the same
+    // way as makeConnection_ in block.js and block_svg.js.
+    this.setOutputTypeExpr(new Blockly.TypeExpr.COLOR());
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(COLORS), 'COLOR');
+  }
+};
+
 Blockly.Blocks['logic_boolean_typed'] = {
   /**
    * Block for boolean data type: true and false.
