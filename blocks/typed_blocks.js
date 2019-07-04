@@ -60,6 +60,34 @@ Blockly.Blocks['place_image_typed'] = {
   }
 };
 
+Blockly.Blocks['circle_typed'] = {
+  // circle : int -> Color.t -> Image.t
+  init: function() {
+    var A     = new Blockly.TypeExpr.INT();
+    var color = new Blockly.TypeExpr.COLOR();
+    this.setColour(210);
+    this.appendValueInput('ARG1')
+        .setTypeExpr(A)
+        .appendField('circle ');
+    this.appendValueInput('COLOR')
+        .setTypeExpr(color)
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.IMAGE());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.CIRCLE_TOOLTIP);
+  },
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var arg_type1 = this.callInfer('ARG1', ctx);
+    var color_typed = this.callInfer('COLOR', ctx);
+    var a_expected = this.getInput('ARG1').connection.typeExpr;
+    if (arg_type1)
+      img_typed.unify(a_expected);
+    if (color_typed)
+      pair_typed.unify(color_typed);
+    return expected;
+  }
+};
 
 Blockly.Blocks['logic_boolean_typed'] = {
   /**
