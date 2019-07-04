@@ -160,6 +160,42 @@ Blockly.Blocks['circle_typed'] = {
   }
 };
 
+Blockly.Blocks['polygon_typed'] = {
+    /* polygon : (int * int) list ->
+       ?fill:bool -> ?outline_size:int -> Color.t -> Image.t 
+      ( polygon [(x, y);...] color : (x, y) を繋げた 色 color の多角形を作る。 
+       外枠の線のサイズは outline_size ポイント、 fill が true の場合塗りつぶされる )
+    */
+    init: function() {
+	var A         = new Blockly.TypeExpr.INT();
+	var B         = new Blockly.TypeExpr.INT();
+	var pair      = new Blockly.TypeExpr.TUPLE(A, B);
+	var pair_list = new Blockly.TypeExpr.LIST(pair);
+	var color     = new Blockly.TypeExpr.COLOR();
+	this.setColour(210);
+	this.appendValueInput('PAIRLIST')
+            .setTypeExpr(pair_list)
+            .appendField('polygon ');
+	this.appendValueInput('CLR')
+            .setTypeExpr(color);
+	this.setOutput(true);
+	this.setOutputTypeExpr(new Blockly.TypeExpr.COLOR());
+	this.setInputsInline(true);
+	this.setTooltip(Blockly.Msg.POLYGON_TOOLTIP);
+    },
+    infer: function(ctx) {
+	var pairlist_typed    = this.callInfer('PAIRLIST', ctx);
+	var scene_typed       = this.callInfer('CLR', ctx);
+	var expected          = this.outputConnection.typeExpr;
+	var pairlist_expected = this.getInput('PAIRLIST').connection.typeExpr;
+	if (pairlist_typed)
+	    pairlist_typed.unify(pairlist_expected);
+	if (scene_typed)
+	    scene_typed.unify(expected);
+	return expected;
+    }
+};
+
 Blockly.Blocks['logic_boolean_typed'] = {
   /**
    * Block for boolean data type: true and false.
