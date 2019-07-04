@@ -46,6 +46,15 @@ Blockly.TypedLang['ormap_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['circle_typed'] = function(block) {
+  var a = Blockly.TypedLang.valueToCode(block, 'ARG1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var color = Blockly.TypedLang.valueToCode(block, 'COLOR',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'circle ' + a + ' ' + color;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['logic_boolean_typed'] = function(block) {
   // Boolean values true and false.
   var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'true' : 'false';
