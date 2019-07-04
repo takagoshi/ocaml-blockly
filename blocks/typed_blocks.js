@@ -208,7 +208,7 @@ Blockly.Blocks['polygon_typed'] = {
 
 Blockly.Blocks['color_typed'] = {
   /**
-   * Block for boolean data type: true and false.
+   * Block for color data type.
    * @this Blockly.Block
    */
   init: function() {
@@ -222,6 +222,42 @@ Blockly.Blocks['color_typed'] = {
     this.setOutputTypeExpr(new Blockly.TypeExpr.COLOR());
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(COLORS), 'COLOR');
+  }
+};
+
+Blockly.Blocks['text_typed'] = {
+  // text : string -> int -> Color.t -> Image.t
+  init: function() {
+    var A     = new Blockly.TypeExpr.STRING();
+    var B     = new Blockly.TypeExpr.INT();
+    var color = new Blockly.TypeExpr.COLOR();
+    this.setColour(210);
+    this.appendValueInput('ARG1')
+        .setTypeExpr(A)
+        .appendField('text ');
+    this.appendValueInput('ARG2')
+        .setTypeExpr(B);
+    this.appendValueInput('COLOR')
+        .setTypeExpr(color)
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.IMAGE());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.TEXT_TOOLTIP);
+  },
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var arg_type1 = this.callInfer('ARG1', ctx);
+    var arg_type2 = this.callInfer('ARG2', ctx);
+    var color_typed = this.callInfer('COLOR', ctx);
+    var a_expected = this.getInput('ARG1').connection.typeExpr;
+    var b_expected = this.getInput('ARG2').connection.typeExpr;
+    if (arg_type1)
+      arg_type1.unify(a_expected);
+    if (arg_type2)
+      arg_type2.unify(b_expected);
+    if (color_typed)
+      color_typed.unify(color_typed);
+    return expected;
   }
 };
 
