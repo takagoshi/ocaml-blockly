@@ -404,6 +404,6 @@
 	"PAIR_GET_SECOND_TOOLTIP": "ペアの二つ目を取得する",
 	"INT_OF_STRING_TOOLTIP": "string型をint型にします。",
 	"READ_IMAGE_TOOLTIP": "画像ファイルを読み込む",
-	"PLACE_IMAGE_TOOLTIP": "元の画像の上に新たな画像を指定した位置に重ねる"
+	"PLACE_IMAGE_TOOLTIP": "元の画像の上に新たな画像を指定した位置に重ねる",
 	"CIRCLE_TOOLTIP": "受け取った半径、色の円を作る"
 }
