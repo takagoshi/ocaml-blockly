@@ -79,6 +79,17 @@ Blockly.TypedLang['color_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_ATOMIC];
 };
 
+Blockly.TypedLang['text_typed'] = function(block) {
+  var a = Blockly.TypedLang.valueToCode(block, 'ARG1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var b = Blockly.TypedLang.valueToCode(block, 'ARG2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var color = Blockly.TypedLang.valueToCode(block, 'COLOR',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'text ' + a + ' ' + b + ' ' + color;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['logic_boolean_typed'] = function(block) {
   // Boolean values true and false.
   var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'true' : 'false';

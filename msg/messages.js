@@ -1264,3 +1264,4 @@ Blockly.Msg.ORMAP_TOOLTIP = 'Check if there exists an element that satisfies the
 Blockly.Msg.CIRCLE_TOOLTIP = 'Make a circle of specified radius and color';
 Blockly.Msg.CIRCLE_OUTLINE_TOOLTIP = 'Outline a circle of specified radius and color';
 Blockly.Msg.POLYGON_TOOLTIP = 'Make a polygon';
+Blockly.Msg.TEXT_TOOLTIP = 'Create a colored string';
