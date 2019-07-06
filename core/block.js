@@ -372,7 +372,9 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
           var nextTarget = nextBlock.previousConnection;
           nextTarget.disconnect();
           // Attach nextBlock to the previous statement.
-          previousTarget.connect(nextTarget);
+          if (previousTarget) {
+            previousTarget.connect(nextTarget);
+          }
           break;
         } else {
           // The nextBlock depends on the binding of this block.
