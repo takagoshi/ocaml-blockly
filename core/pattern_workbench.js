@@ -108,6 +108,34 @@ Blockly.PatternWorkbench.prototype.acceptBlock = function(block,
 };
 
 /**
+ * Return a new variable name that is not yet being used on the related
+ * workspace.
+ * @param {!string} name The base name from which a new name is generated.
+ * @param {!Blockly.Workspace} workspace The workspace on which to generate
+ *     a new variable name.
+ * @param {string=} opt_suffix Optional suffix to be added.
+ * @return {!string} New variable name.
+ */
+Blockly.PatternWorkbench.prototype.generateUniqueVariableFrom = function(
+    name, workspace, opt_suffix) {
+  var label = Blockly.BoundVariableAbstract.VARIABLE;
+  var namesMap = Blockly.BoundVariables.getDefinedNames(label, workspace);
+  var baseName = name.charAt(0).toLowerCase() + name.slice(1);
+  var newName = opt_suffix ? baseName + opt_suffix : baseName;
+  if (Blockly.BoundVariables.isLegalName(label, newName) &&
+      !(newName in namesMap)) {
+    return newName;
+  }
+  var n = 2;
+  do {
+    newName = opt_suffix ? baseName + n + opt_suffix : baseName + n;
+    n++;
+  } while (!Blockly.BoundVariables.isLegalName(label, newName) ||
+      newName in namesMap);
+  return newName;
+}
+
+/**
  * Creates blocks to show in workbench's flyout on the given workspace.
  * @param {!Blockly.Workspace} flyoutWorkspace The workspace to create blocks.
  * @return {!Array.<!Blockly.Block>} List of blocks to show in a flyout.
@@ -152,10 +180,14 @@ Blockly.PatternWorkbench.prototype.updateFlyoutTree = function() {
  */
 Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
   var contentsMap = {};
+  var label = Blockly.BoundVariableAbstract.VARIABLE;
+  var ws = this.getWorkspace();
   // pair
-  var b1 = Blockly.PatternWorkbench.createVariableDom('a', 'true');
+  var n1 = this.generateUniqueVariableFrom('x', ws);
+  var b1 = Blockly.PatternWorkbench.createVariableDom(n1, 'true');
   var v1 = Blockly.PatternWorkbench.createValueDom('LEFT', b1);
-  var b2 = Blockly.PatternWorkbench.createVariableDom('b', 'true');
+  var n2 = this.generateUniqueVariableFrom('y', ws);
+  var b2 = Blockly.PatternWorkbench.createVariableDom(n2, 'true');
   var v2 = Blockly.PatternWorkbench.createValueDom('RIGHT', b2);
   var xml = Blockly.PatternWorkbench.createPairDom([v1, v2]);
   contentsMap['pair'] = [xml];
@@ -163,17 +195,21 @@ Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
   contentsMap['record'] = [];
   // list
   var xml1 = Blockly.PatternWorkbench.createEmptyListDom();
-  var b1 = Blockly.PatternWorkbench.createVariableDom('first', 'true');
+  var n1 = this.generateUniqueVariableFrom('first', ws);
+  var b1 = Blockly.PatternWorkbench.createVariableDom(n1, 'true');
   var v1 = Blockly.PatternWorkbench.createValueDom('FIRST', b1);
-  var b2 = Blockly.PatternWorkbench.createVariableDom('rest', 'true');
+  var n2 = this.generateUniqueVariableFrom('rest', ws);
+  var b2 = Blockly.PatternWorkbench.createVariableDom(n2, 'true');
   var v2 = Blockly.PatternWorkbench.createValueDom('CONS', b2);
   var xml2 = Blockly.PatternWorkbench.createConsDom([v1, v2]);
   contentsMap['list'] = [xml1, xml2];
   // variable
-  var xml = Blockly.PatternWorkbench.createVariableDom('x', 'true');
+  var n = this.generateUniqueVariableFrom('v', ws);
+  var xml = Blockly.PatternWorkbench.createVariableDom(n, 'true');
   contentsMap['variable'] = [xml];
 
   // record
+  // var label = Blockly.BoundVariableAbstract.RECORD_FIELD;
   var parentConnection = this.block_.outputConnection ?
       this.block_.outputConnection.targetConnection :
       this.block_.previousConnection ?
@@ -203,18 +239,18 @@ Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
       field.appendChild(valueDom);
 
       blockXml.appendChild(field);
-      for (var n = 0; n < val.childValues_.length; n++) {
-        var input = val.getSourceBlock().getInput('FIELD_INP' + n);
+      for (var i = 0; i < val.childValues_.length; i++) {
+        var input = val.getSourceBlock().getInput('FIELD_INP' + i);
         var targetConnection = input.connection.targetConnection;
         if (targetConnection && // The field does not have type yet.
             targetConnection.getSourceBlock().allInputsFilled()) {
             // The second condition needed for a tuple with blank arguments.
-          var name = val.childValues_[n].getVariableName();
-          var b = Blockly.PatternWorkbench.createVariableDom(name + '_v',
-		  'true');
-          var v = Blockly.PatternWorkbench.createValueDom('FIELD_INP' + n, b);
+          var name = val.childValues_[i].getVariableName();
+          var n = this.generateUniqueVariableFrom(name, ws, '_v');
+          var b = Blockly.PatternWorkbench.createVariableDom(n, 'true');
+          var v = Blockly.PatternWorkbench.createValueDom('FIELD_INP' + i, b);
           blockXml.appendChild(v);
-	}
+        }
       }
       blockXmlList.push(blockXml);
     }

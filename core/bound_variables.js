@@ -487,14 +487,13 @@ Blockly.BoundVariables.variableNameValidator = function(label, newName) {
 };
 
 /**
- * Return a new variable name that is not yet being used on the related
- * workspace except for flyout ones.
+ * Get all the defined variable names of the given label in the
+ * workspace.
  * @param {!number} label An enum representing which type of value.
- * @param {!Blockly.Workspace} workspace The workspace on which to generate
- *     a new variable name.
- * @return {!string} New variable name.
+ * @param {!Blockly.Workspace} workspace The workspace on which to
+ *     collect the defined variable names.
  */
-Blockly.BoundVariables.generateUniqueName = function(label, workspace) {
+Blockly.BoundVariables.getDefinedNames = function(label, workspace) {
   var workspaceFamily = Blockly.WorkspaceTree.getFamily(workspace);
   var namesMap = {};
   for (var i = 0, ws; ws = workspaceFamily[i]; i++) {
@@ -505,7 +504,19 @@ Blockly.BoundVariables.generateUniqueName = function(label, workspace) {
       namesMap[value.getVariableName()] = true;
     }
   }
+  return namesMap;
+};
 
+/**
+ * Return a new variable name that is not yet being used on the related
+ * workspace except for flyout ones.
+ * @param {!number} label An enum representing which type of value.
+ * @param {!Blockly.Workspace} workspace The workspace on which to generate
+ *     a new variable name.
+ * @return {!string} New variable name.
+ */
+Blockly.BoundVariables.generateUniqueName = function(label, workspace) {
+  var namesMap = Blockly.BoundVariables.getDefinedNames(label, workspace);
   var isCtr = Blockly.BoundVariableAbstract.isConstructorLabel(label);
   var isRecordName = Blockly.BoundVariableAbstract.isRecordLabel(label);
   var name = null;
