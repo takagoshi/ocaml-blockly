@@ -15,6 +15,7 @@ sourceMap = {
   "index.html": "demos/typed/dev.html",
   "style.css": "demos/typed/",
   "typed.js": "demos/typed/",
+  "eval.js": "demos/universe/",
 }
 
 import os, shutil

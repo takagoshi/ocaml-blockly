@@ -29,6 +29,7 @@ Typed.SCRIPTS_FOR_PROD = [
   "ja.js",
   "converter.js",
   "block_of_ocaml_utils.js",
+  "eval.js",
 ];
 
 Typed.BOOT = (function() {
