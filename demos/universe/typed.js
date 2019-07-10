@@ -165,6 +165,12 @@ Typed.programTop =
   "open World\n" +
   "\n";
 
+Typed.runCode = function() {
+  var code = Blockly.TypedLang.workspaceToCode(Typed.workspace) + ';;';
+  console.log(code);
+  evaluator.runCode(code);
+}
+
 Typed.runGame = function() {
   var canvas = document.getElementById('CanvasForUniverse');
   var newCanvas = document.createElement("canvas");
@@ -212,7 +218,7 @@ Typed.runGame = function() {
       }
       program += "           ~onload:false\n";
       console.log(program);
-      runGame(program);
+      evaluator.runGame(program);
 /*
   runGame(' \
 open UniverseJs \
@@ -350,10 +356,6 @@ let () = \
   } catch (e) {
     console.warn('Some of blocks are not supported for converting.');
   }
-}
-
-Typed.runCode = function() {
-  //  alert('Not implemented yet.');
 }
 
 Typed.onClickConvert = function(event) {

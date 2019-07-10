@@ -18,6 +18,7 @@ Typed.SCRIPTS_FOR_DEV = [
   "../../msg/js/ja.js",
   "../../block_of_ocaml/converter.js",
   "../../block_of_ocaml/utils.js",
+  "../universe/eval.js",
 ];
 
 Typed.SCRIPTS_FOR_PROD = [
@@ -154,7 +155,9 @@ Typed.showCode = function() {
 }
 
 Typed.runCode = function() {
-  //  alert('Not implemented yet.');
+  var code = Blockly.TypedLang.workspaceToCode(Typed.workspace) + ';;';
+  console.log(code);
+  evaluator.runCode(code);
 }
 
 Typed.onClickConvert = function(event) {
