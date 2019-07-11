@@ -49,43 +49,43 @@ goog.require('Blockly.Msg');
  */
 
 /// {{Notranslate}} Hue value for all logic blocks.
-Blockly.Msg.LOGIC_HUE = '210';
+Blockly.Msg.LOGIC_HUE = '#83a598';
 /// {{Notranslate}} Hue value for all loop blocks.
 Blockly.Msg.LOOPS_HUE = '120';
 /// {{Notranslate}} Hue value for all math blocks.
 Blockly.Msg.MATH_HUE = '230';
 /// {{Notranslate}} Hue value for all math blocks.
-Blockly.Msg.INT_HUE = '230';
+Blockly.Msg.INT_HUE = '#006296';
 /// {{Notranslate}} Hue value for all text blocks.
-Blockly.Msg.FLOAT_HUE = '100';
+Blockly.Msg.FLOAT_HUE = '#427b58';
 /// {{Notranslate}} Hue value for all text blocks.
 Blockly.Msg.TEXTS_HUE = '160';
 /// {{Notranslate}} Hue value for all list blocks.
-Blockly.Msg.LISTS_HUE = '260';
+Blockly.Msg.LISTS_HUE = '#ffbd0a';
 /// {{Notranslate}} Hue value for all colour blocks.
 Blockly.Msg.COLOUR_HUE = '20';
 /// {{Notranslate}} Hue value for all variable blocks.
-Blockly.Msg.VARIABLES_HUE = '330';
+Blockly.Msg.VARIABLES_HUE = '#d7dcdd';
 /// {{Notranslate}} Hue value for all variable dynamic blocks.
 Blockly.Msg.VARIABLES_DYNAMIC_HUE = '310';
 /// {{Notranslate}} Hue value for all procedure blocks.
-Blockly.Msg.PROCEDURES_HUE = '290';
+Blockly.Msg.PROCEDURES_HUE = '#d3869b';
 /// {{Notranslate}} Hue value for all pair blocks.
-Blockly.Msg.PAIRS_HUE = '120';
+Blockly.Msg.PAIRS_HUE = '#d5df00';
 /// {{Notranslate}} Hue value for all type blocks.
-Blockly.Msg.TYPES_HUE = '#00a968';
+Blockly.Msg.TYPES_HUE = '#8ec07c';
 /// {{Notranslate}} Hue value for all pattern blocks.
 Blockly.Msg.PATTERN_HUE = '#9b72b0';
 /// {{Notranslate}} Hue value for all string typed blocks.
-Blockly.Msg.STRING_HUE = '#db7093';
+Blockly.Msg.STRING_HUE = '#e34f26';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
-Blockly.Msg.HIGHER_ORDER_HUE = '20';
+Blockly.Msg.HIGHER_ORDER_HUE = '#665c54';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
-Blockly.Msg.COLOR_HUE = '210';
+Blockly.Msg.COLOR_HUE = '#c6af92';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
-Blockly.Msg.IMAGE_HUE = '210';
+Blockly.Msg.IMAGE_HUE = '#832561';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
-Blockly.Msg.SCENE_HUE = '210';
+Blockly.Msg.SCENE_HUE = '#9d0006';
 
 /// default name - A simple, general default name for a variable, preferably short.
 /// For more context, see
