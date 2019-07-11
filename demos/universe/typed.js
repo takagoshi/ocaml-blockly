@@ -163,69 +163,71 @@ Typed.programTop =
   "open TransformToInt;;\n" +
   "\n";
 
-Typed.runCode = function() {
-  Blockly.PrintSemiSemi = true;
-  var code = Blockly.TypedLang.workspaceToCode(Typed.workspace);
-  Blockly.PrintSemiSemi = false;
-  console.log(code);
-  evaluator.runCode(code);
-}
-
-Typed.runGame = function() {
+Typed.clearCanvas = function () {
   var canvas = document.getElementById('CanvasForUniverse');
   var newCanvas = document.createElement("canvas");
   newCanvas.id = 'CanvasForUniverse';
   canvas.replaceWith(newCanvas); // remove old canvas
+}
+
+Typed.programToRun = function () {
   try {
     Blockly.PrintSemiSemi = true;
     var code = Blockly.TypedLang.workspaceToCode(Typed.workspace);
     Blockly.PrintSemiSemi = false;
-    if (code.indexOf('type world_t =') === -1) {
-      console.warn('The type world_t is not defined.');
-    } else if (code.indexOf('let initial_world =') === -1) {
-      console.warn('The variable initial_world is not defined.');
-    } else {
-      var program =
-        Typed.programTop +
-        code.substr(code.indexOf('let width =')) +
-        "\n" +
-        "let() =\n" +
-        "  big_bang initial_world\n";
-      if (code.indexOf('let draw ') !== -1) {
-        program += "           ~to_draw:draw\n";
-      }
-      if (code.indexOf('let width =') !== -1) {
-        program += "           ~width:width\n";
-      }
-      if (code.indexOf('let height =') !== -1) {
-        program += "           ~height:height\n";
-      }
-      if (code.indexOf('let on_mouse ') !== -1) {
-        program += "           ~on_mouse:on_mouse\n";
-      }
-      if (code.indexOf('let on_key ') !== -1) {
-        program += "           ~on_key_press:on_key\n";
-      }
-      if (code.indexOf('let on_tick ') !== -1) {
-        program += "           ~on_tick:on_tick\n";
-      }
-      if (code.indexOf('let rate =') !== -1) {
-        program += "           ~rate:rate\n";
-      }
-      if (code.indexOf('let finished ') !== -1) {
-        program += "           ~stop_when:finished\n";
-      }
-      if (code.indexOf('let draw_last ') !== -1) {
-        program += "           ~to_draw_last:draw_last\n";
-      }
-      program += "           ~onload:false;;\n";
-      console.log(program);
-      evaluator.runCode(program);
-    }
+    var program = Typed.programTop + code;
+    return program;
   } catch (e) {
     console.warn('Some of blocks are not supported for converting:');
     console.warn(e);
+    return null;
   }
+}
+
+Typed.runCode = function() {
+  Typed.clearCanvas();
+  var program = Typed.programToRun();
+  console.log(program);
+  evaluator.runCode(program);
+}
+
+Typed.runGame = function() {
+  Typed.clearCanvas();
+  var program = Typed.programToRun() +
+//    program.substr(program.indexOf('let width =')) +
+//    "\n" +
+      "let() =\n" +
+      "  big_bang initial_world\n";
+  if (program.indexOf('let draw ') !== -1) {
+    program += "           ~to_draw:draw\n";
+  }
+  if (program.indexOf('let width =') !== -1) {
+    program += "           ~width:width\n";
+  }
+  if (program.indexOf('let height =') !== -1) {
+    program += "           ~height:height\n";
+  }
+  if (program.indexOf('let on_mouse ') !== -1) {
+    program += "           ~on_mouse:on_mouse\n";
+  }
+  if (program.indexOf('let on_key ') !== -1) {
+    program += "           ~on_key_press:on_key\n";
+  }
+  if (program.indexOf('let on_tick ') !== -1) {
+    program += "           ~on_tick:on_tick\n";
+  }
+  if (program.indexOf('let rate =') !== -1) {
+    program += "           ~rate:rate\n";
+  }
+  if (program.indexOf('let finished ') !== -1) {
+    program += "           ~stop_when:finished\n";
+  }
+  if (program.indexOf('let draw_last ') !== -1) {
+    program += "           ~to_draw_last:draw_last\n";
+  }
+  program += "           ~onload:false;;\n";
+  console.log(program);
+  evaluator.runCode(program);
 }
 
 Typed.onClickConvert = function(event) {
