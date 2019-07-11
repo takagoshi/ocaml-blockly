@@ -411,5 +411,6 @@
 	"CIRCLE_TOOLTIP": "受け取った半径、色の円を作る",
 	"CIRCLE_OUTLINE_TOOLTIP": "受け取った半径、色の円の輪郭を描く",
         "POLYGON_TOOLTIP": "多角形を作る",
-        "TEXT_TOOLTIP": "色付きの文字列を作る"
+    "TEXT_TOOLTIP": "色付きの文字列を作る",
+    "EMPTY_SCENE_TOOLTIP": "無地の背景を作る"
 }

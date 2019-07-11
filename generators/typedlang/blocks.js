@@ -8,6 +8,15 @@ goog.provide('Blockly.TypedLang.blocks');
 
 goog.require('Blockly.TypedLang');
 
+Blockly.TypedLang['empty_scene_typed'] = function(block) {
+    var argument1 = Blockly.TypedLang.valueToCode(block, 'ARG1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    var argument2 = Blockly.TypedLang.valueToCode(block, 'ARG2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    var code = 'empty_scene ' + argument1 + ' ' + argument2;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['read_image_typed'] = function(block) {
   var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
