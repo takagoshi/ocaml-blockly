@@ -321,7 +321,7 @@ Blockly.Blocks['create_record_typed'] = {
 Blockly.Blocks['defined_datatype_typed'] = {
   // Declare constructor types.
   init: function() {
-    this.setColour(160);
+    this.setColour(Blockly.Msg['TYPES_HUE']);
     var validator = Blockly.BoundVariables.variableNameValidator.bind(null,
         Blockly.BoundVariableAbstract.VARIABLE);
 
@@ -481,7 +481,7 @@ Blockly.Blocks['defined_datatype_typed'] = {
 
 Blockly.Blocks['create_construct_typed'] = {
   init: function() {
-    this.setColour(160);
+    this.setColour(Blockly.Msg['TYPES_HUE']);
     var ctrType = new Blockly.TypeExpr.CONSTRUCT(null);
     var variableField =
         Blockly.FieldBoundVariable.newReferenceConstructor(ctrType);

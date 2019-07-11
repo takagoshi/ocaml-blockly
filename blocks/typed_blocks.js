@@ -244,7 +244,7 @@ Blockly.Blocks['make_color_typed'] = {
 	var r         = new Blockly.TypeExpr.INT();
 	var g         = new Blockly.TypeExpr.INT();
 	var b         = new Blockly.TypeExpr.INT();
-	this.setColour(210);
+        this.setColour(Blockly.Msg['COLOR_HUE']);
 	this.appendValueInput('R')
             .setTypeExpr(r)
             .appendField('make_color ');
@@ -282,7 +282,7 @@ Blockly.Blocks['make_color2_typed'] = {
 	var r         = new Blockly.TypeExpr.INT();
 	var g         = new Blockly.TypeExpr.INT();
 	var b         = new Blockly.TypeExpr.INT();
-	this.setColour(210);
+        this.setColour(Blockly.Msg['COLOR_HUE']);
 	this.appendValueInput('R')
             .setTypeExpr(r)
             .appendField('make_color2 ');
