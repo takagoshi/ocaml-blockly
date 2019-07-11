@@ -55,15 +55,12 @@ Blockly.Msg.LOOPS_HUE = '120';
 /// {{Notranslate}} Hue value for all math blocks.
 Blockly.Msg.MATH_HUE = '230';
 /// {{Notranslate}} Hue value for all math blocks.
-<<<<<<< HEAD
 Blockly.Msg.INT_HUE = '#006296';
 /// {{Notranslate}} Hue value for all text blocks.
 Blockly.Msg.FLOAT_HUE = '#427b58';
-=======
 Blockly.Msg.INT_HUE = '230';
 /// {{Notranslate}} Hue value for all text blocks.
 Blockly.Msg.FLOAT_HUE = '100';
->>>>>>> faeb79b501ad606a10e9f03c96fbd5be9a41267b
 /// {{Notranslate}} Hue value for all text blocks.
 Blockly.Msg.TEXTS_HUE = '160';
 /// {{Notranslate}} Hue value for all list blocks.
@@ -91,9 +88,8 @@ Blockly.Msg.COLOR_HUE = '#c6af92';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
 Blockly.Msg.IMAGE_HUE = '#832561';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
-<<<<<<< HEAD
 Blockly.Msg.SCENE_HUE = '#9d0006';
-=======
+
 Blockly.Msg.HIGHER_ORDER_HUE = '20';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
 Blockly.Msg.COLOR_HUE = '210';
