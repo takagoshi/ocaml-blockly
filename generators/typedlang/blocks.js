@@ -17,6 +17,17 @@ Blockly.TypedLang['empty_scene_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['rectangle_typed'] = function(block) {
+  var arg1 = Blockly.TypedLang.valueToCode(block, 'ARG1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    var arg2 = Blockly.TypedLang.valueToCode(block, 'ARG2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    var color = Blockly.TypedLang.valueToCode(block, 'CLR',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'rectangle ' + arg1 + ' ' + arg2 + ' ' + color;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['read_image_typed'] = function(block) {
   var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
