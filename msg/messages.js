@@ -54,6 +54,10 @@ Blockly.Msg.LOGIC_HUE = '210';
 Blockly.Msg.LOOPS_HUE = '120';
 /// {{Notranslate}} Hue value for all math blocks.
 Blockly.Msg.MATH_HUE = '230';
+/// {{Notranslate}} Hue value for all math blocks.
+Blockly.Msg.INT_HUE = '230';
+/// {{Notranslate}} Hue value for all text blocks.
+Blockly.Msg.FLOAT_HUE = '100';
 /// {{Notranslate}} Hue value for all text blocks.
 Blockly.Msg.TEXTS_HUE = '160';
 /// {{Notranslate}} Hue value for all list blocks.
@@ -76,6 +80,12 @@ Blockly.Msg.PATTERN_HUE = '#9b72b0';
 Blockly.Msg.STRING_HUE = '#db7093';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
 Blockly.Msg.HIGHER_ORDER_HUE = '20';
+/// {{Notranslate}} Hue value for all blocks related to higher order functions.
+Blockly.Msg.COLOR_HUE = '210';
+/// {{Notranslate}} Hue value for all blocks related to higher order functions.
+Blockly.Msg.IMAGE_HUE = '210';
+/// {{Notranslate}} Hue value for all blocks related to higher order functions.
+Blockly.Msg.SCENE_HUE = '210';
 
 /// default name - A simple, general default name for a variable, preferably short.
 /// For more context, see
