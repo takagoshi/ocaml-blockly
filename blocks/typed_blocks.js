@@ -10,7 +10,7 @@ goog.require('Blockly');
 Blockly.Blocks['empty_scene_typed'] = {
   // empty_scene : int -> int -> scene_t
   init: function() {
-    this.setColour(210);
+    this.setColour(Blockly.Msg['SCENE_HUE']);
     this.appendValueInput('ARG1')
         .setTypeExpr(new Blockly.TypeExpr.INT())
         .appendField('empty_scene ');
