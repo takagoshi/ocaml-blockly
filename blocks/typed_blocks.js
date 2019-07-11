@@ -7,6 +7,33 @@
 goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
+Blockly.Blocks['empty_scene_typed'] = {
+  // empty_scene : int -> int -> scene_t
+  init: function() {
+    this.setColour(210);
+    this.appendValueInput('ARG1')
+        .setTypeExpr(new Blockly.TypeExpr.INT())
+        .appendField('empty_scene ');
+    this.appendValueInput('ARG2')
+        .setTypeExpr(new Blockly.TypeExpr.INT())
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.SCENE());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.EMPTY_SCENE_TOOLTIP);
+  },
+    infer: function(ctx) {
+    var argument1_typed     = this.callInfer('ARG1', ctx);
+    var argument2_typed    = this.callInfer('ARG2', ctx);
+    var expected          = this.outputConnection.typeExpr;
+    var argument1_expected = this.getInput('ARG1').connection.typeExpr;
+    var argument2_expected = this.getInput('ARG2').connection.typeExpr;
+    if (argument1_typed)
+      argument1_typed.unify(argument1_expected);
+    if (argument2_typed)
+      argument2_typed.unify(argument2_expected);
+    return expected;
+  }
+};
 
 Blockly.Blocks['read_image_typed'] = {
   // read_image : string -> Image.t
