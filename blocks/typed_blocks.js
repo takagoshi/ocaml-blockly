@@ -11,7 +11,7 @@ goog.require('Blockly');
 Blockly.Blocks['read_image_typed'] = {
   // read_image : string -> Image.t
   init: function() {
-    this.setColour(210);
+    this.setColour(Blockly.Msg['IMAGE_HUE']);
     this.appendValueInput('PARAM')
         .setTypeExpr(new Blockly.TypeExpr.STRING())
         .appendField('read_image ');
@@ -30,7 +30,7 @@ Blockly.Blocks['place_image_typed'] = {
     var B     = new Blockly.TypeExpr.INT();
     var pair  = new Blockly.TypeExpr.TUPLE(A, B);
     var scene = new Blockly.TypeExpr.SCENE();
-    this.setColour(210);
+    this.setColour(Blockly.Msg['SCENE_HUE']);
     this.appendValueInput('IMG')
         .setTypeExpr(img)
         .appendField('place_image ');
@@ -69,7 +69,7 @@ Blockly.Blocks['place_images_typed'] = {
     var pair      = new Blockly.TypeExpr.TUPLE(A, B);
     var pair_list = new Blockly.TypeExpr.LIST(pair);
     var scene     = new Blockly.TypeExpr.SCENE();
-    this.setColour(210);
+    this.setColour(Blockly.Msg['SCENE_HUE']);
     this.appendValueInput('IMGLIST')
         .setTypeExpr(img_list)
         .appendField('place_images ');
@@ -106,7 +106,7 @@ Blockly.Blocks['andmap_typed'] = {
     var bool   = new Blockly.TypeExpr.BOOL();
     var fun    = new Blockly.TypeExpr.FUN(A, bool)
     var A_listType = new Blockly.TypeExpr.LIST(A);
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.appendValueInput('FUN')
         .setTypeExpr(fun)
         .appendField('andmap ');
@@ -138,7 +138,7 @@ Blockly.Blocks['ormap_typed'] = {
     var bool   = new Blockly.TypeExpr.BOOL();
     var fun    = new Blockly.TypeExpr.FUN(A, bool)
     var A_list = new Blockly.TypeExpr.LIST(A);
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.appendValueInput('FUN')
         .setTypeExpr(fun)
         .appendField('ormap ');
@@ -171,7 +171,7 @@ Blockly.Blocks['circle_typed'] = {
          ['circle_outline', 'CIRCLE_OUTLINE']];
     var A     = new Blockly.TypeExpr.INT();
     var color = new Blockly.TypeExpr.COLOR();
-    this.setColour(210);
+    this.setColour(Blockly.Msg['IMAGE_HUE']);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(IMAGES), 'IMAGE');
     this.appendValueInput('ARG1')
@@ -213,7 +213,7 @@ Blockly.Blocks['polygon_typed'] = {
 	var pair      = new Blockly.TypeExpr.TUPLE(A, B);
 	var pair_list = new Blockly.TypeExpr.LIST(pair);
 	var color     = new Blockly.TypeExpr.COLOR();
-	this.setColour(210);
+	this.setColour(Blockly.Msg['IMAGE_HUE']);
 	this.appendValueInput('PAIRLIST')
             .setTypeExpr(pair_list)
             .appendField('polygon ');
@@ -247,7 +247,7 @@ Blockly.Blocks['color_typed'] = {
     var COLORS =
         [['red', 'RED'], ['blue', 'BLUE'], ['black', 'BLACK'], ['white', 'WHITE'],
 	 ['yellow', 'YELLOW'], ['green', 'GREEN'], ['pink', 'PINK'], ['cyan', 'CYAN']];
-    this.setColour(210);
+    this.setColour(Blockly.Msg['COLOR_HUE']);
     this.setOutput(true);
     // TODO(harukam): Define a function to create a type expression in the same
     // way as makeConnection_ in block.js and block_svg.js.
@@ -263,7 +263,7 @@ Blockly.Blocks['text_typed'] = {
     var A     = new Blockly.TypeExpr.STRING();
     var B     = new Blockly.TypeExpr.INT();
     var color = new Blockly.TypeExpr.COLOR();
-    this.setColour(210);
+    this.setColour(Blockly.Msg['IMAGE_HUE']);
     this.appendValueInput('ARG1')
         .setTypeExpr(A)
         .appendField('text ');
@@ -303,7 +303,7 @@ Blockly.Blocks['logic_boolean_typed'] = {
         [[Blockly.Msg.LOGIC_BOOLEAN_TRUE, 'TRUE'],
          [Blockly.Msg.LOGIC_BOOLEAN_FALSE, 'FALSE']];
     this.setHelpUrl(Blockly.Msg.LOGIC_BOOLEAN_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     // TODO(harukam): Define a function to create a type expression in the same
     // way as makeConnection_ in block.js and block_svg.js.
@@ -323,7 +323,7 @@ Blockly.Blocks['logic_operator_typed'] = {
     var OPERATORS =
         [['&&', 'AND'],
          ['||', 'OR']];
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     this.setOutputTypeExpr(new Blockly.TypeExpr.BOOL());
     this.appendValueInput('A')
@@ -362,7 +362,7 @@ Blockly.Blocks['not_operator_typed'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     this.setOutputTypeExpr(new Blockly.TypeExpr.BOOL());
     this.appendValueInput('A')
@@ -403,7 +403,7 @@ Blockly.Blocks['logic_compare_typed'] = {
           ['\u2265', 'GTE']
         ];
     this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     this.setOutputTypeExpr(new Blockly.TypeExpr.BOOL());
     var A = Blockly.TypeExpr.generateTypeVar();
@@ -448,7 +448,7 @@ Blockly.Blocks['logic_ternary_typed'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.LOGIC_TERNARY_HELPURL);
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     var A = Blockly.TypeExpr.generateTypeVar();
     this.appendValueInput('IF')
         .setTypeExpr(new Blockly.TypeExpr.BOOL())
@@ -485,7 +485,7 @@ Blockly.Blocks['max_int_typed'] = {
     var INTS =
         [['max_int', 'MAX_INT'],
          ['min_int', 'MIN_INT']];
-    this.setColour(230);
+    this.setColour(Blockly.Msg['INT_HUE']);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(INTS), 'INT');
     this.setOutput(true);
@@ -508,7 +508,7 @@ Blockly.Blocks['infinity_typed'] = {
         [['infinity', 'INFINITY'],
          ['neg_infinity', 'NEG_INFINITY'],
          ['nan', 'NAN']];
-    this.setColour(100);
+    this.setColour(Blockly.Msg['FLOAT_HUE']);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(FLOATS), 'FLOAT');
     this.setOutput(true);
@@ -533,7 +533,7 @@ Blockly.Blocks['int_typed'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(230);
+    this.setColour(Blockly.Msg['INT_HUE']);
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.intValidator), 'INT');
@@ -556,7 +556,7 @@ Blockly.Blocks['int_arithmetic_typed'] = {
          ['/', 'DIVIDE_INT'],
          ['mod', 'MOD_INT']];
     this.setHelpUrl(Blockly.Msg.MATH_ARITHMETIC_HELPURL);
-    this.setColour(230);
+    this.setColour(Blockly.Msg['INT_HUE']);
     this.setOutput(true, 'Int');
     this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
     this.appendValueInput('A')
@@ -598,7 +598,7 @@ Blockly.Blocks['int_abs_typed'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(230);
+    this.setColour(Blockly.Msg['INT_HUE']);
     this.setOutput(true, 'Int');
     this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
     this.appendValueInput('A')
@@ -624,7 +624,7 @@ Blockly.Blocks['float_typed'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(100);
+    this.setColour(Blockly.Msg['FLOAT_HUE']);
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0.',
         Blockly.FieldTextInput.floatValidator), 'Float');
@@ -647,7 +647,7 @@ Blockly.Blocks['float_arithmetic_typed'] = {
          ['/.', 'DIVIDE_FLOAT'],
          ['**', 'POWER_FLOAT']];
     this.setHelpUrl(Blockly.Msg.MATH_ARITHMETIC_HELPURL);
-    this.setColour(100);
+    this.setColour(Blockly.Msg['FLOAT_HUE']);
     this.setOutput(true, 'Float');
     this.setOutputTypeExpr(new Blockly.TypeExpr.FLOAT());
     this.appendValueInput('A')
@@ -689,7 +689,7 @@ Blockly.Blocks['float_sqrt_typed'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(100);
+    this.setColour(Blockly.Msg['FLOAT_HUE']);
     this.setOutput(true, 'Float');
     this.setOutputTypeExpr(new Blockly.TypeExpr.FLOAT());
     this.appendValueInput('A')
@@ -811,7 +811,7 @@ Blockly.Blocks['string_of_float_typed'] = {
 
 Blockly.Blocks['float_of_int_typed'] = {
   init: function() {
-    this.setColour(100);
+    this.setColour(Blockly.Msg['FLOAT_HUE']);
     this.appendValueInput('PARAM')
         .setTypeExpr(new Blockly.TypeExpr.INT())
         .appendField('float_of_int');
@@ -832,7 +832,7 @@ Blockly.Blocks['float_of_int_typed'] = {
 
 Blockly.Blocks['int_of_float_typed'] = {
   init: function() {
-    this.setColour(230);
+    this.setColour(Blockly.Msg['INT_HUE']);
     this.appendValueInput('PARAM')
         .setTypeExpr(new Blockly.TypeExpr.FLOAT())
         .appendField('int_of_float');
@@ -874,7 +874,7 @@ Blockly.Blocks['string_of_bool_typed'] = {
 
 Blockly.Blocks['bool_of_string_typed'] = {
   init: function() {
-    this.setColour(210);
+    this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.appendValueInput('PARAM')
         .setTypeExpr(new Blockly.TypeExpr.STRING())
         .appendField('string_of_bool');
@@ -899,7 +899,7 @@ Blockly.Blocks['lists_create_with_typed'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var element_type = Blockly.TypeExpr.generateTypeVar();
     this.appendDummyInput('LPAREN')
         .appendField('[');
@@ -1043,7 +1043,7 @@ Blockly.Blocks['lists_create_with_typed'] = {
 
 Blockly.Blocks['list_empty_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var element_type = Blockly.TypeExpr.generateTypeVar();
     var listType = new Blockly.TypeExpr.LIST(element_type);
     this.appendDummyInput()
@@ -1057,7 +1057,7 @@ Blockly.Blocks['list_empty_typed'] = {
 
 Blockly.Blocks['list_cons_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var element_type = Blockly.TypeExpr.generateTypeVar();
     var listType = new Blockly.TypeExpr.LIST(element_type);
     this.appendValueInput('FIRST')
@@ -1088,7 +1088,7 @@ Blockly.Blocks['list_cons_typed'] = {
 
 Blockly.Blocks['list_map_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     // List.map : ('a -> 'b) -> 'a list -> 'b list
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
@@ -1125,7 +1125,7 @@ Blockly.Blocks['list_map_typed'] = {
 
 Blockly.Blocks['list_filter_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var element_bool = new Blockly.TypeExpr.BOOL()
     var element_A = Blockly.TypeExpr.generateTypeVar()
     var funType = new Blockly.TypeExpr.FUN(element_A,element_bool)
@@ -1160,7 +1160,7 @@ Blockly.Blocks['list_filter_typed'] = {
 
 Blockly.Blocks['list_assoc_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var a_type = Blockly.TypeExpr.generateTypeVar();
     var b_type = Blockly.TypeExpr.generateTypeVar();
     var pair_t = new Blockly.TypeExpr.TUPLE(a_type, b_type);
@@ -1195,7 +1195,7 @@ Blockly.Blocks['list_assoc_typed'] = {
 
 Blockly.Blocks['list_append_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     var element_type = Blockly.TypeExpr.generateTypeVar();
     var listType = new Blockly.TypeExpr.LIST(element_type);
     this.appendValueInput('PARAM0')
@@ -1224,7 +1224,7 @@ Blockly.Blocks['list_append_typed'] = {
 
 Blockly.Blocks['list_fold_left_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     // List.fold_left : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
@@ -1268,7 +1268,7 @@ Blockly.Blocks['list_fold_left_typed'] = {
 
 Blockly.Blocks['list_fold_right_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
       // List.fold_right : ('b -> 'a -> 'a) -> 'b list -> 'a -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
@@ -1312,7 +1312,7 @@ Blockly.Blocks['list_fold_right_typed'] = {
 
 Blockly.Blocks['list_fold_left2_typed'] = {
   init: function() {
-    this.setColour(260);
+    this.setColour(Blockly.Msg['LISTS_HUE']);
     // List.fold_left2: ('a -> 'b -> 'c -> 'a) -> 'a -> 'b list -> 'c list -> 'a
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
@@ -1769,7 +1769,7 @@ Blockly.Blocks['lambda_app_typed'] = {
 
 Blockly.Blocks['match_typed'] = {
   init: function() {
-    this.setColour(290);
+    this.setColour(Blockly.Msg['PROCEDURES_HUE']);
 
     var A = Blockly.TypeExpr.generateTypeVar();
     var B = Blockly.TypeExpr.generateTypeVar();
@@ -2105,7 +2105,7 @@ Blockly.Blocks['let_typed'] = {
    */
   init: function(opt_recur, opt_statement) {
     this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-    this.setColour(330);
+    this.setColour(Blockly.Msg['VARIABLES_HUE']);
     var varType = Blockly.TypeExpr.generateTypeVar();
     var exp1Type = Blockly.TypeExpr.generateTypeVar();
     var exp2Type = Blockly.TypeExpr.generateTypeVar();
@@ -2533,7 +2533,7 @@ Blockly.Blocks['let_fun_pattern_typed'] = {
    */
   init: function(opt_recur, opt_statement) {
     this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-    this.setColour(330);
+    this.setColour(Blockly.Msg['VARIABLES_HUE']);
     var varType = Blockly.TypeExpr.generateTypeVar();
     var exp1Type = Blockly.TypeExpr.generateTypeVar();
     var exp2Type = Blockly.TypeExpr.generateTypeVar();
