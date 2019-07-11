@@ -406,13 +406,16 @@
 	"READ_IMAGE_TOOLTIP": "画像ファイルを読み込む",
 	"PLACE_IMAGE_TOOLTIP": "元の画像の上に新たな画像を指定した位置に重ねる",
 	"PLACE_IMAGES_TOOLTIP": "元の画像の上に複数の新たな画像を指定した位置に重ねる",
-    	"ANDMAP_TOOLTIP": "リスト中の要素が全て条件を満たすかを調べる",
+	"ANDMAP_TOOLTIP": "リスト中の要素が全て条件を満たすかを調べる",
 	"ORMAP_TOOLTIP": "リストの中に条件を満たす要素があるかを調べる",
 	"CIRCLE_TOOLTIP": "受け取った半径、色の円を作る",
 	"CIRCLE_OUTLINE_TOOLTIP": "受け取った半径、色の円の輪郭を描く",
 	"POLYGON_TOOLTIP": "多角形を作る",
-	"POLYGON_OUTLINE_TOOLTIP": "多角形の外郭を作る。 ",
+	"POLYGON_OUTLINE_TOOLTIP": "多角形の外郭を作る。",
 	"TEXT_TOOLTIP": "色付きの文字列を作る",
 	"MAKE_COLOR_TOOLTIP":"RGB から色を作る。",
-	"MAKE_COLOR2_TOOLTIP":"RGB と透過率 A から色を作る。"
+	"MAKE_COLOR2_TOOLTIP":"RGB と透過率 A から色を作る。",
+	"POLYGON_TOOLTIP": "多角形を作る",
+	"TEXT_TOOLTIP": "色付きの文字列を作る",
+	"EMPTY_SCENE_TOOLTIP": "無地の背景を作る"
 }
