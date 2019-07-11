@@ -167,7 +167,9 @@ Typed.programTop =
   "\n";
 
 Typed.runCode = function() {
-  var code = Blockly.TypedLang.workspaceToCode(Typed.workspace) + ';;';
+  Blockly.PrintSemiSemi = true;
+  var code = Blockly.TypedLang.workspaceToCode(Typed.workspace);
+  Blockly.PrintSemiSemi = false;
   console.log(code);
   evaluator.runCode(code);
 }

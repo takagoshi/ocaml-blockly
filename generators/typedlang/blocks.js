@@ -442,6 +442,8 @@ Blockly.TypedLang['variables_get_typed'] = function(block) {
   return [varname, Blockly.TypedLang.ORDER_ATOMIC];
 };
 
+Blockly.PrintSemiSemi = false;
+
 Blockly.TypedLang['let_typed'] = function(block) {
   var args = [];
   for (var i = 0; i < block.argumentCount_; i++) {
@@ -464,6 +466,9 @@ Blockly.TypedLang['let_typed'] = function(block) {
   }
 
   if (block.getIsStatement()) {
+    if (Blockly.PrintSemiSemi) {
+      code += ';;';
+    }
     code += '\n';
     return code;
   }
@@ -495,6 +500,9 @@ Blockly.TypedLang['let_fun_pattern_typed'] = function(block) {
   }
 
   if (block.getIsStatement()) {
+    if (Blockly.PrintSemiSemi) {
+      code += ';;';
+    }
     code += '\n';
     return code;
   }
@@ -542,7 +550,11 @@ Blockly.TypedLang['defined_recordtype_typed'] = function(block) {
       code += ';\n';
     }
   }
-  code += '}\n';
+  if (Blockly.PrintSemiSemi) {
+    code += '};;\n';
+  } else {
+    code += '}\n';
+  }
   return code;
 };
 
@@ -595,6 +607,9 @@ Blockly.TypedLang['defined_datatype_typed'] = function(block) {
     if (typeCtor) {
       code += ' of ' + typeCtor;
     }
+  }
+  if (Blockly.PrintSemiSemi) {
+    code += ';;';
   }
   code += '\n';
   return code;
