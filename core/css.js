@@ -321,7 +321,7 @@ Blockly.Css.CONTENT = [
   '.blocklyText {',
     'cursor: default;',
     'fill: #fff;',
-    'font-family: sans-serif;',
+    'font-family: monaco;',
     'font-size: 11pt;',
   '}',
 
@@ -653,7 +653,7 @@ Blockly.Css.CONTENT = [
 
   /* Category tree in Toolbox. */
   '.blocklyToolboxDiv, .blocklyDiagnosisDialog {',
-    'background-color: #ddd;',
+    'background-color: #ececec;',
     'overflow-x: visible;',
     'overflow-y: auto;',
     'position: absolute;',
@@ -674,11 +674,12 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.blocklyTreeRow {',
-    'height: 22px;',
-    'line-height: 22px;',
+    'height: 40px;',
+    'line-height: 39px;',
     'margin-bottom: 3px;',
     'padding-right: 8px;',
     'white-space: nowrap;',
+    'cursor: pointer;',
   '}',
 
   '.blocklyHorizontalTree {',
@@ -751,7 +752,7 @@ Blockly.Css.CONTENT = [
 
   '.blocklyTreeLabel {',
     'cursor: default;',
-    'font-family: sans-serif;',
+    'font-family: monaco;',
     'font-size: 16px;',
     'padding: 0 3px;',
     'vertical-align: middle;',
@@ -830,7 +831,7 @@ Blockly.Css.CONTENT = [
    * @author attila@google.com (Attila Bodis)
    */
 
-  '.goog-menu {',  
+  '.goog-menu {',
     'background: #fff;',
     'border-color: #ccc #666 #666 #ccc;',
     'border-style: solid;',

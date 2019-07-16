@@ -18,6 +18,9 @@ Typed.SCRIPTS_FOR_DEV = [
   "../../msg/js/ja.js",
   "../../block_of_ocaml/converter.js",
   "../../block_of_ocaml/utils.js",
+  "../codemirror/lib/codemirror.js",
+  "../codemirror/mode/mllike/mllike.js",
+  "../codemirror/addon/runmode/runmode.js",
   "eval.js",
 ];
 
@@ -68,11 +71,20 @@ Typed.defaultCode =
   "let initial_world = {a = (50, 50)}\n" +
   "\n";
 
+Typed.codeEditor = null;
+
 Typed.init = function() {
   Typed.setDocumentTitle_();
 
   var input = document.querySelector(".ocamlCode");
   input.value = Typed.defaultCode;
+
+  Typed.codeEditor = CodeMirror.fromTextArea(document.getElementById("OCamlCode"), {
+      mode: 'text/x-ocaml',
+      theme: "gruvbox-dark",
+      lineNumbers: true,
+      matchBrackets: true
+  });
 
   var onresize = function(e) {
     var container = document.getElementById('workspaceArea');
