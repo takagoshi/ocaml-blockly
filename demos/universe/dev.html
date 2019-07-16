@@ -7,6 +7,9 @@
       Those files are different depending on whether the DEVMODE is
       enabled. You can change the DEVMODE in typed.js. -->
   <script type="text/javascript" src="typed.js"></script>
+  <!--  CodeMirror  -->
+  <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="../codemirror/theme/gruvbox-dark.css">
 </head>
 <body>
   <div id="workspaceArea">
@@ -20,7 +23,7 @@
         <form onsubmit="Typed.onClickConvert(event)">
           <div>
             <h2 class="contentTitle">OCaml => block</h2>
-            <textarea class="ocamlCode" type="text" rows="10" cols="40"></textarea>
+            <textarea id="OCamlCode" class="ocamlCode" type="text" rows="10" cols="40"></textarea>
           </div>
           <input class="btn" type="submit" value="Convert to block"></input>
         </form>
@@ -84,6 +87,8 @@
       <block type="defined_recordtype_typed"></block>
     </category>
     <category name="リスト" colour="%{BKY_LISTS_HUE}">
+      <block type="andmap_typed"></block>
+      <block type="ormap_typed"></block>
       <block type="list_empty_typed"></block>
       <block type="list_cons_typed"></block>
       <block type="lists_create_with_typed"></block>
@@ -100,25 +105,23 @@
       <block type="pair_first_typed"></block>
       <block type="pair_second_typed"></block>
       <block type="defined_datatype_typed"></block>
-      <block type="andmap_typed"></block>
-      <block type="ormap_typed"></block>
       <block type="random_int_typed"></block>
       <block type="random_float_typed"></block>
     </category>
-    <category name="Universe(画像)" colour="%{BKY_IMAGE_HUE}">
+    <category name="画像" colour="%{BKY_IMAGE_HUE}">
+      <block type="rectangle_typed"></block>
+      <block type="circle_typed"></block>
+      <block type="read_image_typed"></block>
       <block type="text_typed"></block>
       <block type="line_typed"></block>
-      <block type="circle_typed"></block>
-      <block type="rectangle_typed"></block>
       <block type="polygon_typed"></block>
-      <block type="read_image_typed"></block>
     </category>
-    <category name="Universe(背景)" colour="%{BKY_SCENE_HUE}">
+    <category name="背景" colour="%{BKY_SCENE_HUE}">
       <block type="empty_scene_typed"></block>
       <block type="place_image_typed"></block>
       <block type="place_images_typed"></block>
     </category>
-    <category name="Universe(色)" colour="%{BKY_COLOR_HUE}">
+    <category name="色" colour="%{BKY_COLOR_HUE}">
       <block type="color_typed"></block>
       <block type="make_color_typed"></block>
       <block type="make_color2_typed"></block>
