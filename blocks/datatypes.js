@@ -815,6 +815,32 @@ Blockly.Blocks['alist_type_constructor_typed'] = {
   }
 };
 
+Blockly.Blocks['aoption_type_constructor_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+    this.appendValueInput('ITEM')
+        .setTypeExpr(new Blockly.TypeExpr.TYPE_CONSTRUCTOR());
+    this.appendDummyInput()
+        .appendField(' option');
+    this.setOutput(true);
+    this.setInputsInline(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  getTypeCtor: function() {
+    var itemBlock = this.getInputTargetBlock('ITEM');
+    var item = itemBlock ?
+        itemBlock.getTypeCtor() : new Blockly.TypeExpr.UNKNOWN();
+    return new Blockly.TypeExpr.OPTION(item);
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function() {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
 Blockly.Blocks['color_type_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['TYPES_HUE']);

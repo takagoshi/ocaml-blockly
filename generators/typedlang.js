@@ -56,6 +56,7 @@ Blockly.TypedLang.addReservedWords(
  */
 Blockly.TypedLang.ORDER_ATOMIC = 0;           // 0 "" ...
 Blockly.TypedLang.ORDER_FUNCTION_CALL = 2;    // f x
+Blockly.TypedLang.ORDER_CONSTANT_CONSTRUCTOR = 3; // C x
 Blockly.TypedLang.ORDER_POWER = 4;            // ** (INFIXOP4)
 Blockly.TypedLang.ORDER_MULTIPLICATION = 5.1; // * (INFIXOP3)
 Blockly.TypedLang.ORDER_DIVISION = 5.2;       // / (INFIXOP3)

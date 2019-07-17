@@ -50,6 +50,12 @@ Blockly.TypeExpr.LIST_ = 115;
  * @type {number}
  * @private
  */
+Blockly.TypeExpr.OPTION_ = 118;
+
+/**
+ * @type {number}
+ * @private
+ */
 Blockly.TypeExpr.TUPLE_ = 121;
 
 /**
@@ -135,6 +141,8 @@ Blockly.TypeExpr.prototype.getTypeName = function() {
       return 'string';
     case Blockly.TypeExpr.LIST_:
       return 'list';
+    case Blockly.TypeExpr.OPTION_:
+      return 'option';
     case Blockly.TypeExpr.TUPLE_:
       return 'tuple';
     case Blockly.TypeExpr.FUN_:
@@ -189,6 +197,9 @@ Blockly.TypeExpr.prototype.isPrimitive = function() {
 Blockly.TypeExpr.prototype.isList = function() {
   return this.label == Blockly.TypeExpr.LIST_;
 };
+Blockly.TypeExpr.prototype.isOption = function() {
+  return this.label == Blockly.TypeExpr.OPTION_;
+}
 Blockly.TypeExpr.prototype.isTuple = function() {
   return this.label == Blockly.TypeExpr.TUPLE_;
 };
@@ -479,6 +490,76 @@ Blockly.TypeExpr.LIST.prototype.clone = function() {
  */
 Blockly.TypeExpr.LIST.prototype.deepDeref = function() {
   return new Blockly.TypeExpr.LIST(this.element_type.deepDeref());
+};
+
+/**
+ * @extends {Blockly.TypeExpr}
+ * @constructor
+ * @param {Blockly.TypeExpr} element_type
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.OPTION = function(element_type) {
+  /** @type {Blockly.TypeExpr} */
+  this.element_type = element_type;
+  Blockly.TypeExpr.call(this, Blockly.TypeExpr.OPTION_);
+};
+goog.inherits(Blockly.TypeExpr.OPTION, Blockly.TypeExpr);
+
+/**
+ * @override
+ * @param {boolean=} opt_deref
+ * @return {string}
+ */
+Blockly.TypeExpr.OPTION.prototype.toString = function(opt_deref) {
+  return "OPTION[" + this.element_type.toString(opt_deref) + "]";
+};
+
+/**
+ * Gets the display text for type expression.
+ * @return {string}
+ * @private
+ */
+Blockly.TypeExpr.OPTION.prototype.getDisplayText = function() {
+  return this.element_type.getDisplayText() + " option";
+};
+
+/**
+ * @override
+ * @return {Array<Type>}
+ */
+Blockly.TypeExpr.OPTION.prototype.getChildren = function() {
+  return [this.element_type];
+};
+
+/**
+ * Replace one of children type which this type directly has with another
+ * type.
+ * @param {!Blockly.Block} oldChild The child type to be replaced.
+ * @param {!Blockly.Block} newChild The child type to be inserted instead of 
+ *      oldChild.
+ */
+Blockly.TypeExpr.OPTION.prototype.replaceChild = function(oldChild, newChild) {
+  goog.asserts.assert(this.element_type == oldChild,
+    'The specified child is not found.');
+  this.element_type = newChild;
+};
+
+/**
+ * Deeply clone the object
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.OPTION.prototype.clone = function() {
+  return new Blockly.TypeExpr.OPTION(this.element_type.clone());
+};
+
+/**
+ * Returns the object which is dereferenced recursively.
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.OPTION.prototype.deepDeref = function() {
+  return new Blockly.TypeExpr.OPTION(this.element_type.deepDeref());
 };
 
 /**

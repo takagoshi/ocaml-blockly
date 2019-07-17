@@ -323,6 +323,17 @@ Blockly.TypedLang['string_of_float_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['option_none_typed'] = function(block) {
+  return ['None', Blockly.TypedLang.ORDER_ATOMIC];
+};
+
+Blockly.TypedLang['option_some_typed'] = function(block) {
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+      Blockly.TypedLang.ORDER_CONSTANT_CONSTRUCTOR) || '?';
+  var code = 'Some ' + param;
+  return [code, Blockly.TypedLang.ORDER_CONSTANT_CONSTRUCTOR];
+};
+
 Blockly.TypedLang['lists_create_with_typed'] = function(block) {
   // Create a list with any number of elements of any type.
   var elements = new Array(block.itemCount_);
@@ -759,6 +770,12 @@ Blockly.TypedLang['alist_type_constructor_typed'] = function(block) {
   var param = Blockly.TypedLang.valueToCode(block, 'ITEM',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   return [param + ' list', Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
+Blockly.TypedLang['aoption_type_constructor_typed'] = function(block) {
+  var param = Blockly.TypedLang.valueToCode(block, 'ITEM',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  return [param + ' option', Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
 Blockly.TypedLang['variable_pattern_typed'] = function(block) {

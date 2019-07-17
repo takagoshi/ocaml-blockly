@@ -1084,6 +1084,45 @@ Blockly.Blocks['bool_of_string_typed'] = {
   }
 };
 
+Blockly.Blocks['option_none_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['OPTION_HUE']);
+    var element_type = Blockly.TypeExpr.generateTypeVar();
+    var optionType = new Blockly.TypeExpr.OPTION(element_type);
+    this.appendDummyInput()
+        .appendField('None');
+    this.setOutput(true);
+    this.setOutputTypeExpr(optionType);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.OPTION_NONE_TOOLTIP);
+  }
+};
+
+Blockly.Blocks['option_some_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['OPTION_HUE']);
+    var element_type = Blockly.TypeExpr.generateTypeVar();
+    var optionType = new Blockly.TypeExpr.OPTION(element_type);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(element_type)
+        .appendField('Some');
+    this.setOutput(true);
+    this.setOutputTypeExpr(optionType);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.OPTION_SOME_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var expectedElementType = expected.element_type;
+    var elementType = this.callInfer('PARAM', ctx);
+    if (elementType) {
+      expectedElementType.unify(elementType);
+    }
+    return expected;
+  }
+}
+
 Blockly.Blocks['lists_create_with_typed'] = {
   /**
    * Block for creating a list with any number of elements of any type.
