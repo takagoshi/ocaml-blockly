@@ -304,7 +304,7 @@ Typed.clearToplevel = function() {
 Typed.onClickConvert = function(event) {
   event.preventDefault();
   var input = document.querySelector(".ocamlCode");
-  var code = input.value;
+  var code = codeEditor.getValue();
   if (code) {
     BlockOfOCamlUtils.codeToBlock(code);
   }
