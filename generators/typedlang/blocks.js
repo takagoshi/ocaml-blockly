@@ -794,6 +794,16 @@ Blockly.TypedLang['cons_construct_pattern_typed'] = function(block) {
   return [first + ' :: ' + cons, order];
 };
 
+Blockly.TypedLang['option_none_pattern_typed'] = function(block) {
+  return ['None', Blockly.TypedLang.ORDER_ATOMIC];
+};
+
+Blockly.TypedLang['option_some_pattern_typed'] = function(block) {
+  var order = Blockly.TypedLang.ORDER_CONSTANT_CONSTRUCTOR;
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM', order) || '?';
+  return ['Some ' + param, order];
+};
+
 Blockly.TypedLang['pair_pattern_typed'] = function(block) {
   var order = Blockly.TypedLang.ORDER_ATOMIC;
   var left = Blockly.TypedLang.valueToCode(block, 'LEFT', order) || '?';
