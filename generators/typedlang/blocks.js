@@ -401,7 +401,7 @@ Blockly.TypedLang['list_filter_typed'] = function(block) {
 Blockly.TypedLang['list_length_typed'] = function(block) {
   var alist = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-  var code = "List.length" + alist;
+  var code = "List.length" + ' ' + alist;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
