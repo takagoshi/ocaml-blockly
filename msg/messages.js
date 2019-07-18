@@ -90,6 +90,8 @@ Blockly.Msg.COLOR_HUE = '#c6af92';
 Blockly.Msg.IMAGE_HUE = '#832561';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.
 Blockly.Msg.SCENE_HUE = '#9d0006';
+/// {{Notranslate}} Hue value for all option blocks.
+Blockly.Msg.OPTION_HUE = '#ffbd4f';
 
 /// default name - A simple, general default name for a variable, preferably short.
 /// For more context, see
@@ -869,6 +871,9 @@ Blockly.Msg.TEXT_REVERSE_MESSAGE0 = 'reverse %1';
 Blockly.Msg.TEXT_REVERSE_HELPURL = 'https://github.com/google/blockly/wiki/Text#reversing-text';
 /// tooltip - See [https://github.com/google/blockly/wiki/Text].
 Blockly.Msg.TEXT_REVERSE_TOOLTIP = 'Reverses the order of the characters in the text.';
+
+Blockly.Msg.OPTION_NONE_TOOLTIP = 'constructor that represents no value.'
+Blockly.Msg.OPTION_SOME_TOOLTIP = 'constructor that represents that there is a value.'
 
 // Lists Blocks.
 /// {{Optional}} url - Information on empty lists.

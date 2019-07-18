@@ -815,6 +815,32 @@ Blockly.Blocks['alist_type_constructor_typed'] = {
   }
 };
 
+Blockly.Blocks['aoption_type_constructor_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+    this.appendValueInput('ITEM')
+        .setTypeExpr(new Blockly.TypeExpr.TYPE_CONSTRUCTOR());
+    this.appendDummyInput()
+        .appendField(' option');
+    this.setOutput(true);
+    this.setInputsInline(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  getTypeCtor: function() {
+    var itemBlock = this.getInputTargetBlock('ITEM');
+    var item = itemBlock ?
+        itemBlock.getTypeCtor() : new Blockly.TypeExpr.UNKNOWN();
+    return new Blockly.TypeExpr.OPTION(item);
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function() {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
 Blockly.Blocks['color_type_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['TYPES_HUE']);
@@ -1028,6 +1054,84 @@ Blockly.Blocks['cons_construct_pattern_typed'] = {
     var arg2 = this.callInfer('CONS', ctx);
     if (arg2) {
       arg2.unify(expected2);
+    }
+    return expected;
+  }
+};
+
+Blockly.Blocks['option_none_pattern_typed'] = {
+  init: function() {
+    var elementType = Blockly.TypeExpr.generateTypeVar();
+    var optionType = new Blockly.TypeExpr.OPTION(elementType);
+    this.setColour(Blockly.Msg['PATTERN_HUE']);
+    this.appendDummyInput()
+        .appendField('None');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(optionType));
+    this.setInputsInline(true);
+  },
+
+  transformToValue: function(workspace) {
+    var valueBlock = workspace.newBlock('option_none_pattern_typed');
+    valueBlock.initSvg();
+    valueBlock.render();
+    return valueBlock;
+  }
+};
+
+Blockly.Blocks['option_some_pattern_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['PATTERN_HUE']);
+    var elementType = Blockly.TypeExpr.generateTypeVar();
+    var optionType = new Blockly.TypeExpr.OPTION(elementType);
+    this.appendValueInput('PARAM')
+        .setTypeExpr(new Blockly.TypeExpr.PATTERN(elementType))
+        .appendField('Some');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(optionType));
+    this.setInputsInline(true);
+  },
+
+  transformToValue: function(workspace) {
+    var valueBlock = workspace.newBlock('option_some_pattern_typed');
+    var param = this.getInput('PARAM').connection.targetConnection;
+    if (param) {
+      var newParam = param.getSourceBlock().transformToValue(workspace);
+      var connection = valueBlock.getInput('PARAM').connection;
+      connection.connect(newParam.outputConnection);
+    }
+    valueBlock.initSvg();
+    valueBlock.render();
+    return valueBlock;
+  },
+
+  updateUpperContext: function(ctx) {
+    var param = this.getInput('PARAM').connection.targetConnection;
+    if (param) {
+      param.getSourceBlock().updateUpperContext(ctx);
+    }
+  },
+
+  updateUpperTypeContext: function(ctx) {
+    var param = this.getInput('PARAM').connection.targetConnection;
+    if (param) {
+      param.getSourceBlock().updateUpperTypeContext(ctx);
+    }
+  },
+
+  removePatternReference: function() {
+    var param = this.getInput('PARAM').connection.targetConnection;
+    if (param) {
+      param.getSourceBlock().removePatternReference();
+    }
+  },
+
+  infer: function(ctx) {
+    var expected = this.outputConnection.typeExpr;
+    var expectedParam = this.getInput('PARAM').connection.typeExpr;
+    var param1 = this.callInfer('PARAM', ctx);
+    if (param1) {
+      param1.unify(expectedParam);
     }
     return expected;
   }

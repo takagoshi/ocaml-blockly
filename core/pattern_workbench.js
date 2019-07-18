@@ -203,6 +203,13 @@ Blockly.PatternWorkbench.prototype.getContentsMap_ = function() {
   var v2 = Blockly.PatternWorkbench.createValueDom('CONS', b2);
   var xml2 = Blockly.PatternWorkbench.createConsDom([v1, v2]);
   contentsMap['list'] = [xml1, xml2];
+  // option
+  var xml1 = Blockly.PatternWorkbench.createNoneDom();
+  var n = this.generateUniqueVariableFrom('s', ws);
+  var b = Blockly.PatternWorkbench.createVariableDom(n, 'true');
+  var v1 = Blockly.PatternWorkbench.createValueDom('PARAM', b);
+  var xml2 = Blockly.PatternWorkbench.createSomeDom(v1);
+  contentsMap['option'] = [xml1, xml2];
   // variable
   var n = this.generateUniqueVariableFrom('v', ws);
   var xml = Blockly.PatternWorkbench.createVariableDom(n, 'true');
@@ -304,5 +311,23 @@ Blockly.PatternWorkbench.createEmptyListDom = function() {
 Blockly.PatternWorkbench.createConsDom = function(children) {
   var xml = goog.dom.createDom('block',
       {'type': 'cons_construct_pattern_typed'}, children);
+  return xml;
+};
+
+/**
+ * create Dom for None
+ */
+Blockly.PatternWorkbench.createNoneDom = function() {
+  var xml = goog.dom.createDom('block',
+      {'type': 'option_none_pattern_typed'});
+  return xml;
+};
+
+/**
+ * create Dom for Some
+ */
+Blockly.PatternWorkbench.createSomeDom = function(child) {
+  var xml = goog.dom.createDom('block',
+      {'type': 'option_some_pattern_typed'}, child);
   return xml;
 };

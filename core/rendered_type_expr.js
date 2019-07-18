@@ -126,6 +126,26 @@ Blockly.RenderedTypeExpr.shape['list'] = {
   }
 };
 
+Blockly.RenderedTypeExpr.shape['option'] = {
+  down: function(steps) {
+    Blockly.RenderedTypeExpr.renderTypeExpr(this.element_type, steps, 1);
+    steps.push('l 0,3 -8,0 0,4, 8,0 0,3');
+  },
+
+  up: function(steps) {
+    steps.push('l 0,-3 -8,0 0,-4, 8,0 0,-3');
+    Blockly.RenderedTypeExpr.renderTypeExpr(this.element_type, steps, 2);
+  },
+
+  height: function() {
+    return Blockly.RenderedTypeExpr.getTypeExprHeight(this.element_type) + 10;
+  },
+
+  offsetsY: function() {
+    return [0];
+  }
+};
+
 Blockly.RenderedTypeExpr.shape['tuple'] = {
   down: function(steps) {
     steps.push('l 0,3 -12,0 0,3 12,0');
