@@ -429,6 +429,17 @@ Blockly.TypedLang['list_map_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['list_map2_typed'] = function(block) {
+  var fun = Blockly.TypedLang.valueToCode(block, 'PARAM0',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var alist = Blockly.TypedLang.valueToCode(block, 'PARAM1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var blist = Blockly.TypedLang.valueToCode(block, 'PARAM2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = "List.map2" + fun + ' ' + alist + ' ' + blist;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['list_partition_typed'] = function(block) {
   var param0 = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
