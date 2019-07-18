@@ -1277,6 +1277,34 @@ Blockly.Blocks['list_map_typed'] = {
   }
 };
 
+Blockly.Blocks['list_length_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['LISTS_HUE']);
+    // List.length : 'a list -> int
+    var A = Blockly.TypeExpr.generateTypeVar();
+    var listType = new Blockly.TypeExpr.LIST(A);
+    this.appendValueInput('PARAM0')
+	.setTypeExpr(listType)
+          .appendField('List.length');
+      this.setInputsInline(true);
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_LENGTH_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var listType = this.callInfer('PARAM0', ctx);
+    var expected = this.outputConnection.typeExpr;
+    var expected_arg_lst = this.getInput('PARAM0').connection.typeExpr;
+
+    if (listType) {
+      expected_arg_lst.unify(listType);
+    }
+    return expected;
+  }
+};
+
 Blockly.Blocks['list_filter_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['LISTS_HUE']);
