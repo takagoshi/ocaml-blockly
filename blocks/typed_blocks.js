@@ -1353,6 +1353,53 @@ Blockly.Blocks['list_map_typed'] = {
   }
 };
 
+Blockly.Blocks['list_map2_typed'] = {
+  init: function() {
+    this.setColour(Blockly.Msg['LISTS_HUE']);
+    // List.map2 : ('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list
+    var A = Blockly.TypeExpr.generateTypeVar();
+    var B = Blockly.TypeExpr.generateTypeVar();
+    var C = Blockly.TypeExpr.generateTypeVar();
+    var A_listType = new Blockly.TypeExpr.LIST(A);
+    var B_listType = new Blockly.TypeExpr.LIST(B);
+    var C_listType = new Blockly.TypeExpr.LIST(C);
+    var funcType1 = new Blockly.TypeExpr.FUN(B,C);
+    var funcType2 = new Blockly.TypeExpr.FUN(A, funcType1);
+    this.appendValueInput('PARAM0')
+        .setTypeExpr(funcType2)
+        .appendField('List.map2');
+    this.appendValueInput('PARAM1')
+        .setTypeExpr(A_listType);
+    this.appendValueInput('PARAM2')
+        .setTypeExpr(B_listType);
+    this.setOutput(true);
+    this.setOutputTypeExpr(C_listType);
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.LISTS_MAP2_TOOLTIP);
+  },
+
+  infer: function(ctx) {
+    var a_listType = this.callInfer('PARAM1', ctx);
+    var b_listType = this.callInfer('PARAM2', ctx);
+    var fun_type = this.callInfer('PARAM0', ctx);
+    var expected = this.outputConnection.typeExpr;
+    var expected_arg_fun = this.getInput('PARAM0').connection.typeExpr;
+    var expected_a_lst = this.getInput('PARAM1').connection.typeExpr;
+    var expected_b_lst = this.getInput('PARAM2').connection.typeExpr;
+
+    if (fun_type) {
+      expected_arg_fun.unify(fun_type);
+    }
+    if (a_listType) {
+      expected_a_lst.unify(a_listType);
+    }
+    if (b_listType) {
+      expected_b_lst.unify(b_listType);
+    }
+    return expected;
+  }
+};
+
 Blockly.Blocks['list_filter_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['LISTS_HUE']);
