@@ -176,7 +176,6 @@ Typed.onClickConvert = function(event) {
   var check1 = document.querySelector(".checkbox1").checked;
   var check2 = document.querySelector(".checkbox2").checked;
   var check3 = document.querySelector(".checkbox3").checked;
-  var check7 = document.querySelector(".checkbox7").checked;
   var code = '';
   if (check1) {
     code += 'type ekimei_t = {\n' +
@@ -204,13 +203,6 @@ Typed.onClickConvert = function(event) {
             '  saitan_kyori : float;                  (* 最短距離 *)\n' +
             '  temae_list   : (string * string) list; (* 手前リスト *)\n' +
             '}\n'
-  }
-  if (check7) {
-    code += '(* 目的：lst の長さを返す *)\n' +
-            '(* length : \'a list -> int *)\n' +
-            'let rec length lst = match lst with\n' +
-            '    [] -> 0\n' +
-            '  | first :: rest -> 1 + length rest\n'
   }
   code += input.value;
   if (code) {
