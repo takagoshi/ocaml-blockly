@@ -255,7 +255,7 @@ Blockly.TypedLang['int_abs_typed'] = function(block) {
 };
 
 Blockly.TypedLang['int_of_float_typed'] = function(block) {
-  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = 'int_of_float ' + param;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
@@ -303,7 +303,7 @@ Blockly.TypedLang['float_sqrt_typed'] = function(block) {
 };
 
 Blockly.TypedLang['float_of_int_typed'] = function(block) {
-  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = 'float_of_int ' + param;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
@@ -325,21 +325,21 @@ Blockly.TypedLang['concat_string_typed'] = function(block) {
 };
 
 Blockly.TypedLang['string_of_int_typed'] = function(block) {
-  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = 'string_of_int ' + param;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
 Blockly.TypedLang['string_of_float_typed'] = function(block) {
-  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = 'string_of_float ' + param;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
 Blockly.TypedLang['string_of_bool_typed'] = function(block) {
-  var param = Blockly.TypedLang.valueToCode(block, 'PARAM',
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
   var code = 'string_of_bool ' + param;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
