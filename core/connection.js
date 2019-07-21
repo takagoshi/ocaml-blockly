@@ -947,10 +947,10 @@ Blockly.Connection.prototype.toString = function() {
  * Calls the updateUpperContext function if it exists in the source block.
  * @param {!Blockly.Block.VariableContext} ctx The variable context.
  */
-Blockly.Block.prototype.callUpdateUpperContext = function(ctx) {
-  var block = con.getSourceBlock();
+Blockly.Connection.prototype.callUpdateUpperContext = function(ctx) {
+  var block = this.getSourceBlock();
   if (goog.isFunction(block.updateUpperContext)) {
-    block.updateUpperContext();
+    block.updateUpperContext(ctx);
   }
 };
 
@@ -958,18 +958,18 @@ Blockly.Block.prototype.callUpdateUpperContext = function(ctx) {
  * Calls the updateUpperTypeContext function if it exists in the source block.
  * @param {!Blockly.Block.VariableContext} ctx The variable context.
  */
-Blockly.Block.prototype.callUpdateUpperTypeContext = function(ctx) {
-  var block = con.getSourceBlock();
+Blockly.Connection.prototype.callUpdateUpperTypeContext = function(ctx) {
+  var block = this.getSourceBlock();
   if (goog.isFunction(block.updateUpperTypeContext)) {
-    block.updateUpperTypeContext();
+    block.updateUpperTypeContext(ctx);
   }
 };
 
 /**
  * Calls the removePatternReference function if it exists in the source block.
  */
-Blockly.Block.prototype.callRemovePatternReference = function() {
-  var block = con.getSourceBlock();
+Blockly.Connection.prototype.callRemovePatternReference = function() {
+  var block = this.getSourceBlock();
   if (goog.isFunction(block.removePatternReference)) {
     block.removePatternReference();
   }
