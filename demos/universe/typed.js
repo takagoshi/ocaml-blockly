@@ -63,12 +63,11 @@ Typed.workspace = null;
 Typed.defaultCode =
   "let width = 100\n" +
   "let height = 200\n" +
-  "let background = ?\n" +
   "type world_t = {\n" +
-  "  a : int * int;\n" +
+  "  zahyo1 : int * int;\n" +
   "}\n" +
   "\n" +
-  "let initial_world = {a = (50, 50)}\n" +
+  "let initial_world = {zahyo1 = (50, 50)}\n" +
   "\n";
 
 Typed.codeEditor = null;
@@ -77,14 +76,15 @@ Typed.init = function() {
   Typed.setDocumentTitle_();
 
   var input = document.querySelector(".ocamlCode");
-  input.value = Typed.defaultCode;
-
-  Typed.codeEditor = CodeMirror.fromTextArea(document.getElementById("OCamlCode"), {
+  if (input) {
+    input.value = Typed.defaultCode;
+    Typed.codeEditor = CodeMirror.fromTextArea(input, {
       mode: 'text/x-ocaml',
       theme: "gruvbox-dark",
       lineNumbers: true,
       matchBrackets: true
-  });
+    });
+  }
 
   var onresize = function(e) {
     var container = document.getElementById('workspaceArea');
@@ -303,6 +303,7 @@ Typed.runGame = function() {
 }
 
 Typed.clearToplevel = function() {
+  Typed.clearCanvas();
   const element = document.getElementById('toplevel');
   element.innerHTML = '';
 }

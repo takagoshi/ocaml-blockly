@@ -73,7 +73,7 @@ textarea.ocamlCode, textarea.generatedCode {
   cursor: pointer;
   background-color: #d3d3d3;
   outline: none;
-  width: 150px;
+  width: 120px;
 }
 
 .btn[class~="--square"] {
