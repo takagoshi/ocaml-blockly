@@ -973,12 +973,6 @@ Blockly.Blocks['empty_construct_pattern_typed'] = {
     valueBlock.initSvg();
     valueBlock.render();
     return valueBlock;
-  },
-
-  updateUpperContext: function(ctx) {
-  },
-
-  removePatternReference: function() {
   }
 };
 
@@ -1019,33 +1013,33 @@ Blockly.Blocks['cons_construct_pattern_typed'] = {
   updateUpperContext: function(ctx) {
     var first = this.getInput('FIRST').connection.targetConnection;
     if (first) {
-      first.getSourceBlock().updateUpperContext(ctx);
+      first.callUpdateUpperContext(ctx);
     }
     var cons = this.getInput('CONS').connection.targetConnection;
     if (cons) {
-      cons.getSourceBlock().updateUpperContext(ctx);
+      cons.callUpdateUpperContext(ctx);
     }
   },
 
   updateUpperTypeContext: function(ctx) {
     var first = this.getInput('FIRST').connection.targetConnection;
     if (first) {
-      first.getSourceBlock().updateUpperTypeContext(ctx);
+      first.callUpdateUpperTypeContext(ctx);
     }
     var cons = this.getInput('CONS').connection.targetConnection;
     if (cons) {
-      cons.getSourceBlock().updateUpperTypeContext(ctx);
+      cons.callUpdateUpperTypeContext(ctx);
     }
   },
 
   removePatternReference: function() {
     var first = this.getInput('FIRST').connection.targetConnection;
     if (first) {
-      first.getSourceBlock().removePatternReference();
+      first.callRemovePatternReference();
     }
     var cons = this.getInput('CONS').connection.targetConnection;
     if (cons) {
-      cons.getSourceBlock().removePatternReference();
+      cons.callRemovePatternReference();
     }
   },
 
@@ -1082,12 +1076,6 @@ Blockly.Blocks['option_none_pattern_typed'] = {
     valueBlock.initSvg();
     valueBlock.render();
     return valueBlock;
-  },
-
-  updateUpperContext: function(ctx) {
-  },
-
-  removePatternReference: function() {
   }
 };
 
@@ -1120,21 +1108,21 @@ Blockly.Blocks['option_some_pattern_typed'] = {
   updateUpperContext: function(ctx) {
     var param = this.getInput('PARAM').connection.targetConnection;
     if (param) {
-      param.getSourceBlock().updateUpperContext(ctx);
+      param.callUpdateUpperContext(ctx);
     }
   },
 
   updateUpperTypeContext: function(ctx) {
     var param = this.getInput('PARAM').connection.targetConnection;
     if (param) {
-      param.getSourceBlock().updateUpperTypeContext(ctx);
+      param.callUpdateUpperTypeContext(ctx);
     }
   },
 
   removePatternReference: function() {
     var param = this.getInput('PARAM').connection.targetConnection;
     if (param) {
-      param.getSourceBlock().removePatternReference();
+      param.callRemovePatternReference();
     }
   },
 
@@ -1192,33 +1180,33 @@ Blockly.Blocks['pair_pattern_typed'] = {
   updateUpperContext: function(ctx) {
     var left = this.getInput('LEFT').connection.targetConnection;
     if (left) {
-      left.getSourceBlock().updateUpperContext(ctx);
+      left.callUpdateUpperContext(ctx);
     }
     var right = this.getInput('RIGHT').connection.targetConnection;
     if (right) {
-      right.getSourceBlock().updateUpperContext(ctx);
+      right.callUpdateUpperContext(ctx);
     }
   },
 
   updateUpperTypeContext: function(ctx) {
     var left = this.getInput('LEFT').connection.targetConnection;
     if (left) {
-      left.getSourceBlock().updateUpperTypeContext(ctx);
+      left.callUpdateUpperTypeContext(ctx);
     }
     var right = this.getInput('RIGHT').connection.targetConnection;
     if (right) {
-      right.getSourceBlock().updateUpperTypeContext(ctx);
+      right.callUpdateUpperTypeContext(ctx);
     }
   },
 
   removePatternReference: function() {
     var left = this.getInput('LEFT').connection.targetConnection;
     if (left) {
-      left.getSourceBlock().removePatternReference();
+      left.callRemovePatternReference();
     }
     var right = this.getInput('RIGHT').connection.targetConnection;
     if (right) {
-      right.getSourceBlock().removePatternReference();
+      right.callRemovePatternReference();
     }
   },
 
@@ -1283,7 +1271,7 @@ Blockly.Blocks['record_pattern_typed'] = {
     for (var i = 0; i < this.fieldCount_; i++) {
       var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
       if (con) {
-        con.getSourceBlock().updateUpperContext(ctx);
+        con.callUpdateUpperContext(ctx);
       }
     }
   },
@@ -1292,7 +1280,7 @@ Blockly.Blocks['record_pattern_typed'] = {
     for (var i = 0; i < this.fieldCount_; i++) {
       var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
       if (con) {
-        con.getSourceBlock().updateUpperTypeContext(ctx);
+        con.callUpdateUpperTypeContext(ctx);
       }
     }
   },
@@ -1419,7 +1407,7 @@ Blockly.Blocks['record_pattern_typed'] = {
     for (var i = 0; i < this.fieldCount_; i++) {
       var con = this.getInput('FIELD_INP' + i).connection.targetConnection;
       if (con) {
-        con.getSourceBlock().removePatternReference();
+        con.callRemovePatternReference();
       }
     }
   },

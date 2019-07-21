@@ -942,3 +942,35 @@ Blockly.Connection.prototype.toString = function() {
   }
   return msg + block.toDevString();
 };
+
+/**
+ * Calls the updateUpperContext function if it exists in the source block.
+ * @param {!Blockly.Block.VariableContext} ctx The variable context.
+ */
+Blockly.Block.prototype.callUpdateUpperContext = function(ctx) {
+  var block = con.getSourceBlock();
+  if (goog.isFunction(block.updateUpperContext)) {
+    block.updateUpperContext();
+  }
+};
+
+/**
+ * Calls the updateUpperTypeContext function if it exists in the source block.
+ * @param {!Blockly.Block.VariableContext} ctx The variable context.
+ */
+Blockly.Block.prototype.callUpdateUpperTypeContext = function(ctx) {
+  var block = con.getSourceBlock();
+  if (goog.isFunction(block.updateUpperTypeContext)) {
+    block.updateUpperTypeContext();
+  }
+};
+
+/**
+ * Calls the removePatternReference function if it exists in the source block.
+ */
+Blockly.Block.prototype.callRemovePatternReference = function() {
+  var block = con.getSourceBlock();
+  if (goog.isFunction(block.removePatternReference)) {
+    block.removePatternReference();
+  }
+};
