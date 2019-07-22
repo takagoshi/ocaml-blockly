@@ -205,8 +205,9 @@ Typed.loadCode = function() {
   // https://kuroeveryday.blogspot.com/2015/07/javascript-upload-download.html より
   const uploadFile = document.getElementById('upload-file');
   const file = uploadFile.files[0];
-  if (!file) alert('ファイルを選択してください。');
-  else if (file.name.slice(-3) !== '.ml') alert('.ml ファイルを選択してください。');
+  if (!file) {  // ファイルが選ばれていなかった場合
+    uploadFile.click();  // ファイル選択ボタンをクリックしたことにする
+  } else if (file.name.slice(-3) !== '.ml') alert('.ml ファイルを選択してください。');
   else {
     const reader = new FileReader();
     reader.readAsText(file);
