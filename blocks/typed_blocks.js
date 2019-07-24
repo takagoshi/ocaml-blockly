@@ -3291,7 +3291,9 @@ Blockly.Blocks['let_fun_pattern_typed'] = {
    * @this Blockly.Block
    */
   domToMutation: function(xmlElement) {
-    var newArgumentCount = parseInt(xmlElement.getAttribute('items')) || 1;
+    // If parseInt returns 0, it is regarded as false.  If the default
+    // value is not 0, we cannot set newArgumentCount to 0.
+    var newArgumentCount = parseInt(xmlElement.getAttribute('items')) || 0;
     this.resizePatternArgument(newArgumentCount);
   },
   /**
