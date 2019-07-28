@@ -50,7 +50,7 @@ BlockOfOCamlUtils.getErrorMessage = function(result) {
       return "Invalid Block XML";
     case BlockOfOCamlUtils.ERROR_UNDEFINED_VARIABLE:
       var names = result.undefines.join(' ');
-      return "Undefined varaible: " + names;
+      return "Undefined variable: " + names;
     case BlockOfOCamlUtils.ERROR_TYPE_INFERENCE:
       return "Type error";
     default:
