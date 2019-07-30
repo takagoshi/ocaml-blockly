@@ -38,30 +38,42 @@ Blockly.Blocks['empty_scene_typed'] = {
 Blockly.Blocks['rectangle_typed'] = {
   /* rectangle : int -> int -> Color.t -> Image.t */
   init: function() {
-    var A     = new Blockly.TypeExpr.INT();
-    var B     = new Blockly.TypeExpr.INT();
-    var color = new Blockly.TypeExpr.COLOR();
+    var IMAGES = [['rectangle','RECTANGLE'],
+                  ['rectangle_outline','RECTANGLE_OUTLINE']];
+    var A         = new Blockly.TypeExpr.INT();
+    var B         = new Blockly.TypeExpr.INT();
+    var color     = new Blockly.TypeExpr.COLOR();
     this.setColour(Blockly.Msg['IMAGE_HUE']);
-    this.appendValueInput('PARAM0')
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(IMAGES),'IMAGE');
+    this.appendValueInput('ARG1')
         .setTypeExpr(A)
-        .appendField('rectangle ');
-    this.appendValueInput('PARAM1')
+        .appendField(' ');
+    this.appendValueInput('ARG2')
         .setTypeExpr(B);
-    this.appendValueInput('PARAM2')
+    this.appendValueInput('CLR')
         .setTypeExpr(color);
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.IMAGE());
     this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg.RECTANGLE_TOOLTIP);
+    var thisBlock = this;
+    this.setTooltip(function(){
+      var images = thisBlock.getFieldValue('IMAGE');
+      var TOOLTIPS = {
+          'RECTANGLE': Blockly.Msg.RECTANGLE_TOOLTIP,
+          'RECTANGLE_OUTLINE': Blockly.Msg.RECTANGLE_OUTLINE_TOOLTIP
+      };
+      return TOOLTIPS[images];
+    });
   },
   infer: function(ctx) {
-    var arg1_typed     = this.callInfer('PARAM0', ctx);
-    var arg2_typed     = this.callInfer('PARAM1', ctx);
-    var color_typed    = this.callInfer('PARAM2', ctx);
     var expected       = this.outputConnection.typeExpr;
-    var color_expected = this.getInput('PARAM2').connection.typeExpr;
-    var arg1_expected  = this.getInput('PARAM0').connection.typeExpr;
-    var arg2_expected  = this.getInput('PARAM1').connection.typeExpr;
+    var arg1_typed     = this.callInfer('ARG1', ctx);
+    var arg2_typed     = this.callInfer('ARG2', ctx);
+    var color_typed    = this.callInfer('CLR', ctx);
+    var color_expected = this.getInput('CLR').connection.typeExpr;
+    var arg1_expected  = this.getInput('ARG1').connection.typeExpr;
+    var arg2_expected  = this.getInput('ARG2').connection.typeExpr;
     if (arg1_typed)
       arg1_typed.unify(arg1_expected);
     if (arg2_typed)
