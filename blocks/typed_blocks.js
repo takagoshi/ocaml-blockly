@@ -51,7 +51,7 @@ Blockly.Blocks['rectangle_typed'] = {
             .appendField(' ');
 	this.appendValueInput('ARG2')
             .setTypeExpr(B)
-	    .appendField(' ');
+	    //.appendField(' ');
 	this.appendValueInput('CLR')
             .setTypeExpr(color)
 	this.setOutput(true);
