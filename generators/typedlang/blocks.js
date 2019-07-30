@@ -20,11 +20,12 @@ Blockly.TypedLang['empty_scene_typed'] = function(block) {
 Blockly.TypedLang['rectangle_typed'] = function(block) {
   var arg1 = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-    var arg2 = Blockly.TypedLang.valueToCode(block, 'PARAM1',
+  var arg2 = Blockly.TypedLang.valueToCode(block, 'PARAM1',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-    var color = Blockly.TypedLang.valueToCode(block, 'PARAM2',
+  var color = Blockly.TypedLang.valueToCode(block, 'PARAM2',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-  var code = 'rectangle ' + arg1 + ' ' + arg2 + ' ' + color;
+  var code1 = block.getFieldValue('IMAGE') === 'RECTANGLE_OUTLINE' ? ' ~fill:false' : '' ;
+  var code = 'rectangle ' + arg1 + ' ' + arg2 + code1 + ' ' + color;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
