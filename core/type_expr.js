@@ -62,6 +62,12 @@ Blockly.TypeExpr.TUPLE_ = 121;
  * @type {number}
  * @private
  */
+Blockly.TypeExpr.UNIT_ = 125;
+
+/**
+ * @type {number}
+ * @private
+ */
 Blockly.TypeExpr.FUN_ = 130;
 
 /**
@@ -145,6 +151,8 @@ Blockly.TypeExpr.prototype.getTypeName = function() {
       return 'option';
     case Blockly.TypeExpr.TUPLE_:
       return 'tuple';
+    case Blockly.TypeExpr.UNIT_:
+      return 'unit';
     case Blockly.TypeExpr.FUN_:
       return 'function';
     case Blockly.TypeExpr.CONSTRUCT_:
@@ -211,6 +219,9 @@ Blockly.TypeExpr.prototype.isTriple = function() {
   return this.label == Blockly.TypeExpr.TUPLE_ &&
       this.tuples_.length == 3;
 };
+// Blockly.TypeExpr.prototype.isUnit = function() {
+//   return this.label == Blockly.TypeExpr.UNIT_;
+// };
 Blockly.TypeExpr.prototype.isFunction = function() {
   return this.label == Blockly.TypeExpr.FUN_;
 };
@@ -535,7 +546,7 @@ Blockly.TypeExpr.OPTION.prototype.getChildren = function() {
  * Replace one of children type which this type directly has with another
  * type.
  * @param {!Blockly.Block} oldChild The child type to be replaced.
- * @param {!Blockly.Block} newChild The child type to be inserted instead of 
+ * @param {!Blockly.Block} newChild The child type to be inserted instead of
  *      oldChild.
  */
 Blockly.TypeExpr.OPTION.prototype.replaceChild = function(oldChild, newChild) {
@@ -678,6 +689,43 @@ Blockly.TypeExpr.TUPLE.prototype.secondType = function() {
 };
 Blockly.TypeExpr.TUPLE.prototype.thirdType = function() {
   return this.tuples_[2];
+};
+
+/**
+ * @extends {Blockly.TypeExpr}
+ * @constructor
+ * @param {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.UNIT = function() {
+ Blockly.TypeExpr.call(this, Blockly.TypeExpr.UNIT_);
+};
+goog.inherits(Blockly.TypeExpr.UNIT, Blockly.TypeExpr);
+
+/**
+ * @override
+ * @param {boolean=} opt_deref
+ * @return {string}
+ */
+Blockly.TypeExpr.UNIT.prototype.toString = function(opt_deref) {
+  return "UNIT";
+};
+
+/**
+ * Gets the display text for type expression.
+ * @return {string}
+ * @private
+ */
+Blockly.TypeExpr.UNIT.prototype.getDisplayText = function() {
+  return "unit"
+};
+
+/**
+ * Deeply clone the object
+ * @override
+ * @return {Blockly.TypeExpr}
+ */
+Blockly.TypeExpr.UNIT.prototype.clone = function() {
+  return new Blockly.TypeExpr.UNIT();
 };
 
 /**

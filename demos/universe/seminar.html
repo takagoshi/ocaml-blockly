@@ -27,8 +27,7 @@
         </div>
         <button id="switchButton" class="btn --square" onclick="Typed.switchArea()">&lt;&lt;</button>
         <button class="btn" onclick="Typed.runCode()">実行</button>
-        <button class="btn" onclick="Typed.clearToplevel()">消去</button><br>
-        <button class="btn" onclick="Typed.runGame()">Run Game</button>
+        <button class="btn" onclick="Typed.clearToplevel()">消去</button>
       </div>
       <canvas id="CanvasForUniverse"></canvas>
       <div id="toplevel"></div>
@@ -238,6 +237,7 @@
       <block type="letstatement_typed">
         <field name="VAR" isvalue="true" variable-type="variable">rate</field>
       </block>
+      <block type="big_bang_typed"></block>
     </category>
     <category name="一般の変数と関数" colour="%{BKY_VARIABLES_HUE}">
       <block type="letstatement_fun_pattern_typed"></block>
