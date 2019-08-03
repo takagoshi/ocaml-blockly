@@ -7,6 +7,768 @@
 goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
+Blockly.Blocks['big_bang_typed'] = {
+  nameCount_: 0,
+  widthCount_: 0,
+  heightCount_: 0,
+  drawCount_: 0,
+  tickCount_: 0,
+  mouseCount_: 0,
+  keypressCount_: 0,
+  keyreleaseCount_: 0,
+  rateCount_: 0,
+  stopCount_: 0,
+  drawlastCount_: 0,
+  typeA_: null,
+
+  // Create World
+  init: function() {
+    // big_bang: 'a -> unit
+    this.setColour(Blockly.Msg['DEFINE_TYPES_HUE']);
+    this.setTooltip(Blockly.Msg.BIGBANG_TOOLTIP);
+    this.typeA_ = Blockly.TypeExpr.generateTypeVar();
+
+    var WORLD = ['world_name_item', 'world_width_item', 'world_height_item',
+                 'world_draw_item', 'world_tick_item', 'world_mouse_item',
+                 'world_keypress_item', 'world_keyrelease_item', 'world_rate_item',
+                 'world_stop_item', 'world_drawlast_item'
+                ];
+
+    this.appendValueInput('INITIAL_WORLD')
+        .appendField('big_bang ')
+        .setTypeExpr(this.typeA_);
+
+    this.setOutput(false);
+    // this.setOutputTypeExpr(new Blockly.TypeExpr.UNIT());
+    // this.setPreviousStatement(true, null);
+    this.setInputsInline(false);
+
+    this.setTypedStatements(true);
+    this.setMutator(new Blockly.Mutator(WORLD));
+
+  },
+  /**
+   * Create XML to represent record field inputs.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    if (!this.nameCount_ && !this.widthCount_ && !this.heightCount_ &&!this.drawCount_ &&
+        !this.tickCount_ && !this.mouseCount_ && !this.keypressCount_  && !this.keyreleaseCount_ &&
+        !this.rateCount_ && !this.stopCount_ && !this.drawlastCount_) {
+      return null;
+    }
+    if (this.nameCount_) {
+      container.setAttribute('name', 1);
+    }
+    if (this.widthCount_) {
+      container.setAttribute('width', 1);
+    }
+    if (this.heightCount_) {
+      container.setAttribute('height', 1);
+    }
+    if (this.drawCount_) {
+      container.setAttribute('draw', 1);
+    }
+    if (this.tickCount_) {
+      container.setAttribute('tick', 1);
+    }
+    if (this.mouseCount_) {
+      container.setAttribute('mouse', 1);
+    }
+    if (this.keypressCount_) {
+      container.setAttribute('keypress', 1);
+    }
+    if (this.keyreleaseCount_) {
+      container.setAttribute('keyrelease', 1);
+    }
+    if (this.rateCount_) {
+      container.setAttribute('rate', 1);
+    }
+    if (this.stopCount_) {
+      container.setAttribute('stop', 1);
+    }
+    if (this.drawlastCount_) {
+      container.setAttribute('drawlast', 1);
+    }
+    return container;
+  },
+  /**
+   * Parse XML to restore the record field inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    this.nameCount_ = parseInt(xmlElement.getAttribute('name'), 10) || 0;
+    this.widthCount_ = parseInt(xmlElement.getAttribute('width'), 10) || 0;
+    this.heightCount_ = parseInt(xmlElement.getAttribute('height'), 10) || 0;
+    this.drawCount_ = parseInt(xmlElement.getAttribute('draw'), 10) || 0;
+    this.tickCount_ = parseInt(xmlElement.getAttribute('tick'), 10) || 0;
+    this.mouseCount_ = parseInt(xmlElement.getAttribute('mouse'), 10) || 0;
+    this.keypressCount_ = parseInt(xmlElement.getAttribute('keypress'), 10) || 0;
+    this.keyreleaseCount_ = parseInt(xmlElement.getAttribute('keyrelease'), 10) || 0;
+    this.rateCount_ = parseInt(xmlElement.getAttribute('rate'), 10) || 0;
+    this.stopCount_ = parseInt(xmlElement.getAttribute('stop'), 10) || 0;
+    this.drawlastCount_ = parseInt(xmlElement.getAttribute('drawlast'), 10) || 0;
+    this.rebuildShape_();
+    // this.resizeRecordFieldInputs(newItemCount);
+  },
+  /**
+   * Populate the mutator's dialog with this block's components.
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
+   */
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('create_world_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    if (this.nameCount_) {
+      var nameBlock = workspace.newBlock('world_name_item');
+      nameBlock.initSvg();
+      connection.connect(nameBlock.previousConnection);
+      connection = nameBlock.nextConnection;
+    }
+    if (this.widthCount_) {
+      var widthBlock = workspace.newBlock('world_width_item');
+      widthBlock.initSvg();
+      connection.connect(widthBlock.previousConnection);
+      connection = widthBlock.nextConnection;
+    }
+    if (this.heightCount_) {
+      var heightBlock = workspace.newBlock('world_height_item');
+      heightBlock.initSvg();
+      connection.connect(heightBlock.previousConnection);
+      connection = heightBlock.nextConnection;
+    }
+    if (this.drawCount_) {
+      var drawBlock = workspace.newBlock('world_draw_item');
+      drawBlock.initSvg();
+      connection.connect(drawBlock.previousConnection);
+      connection = drawBlock.nextConnection;
+    }
+    if (this.tickCount_) {
+      var tickBlock = workspace.newBlock('world_tick_item');
+      tickBlock.initSvg();
+      connection.connect(tickBlock.previousConnection);
+      connection = tickBlock.nextConnection;
+    }
+    if (this.mouseCount_) {
+      var mouseBlock = workspace.newBlock('world_mouse_item');
+      mouseBlock.initSvg();
+      connection.connect(mouseBlock.previousConnection);
+      connection = mouseBlock.nextConnection;
+    }
+    if (this.world_keypress_itemCount_) {
+      var keypressBlock = workspace.newBlock('world_keypress_item');
+      keypressBlock.initSvg();
+      connection.connect(keypressBlock.previousConnection);
+      connection = keypressBlock.nextConnection;
+    }
+    if (this.keyreleaseCount_) {
+      var keyreleaseBlock = workspace.newBlock('world_keyrelease_item');
+      keyreleaseBlock.initSvg();
+      connection.connect(keyreleaseBlock.previousConnection);
+      connection = keyreleaseBlock.nextConnection;
+    }
+    if (this.rateCount_) {
+      var rateBlock = workspace.newBlock('world_rate_item');
+      rateBlock.initSvg();
+      connection.connect(rateBlock.previousConnection);
+      connection = rateBlock.nextConnection;
+    }
+    if (this.stopCount_) {
+      var stopBlock = workspace.newBlock('world_stop_item');
+      stopBlock.initSvg();
+      connection.connect(stopBlock.previousConnection);
+      connection = stopBlock.nextConnection;
+    }
+    if (this.drawlastCount_) {
+      var drawlastBlock = workspace.newBlock('world_drawlast_item');
+      drawlastBlock.initSvg();
+      connection.connect(drawlastBlock.previousConnection);
+      connection = drawlastBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  /**
+   * Reconfigure this block based on the mutator dialog's components.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  compose: function(containerBlock) {
+    var clauseBlock = containerBlock.getInputTargetBlock('STACK');
+
+    this.nameCount_ = 0;
+    this.widthCount_ = 0;
+    this.heightCount_ = 0;
+    this.drawCount_ = 0;
+    this.tickCount_ = 0;
+    this.mouseCount_ = 0;
+    this.keypressCount_ = 0;
+    this.keyreleaseCount_ = 0;
+    this.rateCount_ = 0;
+    this.stopCount_ = 0;
+    this.drawlastCount_ = 0;
+    var nameStatementConnection = null;
+    var widthStatementConnection = null;
+    var heightStatementConnection = null;
+    var drawStatementConnection = null;
+    var tickStatementConnection = null;
+    var mouseStatementConnection = null;
+    var keypressStatementConnection = null;
+    var keyreleaseStatementConnection = null;
+    var rateStatementConnection = null;
+    var stopStatementConnection = null;
+    var drawlastStatementConnection = null;
+    while (clauseBlock) {
+      switch (clauseBlock.type) {
+        case 'world_name_item':
+            if (this.nameCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.nameCount_++;
+              nameStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_width_item':
+            if (this.widthCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.widthCount_++;
+              widthStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_height_item':
+            if (this.heightCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.heightCount_++;
+              heightStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_draw_item':
+            if (this.drawCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.drawCount_++;
+              drawStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_tick_item':
+            if (this.tickCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.tickCount_++;
+              tickStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_mouse_item':
+            if (this.mouseCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.mouseCount_++;
+              mouseStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_keypress_item':
+            if (this.keypressCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.keypressCount_++;
+              keypressStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_keyrelease_item':
+            if (this.keyreleaseCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.keyreleaseCount_++;
+              keyreleaseStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_rate_item':
+            if (this.rateCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.rateCount_++;
+              rateStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_stop_item':
+            if (this.stopCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.stopCount_++;
+              stopStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        case 'world_drawlast_item':
+            if (this.drawlastCount_ >= 1) {
+              this.unconnectBlocks_(clauseBlock);
+            } else {
+              this.drawlastCount_++;
+              drawlastStatementConnection = clauseBlock.statementConnection_;
+            }
+          break;
+        default:
+          throw TypeError('Unknown block type: ' + clauseBlock.type);
+      }
+      clauseBlock = clauseBlock.nextConnection && clauseBlock.nextConnection.targetBlock();
+    }
+    this.updateShape_();
+    // Reconnect any child blocks.
+    this.reconnectChildBlocks_(
+      nameStatementConnection,
+      widthStatementConnection,
+      heightStatementConnection,
+      drawStatementConnection,
+      tickStatementConnection,
+      mouseStatementConnection,
+      keypressStatementConnection,
+      keyreleaseStatementConnection,
+      rateStatementConnection,
+      stopStatementConnection,
+      drawlastStatementConnection
+    );
+  },
+  // unconnect when the block is more then 1
+  unconnectBlocks_: function(clauseBlock) {
+    var prev = clauseBlock.previousConnection;
+    var next = clauseBlock.nextConnection;
+    var typeBlock = clauseBlock;
+    var prevBlock = prev.targetConnection.sourceBlock_;
+    if (next.targetConnection == null) {
+      typeBlock.dispose();
+    } else {
+      var nextBlock = next.targetConnection.sourceBlock_;
+      prevBlock.nextConnection.connect(nextBlock.previousConnection);
+      typeBlock.dispose();
+    }
+  },
+  /**
+   Store pointers to any connected child blocks.
+  */
+  saveConnections: function(containerBlock) {
+    var clauseBlock = containerBlock.getInputTargetBlock('STACK');
+    while (clauseBlock) {
+      switch (clauseBlock.type) {
+        case 'world_name_item':
+          var inputWorld = this.getInput('NAME');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_width_item':
+          var inputWorld = this.getInput('WIDTH');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_height_item':
+          var inputWorld = this.getInput('HEIGHT');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_draw_item':
+          var inputWorld = this.getInput('DRAW');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_tick_item':
+          var inputWorld = this.getInput('TICK');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_mouse_item':
+          var inputWorld = this.getInput('MOUSE');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_keypress_item':
+          var inputWorld = this.getInput('KEYPRESS');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_keyrelease_item':
+          var inputWorld = this.getInput('KEYRELEASE');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_rate_item':
+          var inputWorld = this.getInput('RATE');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_stop_item':
+          var inputWorld = this.getInput('STOP');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        case 'world_drawlast_item':
+          var inputWorld = this.getInput('DRAWLAST');
+          clauseBlock.statementConnection_ =
+              inputWorld && inputWorld.connection.targetConnection;
+          break;
+        default:
+          throw TypeError('Unknown block type: ' + clauseBlock.type);
+      }
+      clauseBlock = clauseBlock.nextConnection &&
+          clauseBlock.nextConnection.targetBlock();
+    }
+  },
+  /*
+   * Reconstructs the block with all child blocks attached.
+  */
+  rebuildShape_: function() {
+    var nameStatementConnection = null;
+    var widthStatementConnection = null;
+    var heightStatementConnection = null;
+    var drawStatementConnection = null;
+    var tickStatementConnection = null;
+    var mouseStatementConnection = null;
+    var keypressStatementConnection = null;
+    var keyreleaseStatementConnection = null;
+    var rateStatementConnection = null;
+    var stopStatementConnection = null;
+    var drawlastStatementConnection = null;
+
+    if (this.getInput('NAME')) {
+      nameStatementConnection = this.getInput('NAME').connection.targetConnection;
+    }
+    if (this.getInput('WIDTH')) {
+      widthStatementConnection = this.getInput('WIDTH').connection.targetConnection;
+    }
+    if (this.getInput('HEIGHT')) {
+      heightStatementConnection = this.getInput('HEIGHT').connection.targetConnection;
+    }
+    if (this.getInput('DRAW')) {
+      drawStatementConnection = this.getInput('DRAW').connection.targetConnection;
+    }
+    if (this.getInput('TICK')) {
+      tickStatementConnection = this.getInput('TICK').connection.targetConnection;
+    }
+    if (this.getInput('MOUSE')) {
+      mouseStatementConnection = this.getInput('MOUSE').connection.targetConnection;
+    }
+    if (this.getInput('KEYPRESS')) {
+      keypressStatementConnection = this.getInput('KEYPRESS').connection.targetConnection;
+    }
+    if (this.getInput('KEYRELEASE')) {
+      keyreleaseStatementConnection = this.getInput('KEYRELEASE').connection.targetConnection;
+    }
+    if (this.getInput('RATE')) {
+      rateStatementConnection = this.getInput('RATE').connection.targetConnection;
+    }
+    if (this.getInput('STOP')) {
+      stopStatementConnection = this.getInput('STOP').connection.targetConnection;
+    }
+    if (this.getInput('DRAWLAST')) {
+      drawlastStatementConnection = this.getInput('DRAWLAST').connection.targetConnection;
+    }
+    this.updateShape_();
+    this.reconnectChildBlocks_(
+      nameStatementConnection,
+      widthStatementConnection,
+      heightStatementConnection,
+      drawStatementConnection,
+      tickStatementConnection,
+      mouseStatementConnection,
+      keypressStatementConnection,
+      keyreleaseStatementConnection,
+      rateStatementConnection,
+      stopStatementConnection,
+      drawlastStatementConnection
+    );
+  },
+  /**
+   *
+   * @this Blockly.Block
+   * @private
+  */
+  updateShape_: function() {
+    if (this.getInput('NAME')) {
+      this.removeInput('NAME');
+    }
+    if (this.getInput('WIDTH')) {
+      this.removeInput('WIDTH');
+    }
+    if (this.getInput('HEIGHT')) {
+      this.removeInput('HEIGHT');
+    }
+    if (this.getInput('DRAW')) {
+      this.removeInput('DRAW');
+    }
+    if (this.getInput('TICK')) {
+      this.removeInput('TICK');
+    }
+    if (this.getInput('MOUSE')) {
+      this.removeInput('MOUSE');
+    }
+    if (this.getInput('KEYPRESS')) {
+      this.removeInput('KEYPRESS');
+    }
+    if (this.getInput('KEYRELEASE')) {
+      this.removeInput('KEYRELEASE');
+    }
+    if (this.getInput('RATE')) {
+      this.removeInput('RATE');
+    }
+    if (this.getInput('STOP')) {
+      this.removeInput('STOP');
+    }
+    if (this.getInput('DRAWLAST')) {
+      this.removeInput('DRAWLAST');
+    }
+
+    var stringType = new Blockly.TypeExpr.STRING();
+    var intType    = new Blockly.TypeExpr.INT();
+    var boolType   = new Blockly.TypeExpr.BOOL();
+
+    if (this.nameCount_) {
+      // ?name: string
+      this.appendValueInput('NAME')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~name: ')
+          .setTypeExpr(stringType);
+    }
+    if (this.widthCount_) {
+      // ?width: int
+      this.appendValueInput('WIDTH')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~width: ')
+          .setTypeExpr(intType);
+    }
+    if (this.heightCount_) {
+      // ?height: int
+      this.appendValueInput('HEIGHT')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~height: ')
+          .setTypeExpr(intType);
+    }
+    if (this.drawCount_) {
+      // ?draw: 'a -> Image.t
+      var draw_image = new Blockly.TypeExpr.IMAGE();
+      var draw_function = new Blockly.TypeExpr.FUN(this.typeA_, draw_image);
+      this.appendValueInput('DRAW')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~to_draw: ')
+          .setTypeExpr(draw_function);
+    }
+    if (this.tickCount_) {
+      // ?on_tick: 'a -> 'a
+      var tick_function = new Blockly.TypeExpr.FUN(this.typeA_, this.typeA_);
+      this.appendValueInput('TICK')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~on_tick: ')
+          .setTypeExpr(tick_function);
+    }
+    if (this.mouseCount_) {
+      // ?on_mouse: 'a -> int -> int -> string -> 'a
+      var mouse_fun1     = new Blockly.TypeExpr.FUN(stringType, this.typeA_);
+      var mouse_fun2     = new Blockly.TypeExpr.FUN(intType, mouse_fun1);
+      var mouse_fun3     = new Blockly.TypeExpr.FUN(intType, mouse_fun2);
+      var mouse_function = new Blockly.TypeExpr.FUN(this.typeA_, mouse_fun3);
+      this.appendValueInput('MOUSE')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~on_mouse: ')
+          .setTypeExpr(mouse_function);
+    }
+    if (this.keypressCount_) {
+      // ?on_key_press: 'a -> string -> 'a
+      var keypress_fun1     = new Blockly.TypeExpr.FUN(stringType, this.typeA_);
+      var keypress_function = new Blockly.TypeExpr.FUN(this.typeA_, keypress_fun1);
+      this.appendValueInput('KEYPRESS')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~on_key_press: ')
+          .setTypeExpr(keypress_function);
+    }
+    if (this.keyreleaseCount_) {
+      // ?on_key_release: 'a -> string -> 'a
+      var keyrelease_fun1     = new Blockly.TypeExpr.FUN(stringType, this.typeA_);
+      var keyrelease_function = new Blockly.TypeExpr.FUN(this.typeA_, keyrelease_fun1);
+      this.appendValueInput('KEYRELEASE')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~on_key_release: ')
+          .setTypeExpr(keyrelease_function);
+    }
+    if (this.rateCount_) {
+      // ?rate: int
+      this.appendValueInput('RATE')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~rate: ')
+          .setTypeExpr(intType);
+    }
+    if (this.stopCount_) {
+      // ?stop_when: 'a -> bool
+      var stop_function = new Blockly.TypeExpr.FUN(this.typeA_, boolType);
+      this.appendValueInput('STOP')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~stop_when: ')
+          .setTypeExpr(stop_function);
+    }
+    if (this.drawlastCount_) {
+      // ?to_draw_last: 'a -> Image.t
+      var drawlast_image    = new Blockly.TypeExpr.IMAGE();
+      var drawlast_function = new Blockly.TypeExpr.FUN(this.typeA_, drawlast_image);
+      this.appendValueInput('DRAWLAST')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField('~to_draw_last: ')
+          .setTypeExpr(drawlast_function);
+    }
+  },
+
+  infer: function(ctx) {
+    var expected              = /*this.outputConnection.typeExpr ||*/ null;
+    var initialworld_typed    = this.callInfer('INITIAL_WORLD', ctx);
+    var initialworld_expected = this.getInput('INITIAL_WORLD').connection.typeExpr;
+
+    var name_typed       = null;
+    var width_typed      = null;
+    var height_typed     = null;
+    var draw_typed       = null;
+    var tick_typed       = null;
+    var mouse_typed      = null;
+    var keypress_typed   = null;
+    var keyrelease_typed = null;
+    var rate_typed       = null;
+    var stop_typed       = null;
+    var drawlast_typed   = null;
+
+    var name_expected       = null;
+    var width_expected      = null;
+    var height_expected     = null;
+    var draw_expected       = null;
+    var tick_expected       = null;
+    var mouse_expected      = null;
+    var keypress_expected   = null;
+    var keyrelease_expected = null;
+    var rate_expected       = null;
+    var stop_expected       = null;
+    var drawlast_expected   = null;
+
+    if (this.getInput('NAME')) {
+      name_typed    = this.callInfer('NAME', ctx);
+      name_expected = this.getInput('NAME').connection.typeExpr;
+    }
+    if (this.getInput('WIDTH')) {
+      width_typed    = this.callInfer('WIDTH', ctx);
+      width_expected = this.getInput('WIDTH').connection.typeExpr;
+    }
+    if (this.getInput('HEIGHT')) {
+      height_typed    = this.callInfer('HEIGHT', ctx);
+      height_expected = this.getInput('HEIGHT').connection.typeExpr;
+    }
+    if (this.getInput('DRAW')) {
+      draw_typed    = this.callInfer('DRAW', ctx);
+      draw_expected = this.getInput('DRAW').connection.typeExpr;
+    }
+    if (this.getInput('TICK')) {
+      tick_typed    = this.callInfer('TICK', ctx);
+      tick_expected = this.getInput('TICK').connection.typeExpr;
+    }
+    if (this.getInput('MOUSE')) {
+      mouse_typed    = this.callInfer('MOUSE', ctx);
+      mouse_expected = this.getInput('MOUSE').connection.typeExpr;
+    }
+    if (this.getInput('KEYPRESS')) {
+      keypress_typed    = this.callInfer('KEYPRESS', ctx);
+      keypress_expected = this.getInput('KEYPRESS').connection.typeExpr;
+    }
+    if (this.getInput('KEYRELEASE')) {
+      keyrelease_typed    = this.callInfer('KEYRELEASE', ctx);
+      keyrelease_expected = this.getInput('KEYRELEASE').connection.typeExpr;
+    }
+    if (this.getInput('RATE')) {
+      rate_typed    = this.callInfer('RATE', ctx);
+      rate_expected = this.getInput('RATE').connection.typeExpr;
+    }
+    if (this.getInput('STOP')) {
+      stop_typed    = this.callInfer('STOP', ctx);
+      stop_expected = this.getInput('STOP').connection.typeExpr;
+    }
+    if (this.getInput('DRAWLAST')) {
+      drawlast_typed    = this.callInfer('DRAWLAST', ctx);
+      drawlast_expected = this.getInput('DRAWLAST').connection.typeExpr;
+    }
+
+    if (initialworld_typed)
+      initialworld_typed.unify(initialworld_expected);
+    if (name_typed)
+      name_typed.unify(name_expected);
+    if (width_typed)
+      width_typed.unify(width_expected);
+    if (height_typed)
+      height_typed.unify(height_expected);
+    if (draw_typed)
+      draw_typed.unify(draw_expected);
+    if (tick_typed)
+      tick_typed.unify(tick_expected);
+    if (mouse_typed)
+      mouse_typed.unify(mouse_expected);
+    if (keypress_typed)
+      keypress_typed.unify(keypress_expected);
+    if (keyrelease_typed)
+      keyrelease_typed.unify(keyrelease_expected);
+    if (rate_typed)
+      rate_typed.unify(rate_expected);
+    if (stop_typed)
+      stop_typed.unify(stop_expected);
+    if (drawlast_typed)
+      drawlast_typed.unify(drawlast_expected);
+    return expected;
+  },
+  /**
+   * connections for name.
+   * @param {?Blockly.RenderedConnection>} nameStatementConnection
+   * connections for width.
+   * @param {?Blockly.RenderedConnection} widthStatementConnection
+   * connections for height.
+   * @param {?Blockly.RenderedConnection} heightStatementConnection
+   * connections for draw.
+   * @param {?Blockly.RenderedConnection} drawStatementConnection
+   * connections for tick.
+   * @param {?Blockly.RenderedConnection} tickStatementConnection
+   * connections for mouse.
+   * @param {?Blockly.RenderedConnection} mouseStatementConnection
+   * connections for keypress.
+   * @param {?Blockly.RenderedConnection} keypressStatementConnection
+   * connections for keyrelease.
+   * @param {?Blockly.RenderedConnection} keyreleaseStatementConnection
+   * connections for rate.
+   * @param {?Blockly.RenderedConnection} rateStatementConnection
+   * connections for stop_when.
+   * @param {?Blockly.RenderedConnection} stopStatementConnection
+   * connections for drawlast.
+   * @param {?Blockly.RenderedConnection} drawlastStatementConnection
+  */
+  reconnectChildBlocks_: function(
+    nameStatementConnection,
+    widthStatementConnection,
+    heightStatementConnection,
+    drawStatementConnection,
+    tickStatementConnection,
+    mouseStatementConnection,
+    keypressStatementConnection,
+    keyreleaseStatementConnection,
+    rateStatementConnection,
+    stopStatementConnection,
+    drawlastStatementConnection
+    )
+  {
+      Blockly.Mutator.reconnect(nameStatementConnection, this, 'NAME');
+      Blockly.Mutator.reconnect(widthStatementConnection, this, 'WIDTH');
+      Blockly.Mutator.reconnect(heightStatementConnection, this, 'HEIGHT');
+      Blockly.Mutator.reconnect(drawStatementConnection, this, 'DRAW');
+      Blockly.Mutator.reconnect(tickStatementConnection, this, 'TICK');
+      Blockly.Mutator.reconnect(mouseStatementConnection, this, 'MOUSE');
+      Blockly.Mutator.reconnect(keypressStatementConnection, this, 'KEYPRESS');
+      Blockly.Mutator.reconnect(keyreleaseStatementConnection, this, 'KEYRELEASE');
+      Blockly.Mutator.reconnect(rateStatementConnection, this, 'RATE');
+      Blockly.Mutator.reconnect(stopStatementConnection, this, 'STOP');
+      Blockly.Mutator.reconnect(drawlastStatementConnection, this, 'DRAWLAST');
+  }
+};
+
 Blockly.Blocks['defined_recordtype_typed'] = {
   // Declare record types.
   init: function() {
