@@ -192,6 +192,24 @@ Blockly.RenderedTypeExpr.shape['tuple'] = {
   }
 };
 
+Blockly.RenderedTypeExpr.shape['unit'] = {
+  down: function(steps) {
+    steps.push('l 0,5 a 6,6,0,0,0,0,12 l 0,3');
+  },
+
+  up: function(steps) {
+    steps.push('l 0,-3 a 6,6,0,0,1,0,-12 l 0,-5');
+  },
+
+  height: function() {
+    return 20;
+  },
+
+  offsetsY: function() {
+    return [];
+  },
+};
+
 Blockly.RenderedTypeExpr.shape['function'] = {
   down: function(steps) {
     steps.push('l 0,3 -12,0 0,3 12,0');

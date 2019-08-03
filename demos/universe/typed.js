@@ -262,7 +262,7 @@ Typed.runCode = function() {
   element.insertAdjacentHTML('beforeend', '<hr>');
 }
 
-Typed.runGame = function() {
+Typed.runGame = function() { // Not used.  To be deleted soon.
   Typed.clearCanvas();
   var program = Typed.programToRun() +
 //    program.substr(program.indexOf('let width =')) +

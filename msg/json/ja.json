@@ -421,5 +421,6 @@
 	"TEXT_TOOLTIP": "色付きの文字列を作る",
 	"EMPTY_SCENE_TOOLTIP": "無地の背景を作る",
 	"RECTANGLE_TOOLTIP": "受け取った長さ、色の長方形を作る",
-	"RECTANGLE_OUTLINE_TOOLTIP": "受け取った長さ、色の長方形の輪郭を描く"
+	"RECTANGLE_OUTLINE_TOOLTIP": "受け取った長さ、色の長方形の輪郭を描く",
+	"BIGBANG_TOOLTIP": "世界を創る"
 }

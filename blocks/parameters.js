@@ -100,3 +100,75 @@ Blockly.Blocks['record_field_container'] =
 Blockly.Blocks['record_field_container'].init = function() {
   Blockly.Blocks['container_template'].init.call(this, 'record fields');
 };
+
+Blockly.Blocks['world_name_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_name_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~name');
+};
+
+Blockly.Blocks['world_width_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_width_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~width');
+};
+
+Blockly.Blocks['world_height_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_height_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~height');
+};
+
+Blockly.Blocks['world_draw_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_draw_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~to_draw');
+};
+
+Blockly.Blocks['world_keypress_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_keypress_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~on_key_pressed');
+};
+
+Blockly.Blocks['world_tick_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_tick_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~on_tick');
+};
+
+Blockly.Blocks['world_rate_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_rate_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~rate');
+};
+
+Blockly.Blocks['world_stop_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_stop_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~stop_when');
+};
+
+Blockly.Blocks['world_drawlast_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_drawlast_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~to_draw_last');
+};
+
+Blockly.Blocks['world_mouse_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_mouse_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~on_mouse');
+};
+
+Blockly.Blocks['world_keyrelease_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['world_keyrelease_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, '~on_key_released');
+};
+
+Blockly.Blocks['create_world_container'] =
+  Object.assign({}, Blockly.Blocks['container_template']);
+Blockly.Blocks['create_world_container'].init = function() {
+  Blockly.Blocks['container_template'].init.call(this, 'bigbang');
+};

@@ -684,6 +684,82 @@ Blockly.TypedLang['dummy_statement_typed'] = function(block) {
   return code;
 };
 
+Blockly.TypedLang['big_bang_typed'] = function(block) {
+  var initialWorldVar = Blockly.TypedLang.valueToCode(block, 'INITIAL_WORLD',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'big_bang ' + initialWorldVar;
+  if (block.nameCount_ >= 1) {
+    code += '\n' + '  ' + '~name:';
+    var nameVar = Blockly.TypedLang.valueToCode(block, 'NAME',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += nameVar;
+  }
+  if (block.widthCount_ >= 1) {
+    code += '\n' + '  ' + '~width:';
+    var widthVar = Blockly.TypedLang.valueToCode(block, 'WIDTH',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += widthVar;
+  }
+  if (block.heightCount_ >= 1) {
+    code += '\n' + '  ' + '~height:';
+    var heightVar = Blockly.TypedLang.valueToCode(block, 'HEIGHT',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += heightVar;
+  }
+  if (block.drawCount_ >= 1) {
+    code += '\n' + '  ' + '~to_draw:';
+    var drawVar = Blockly.TypedLang.valueToCode(block, 'DRAW',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += drawVar;
+  }
+  if (block.tickCount_ >= 1) {
+    code += '\n' + '  ' + '~on_tick:';
+    var tickVar = Blockly.TypedLang.valueToCode(block, 'TICK',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += tickVar;
+  }
+  if (block.mouseCount_ >= 1) {
+    code += '\n' + '  ' + '~on_mouse:';
+    var mouseVar = Blockly.TypedLang.valueToCode(block, 'MOUSE',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += mouseVar;
+  }
+  if (block.keypressCount_ >= 1) {
+    code += '\n' + '  ' + '~on_key_press:';
+    var keypressVar = Blockly.TypedLang.valueToCode(block, 'KEYPRESS',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += keypressVar;
+  }
+  if (block.keyreleaseCount_ >= 1) {
+    code += '\n' + '  ' + '~on_key_release:';
+    var keyreleaseVar = Blockly.TypedLang.valueToCode(block, 'KEYRELEASE',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += keyreleaseVar;
+  }
+  if (block.rateCount_ >= 1) {
+    code += '\n' + '  ' + '~rate:';
+    var rateVar = Blockly.TypedLang.valueToCode(block, 'RATE',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += rateVar;
+  }
+  if (block.stopCount_ >= 1) {
+    code += '\n' + '  ' + '~stop_when:';
+    var stopVar = Blockly.TypedLang.valueToCode(block, 'STOP',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += stopVar;
+  }
+  if (block.drawlastCount_ >= 1) {
+    code += '\n' + '  ' + '~to_draw_last:';
+    var drawlastVar = Blockly.TypedLang.valueToCode(block, 'DRAWLAST',
+        Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+    code += drawlastVar;
+  }
+  if (Blockly.PrintSemiSemi) {
+    code += '\n  ~onload:false;;\n';
+  }
+  return code;
+};
+
 Blockly.TypedLang['defined_recordtype_typed'] = function(block) {
   if (block.itemCount_ == 0) {
     return '';
