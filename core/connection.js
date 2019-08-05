@@ -686,6 +686,8 @@ Blockly.Connection.prototype.checkTypeExprAndVariables_ = function(
   Blockly.Connection.connectReciprocally_(this, otherConnection);
   try {
     childBlock.updateTypeInference(true);
+    parentBlock.updateTypeInference(true);
+    // Asai: should do type inference for all the blocks at once.
   } catch (e) {
     if (collector) {
       // Currently this type unification error can not be specified, so store
