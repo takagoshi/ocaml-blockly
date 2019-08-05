@@ -44,6 +44,7 @@ Blockly.Blocks['big_bang_typed'] = {
     this.setInputsInline(false);
 
     this.setTypedStatements(true);
+    this.setNextStatement(false);
     this.setMutator(new Blockly.Mutator(WORLD));
 
   },
