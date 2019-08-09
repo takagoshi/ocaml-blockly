@@ -78,8 +78,10 @@ Blockly.Msg.PAIRS_HUE = '#d5df00';
 Blockly.Msg.TYPES_HUE = '#00a381';
 /// {{Notranslate}} Hue value for all type blocks.
 Blockly.Msg.DEFINE_TYPES_HUE = '#11c02e';
+/// {{Notranslate}} Hue value for bigbang blocks.
+Blockly.Msg.BIGBANG_HUE = '#203744';
 /// {{Notranslate}} Hue value for all pattern blocks.
-Blockly.Msg.PATTERN_HUE = '#9b72b0';
+Blockly.Msg.PATTERN_HUE = '#59b9c6';
 /// {{Notranslate}} Hue value for all string typed blocks.
 Blockly.Msg.STRING_HUE = '#e34f26';
 /// {{Notranslate}} Hue value for all blocks related to higher order functions.

@@ -24,7 +24,7 @@ Blockly.Blocks['big_bang_typed'] = {
   // Create World
   init: function() {
     // big_bang: 'a -> unit
-    this.setColour(Blockly.Msg['DEFINE_TYPES_HUE']);
+    this.setColour(Blockly.Msg['BIGBANG_HUE']);
     this.setTooltip(Blockly.Msg.BIGBANG_TOOLTIP);
     this.typeA_ = Blockly.TypeExpr.generateTypeVar();
 
@@ -36,11 +36,10 @@ Blockly.Blocks['big_bang_typed'] = {
 
     this.appendValueInput('INITIAL_WORLD')
         .appendField('big_bang ')
+        .setWorkbench(new Blockly.Workbench())
         .setTypeExpr(this.typeA_);
 
     this.setOutput(false);
-    // this.setOutputTypeExpr(new Blockly.TypeExpr.UNIT());
-    // this.setPreviousStatement(true, null);
     this.setInputsInline(false);
 
     this.setTypedStatements(true);
