@@ -170,5 +170,5 @@ Blockly.Blocks['world_keyrelease_item'].init = function() {
 Blockly.Blocks['create_world_container'] =
   Object.assign({}, Blockly.Blocks['container_template']);
 Blockly.Blocks['create_world_container'].init = function() {
-  Blockly.Blocks['container_template'].init.call(this, 'bigbang');
+  Blockly.Blocks['container_template'].init.call(this, 'big_bang');
 };
