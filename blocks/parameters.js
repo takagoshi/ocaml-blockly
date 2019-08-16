@@ -128,7 +128,7 @@ Blockly.Blocks['world_draw_item'].init = function() {
 Blockly.Blocks['world_keypress_item'] =
   Object.assign({}, Blockly.Blocks['item_template']);
 Blockly.Blocks['world_keypress_item'].init = function() {
-  Blockly.Blocks['item_template'].init.call(this, '~on_key_pressed');
+  Blockly.Blocks['item_template'].init.call(this, '~on_key_press');
 };
 
 Blockly.Blocks['world_tick_item'] =
@@ -164,7 +164,7 @@ Blockly.Blocks['world_mouse_item'].init = function() {
 Blockly.Blocks['world_keyrelease_item'] =
   Object.assign({}, Blockly.Blocks['item_template']);
 Blockly.Blocks['world_keyrelease_item'].init = function() {
-  Blockly.Blocks['item_template'].init.call(this, '~on_key_released');
+  Blockly.Blocks['item_template'].init.call(this, '~on_key_release');
 };
 
 Blockly.Blocks['create_world_container'] =
