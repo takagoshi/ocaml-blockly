@@ -630,14 +630,14 @@ Blockly.FieldBoundVariable.prototype.onItemSelected = function(menu, menuItem) {
 /**
  * Creates a block referring to this variable value and move the block under
  * the block shaped path on this field.
- * @param {!Blockly.BlockSvg} The new reference block located in the same
- *     position with this field's block shaped path.
+ * @param {boolean} higherOrder True if created block should be
+ * treated as a higher-order function.
  */
-Blockly.FieldBoundVariable.prototype.createBlock = function() {
+Blockly.FieldBoundVariable.prototype.createBlock = function(higherOrder) {
   if (!this.hasPotentialBlock || !this.forValue_ || !this.variable_) {
     throw 'The field is not allowed to create a block.';
   }
-  var getterBlock = this.newReferenceBlock_();
+  var getterBlock = this.newReferenceBlock_(higherOrder);
 
   var blockPos = this.sourceBlock_.getRelativeToSurfaceXY();
   var offsetInBlock = this.getRelativeToBlockXY_();
@@ -649,10 +649,12 @@ Blockly.FieldBoundVariable.prototype.createBlock = function() {
 
 /**
  * Creates new block which contain a reference variable referring to this value.
+ * @param {boolean} higherOrder True if created block should be
+ * treated as a higher-order function.
  * @return {!Blockly.Block} The newly created reference block.
  * @private
  */
-Blockly.FieldBoundVariable.prototype.newReferenceBlock_ = function() {
+Blockly.FieldBoundVariable.prototype.newReferenceBlock_ = function(higherOrder) {
   var workspace = this.sourceBlock_.workspace;
   var typeExpr = this.variable_.getTypeExpr();
 
@@ -682,6 +684,10 @@ Blockly.FieldBoundVariable.prototype.newReferenceBlock_ = function() {
 
   field.setVariableName(this.variable_.getVariableName());
   field.setBoundValue(this.variable_);
+  if (higherOrder) {
+    field.variable_.sourceBlock_.resizeStructure(0);
+    field.variable_.sourceBlock_.updateFunArgTypes();
+  }
   getterBlock.render(false);
 
   return getterBlock;

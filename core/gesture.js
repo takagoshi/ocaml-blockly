@@ -242,6 +242,14 @@ Blockly.Gesture = function(e, creatorWorkspace) {
    * @private
    */
   this.healStack_ = !Blockly.DRAG_STACK;
+
+  /**
+   * Boolean used to indicate whether or not a dragged bound variable
+   * should be treated as a higher order function.
+   * @type {boolean}
+   * @private
+   */
+  this.higherOrder_ = false;
 };
 
 /**
@@ -382,7 +390,7 @@ Blockly.Gesture.prototype.updateIsDraggingFromField_ = function() {
 
   // The start block is no longer relevant, because this is a drag.
   this.startBlock_ = null;
-  this.targetBlock_ = this.startField_.createBlock();
+  this.targetBlock_ = this.startField_.createBlock(this.higherOrder_);
   this.targetBlock_.select();
   return true;
 };
@@ -564,6 +572,7 @@ Blockly.Gesture.prototype.doStart = function(e) {
 
   this.mouseDownXY_ = new goog.math.Coordinate(e.clientX, e.clientY);
   this.healStack_ = e.altKey || e.ctrlKey || e.metaKey;
+  this.higherOrder_ = e.altKey || e.ctrlKey || e.metaKey;
 
   this.bindMouseEvents(e);
 };
