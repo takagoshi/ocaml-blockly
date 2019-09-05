@@ -800,9 +800,17 @@ Blockly.Blocks['logic_ternary_typed'] = {
       cond_type.unify(cond_expected);
     var expected = this.outputConnection.typeExpr;
     var then_type = this.callInfer('THEN', ctx);
-    var else_type = this.callInfer('ELSE', ctx);
     if (then_type)
       then_type.unify(expected);
+    for (var x = 0; x < this.itemCount_; x++) {
+      var elseif_type = this.callInfer('ELSEIF' + x, ctx);
+      if (elseif_type)
+        elseif_type.unify(cond_expected);
+      var then_type = this.callInfer('THEN' + x, ctx);
+      if (then_type)
+        then_type.unify(expected);
+    }
+    var else_type = this.callInfer('ELSE', ctx);
     if (else_type)
       else_type.unify(expected);
     return expected;
