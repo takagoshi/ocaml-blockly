@@ -20,11 +20,15 @@ Blockly.Blocks['item_template'] = {
 };
 
 Blockly.Blocks['container_template'] = {
-  init: function(str) {
+  init: function(str, optStr) {
     this.setColour(Blockly.Msg['MUTATOR_HUE']);
     this.appendDummyInput()
         .appendField(str);
     this.appendStatementInput('STACK');
+    if (optStr) {
+      this.appendDummyInput()
+          .appendField(optStr);
+    }
     this.contextMenu = false;
   },
 
@@ -171,4 +175,16 @@ Blockly.Blocks['create_world_container'] =
   Object.assign({}, Blockly.Blocks['container_template']);
 Blockly.Blocks['create_world_container'].init = function() {
   Blockly.Blocks['container_template'].init.call(this, 'big_bang');
+};
+
+Blockly.Blocks['else_if_then_item'] =
+  Object.assign({}, Blockly.Blocks['item_template']);
+Blockly.Blocks['else_if_then_item'].init = function() {
+  Blockly.Blocks['item_template'].init.call(this, 'else if then');
+};
+
+Blockly.Blocks['if_then_else_container'] =
+  Object.assign({}, Blockly.Blocks['container_template']);
+Blockly.Blocks['if_then_else_container'].init = function() {
+  Blockly.Blocks['container_template'].init.call(this, 'if then', 'else');
 };

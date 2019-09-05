@@ -700,7 +700,97 @@ Blockly.Blocks['logic_ternary_typed'] = {
         .appendField('else');
     this.setOutput(true);
     this.setOutputTypeExpr(A);
+    this.setMutator(new Blockly.Mutator(['else_if_then_item']));
     this.setTooltip(Blockly.Msg.LOGIC_TERNARY_TOOLTIP);
+    this.itemCount_ = 0; // number of 'else if's
+  },
+
+  removeConnectedBlock: function (name) {
+    var input = this.getInput(name);
+    var connection = input.connection;
+    var block = connection.targetBlock();
+    if (block) {
+      connection.disconnect();
+      block.dispose();
+    }
+  },
+
+  resizeElseIfThen: function(expectedCount) {
+    while (expectedCount < this.itemCount_) {
+      var index = this.itemCount_ - 1;
+      // Decrement the size of items first. The function this.removeInput()
+      // might disconnect some blocks from this block, and disconnecting blocks
+      // triggers type inference, which causes a null pointer exception. To
+      // avoid the type inference for the removed input, update the size of
+      // items first.
+      this.removeConnectedBlock('ELSEIF' + index);
+      this.removeConnectedBlock('THEN' + index);
+      this.itemCount_--;
+      this.removeInput('ELSEIF' + index);
+      this.removeInput('THEN' + index);
+    }
+    var branch_type = this.getInput('THEN').connection.typeExpr;
+    while (this.itemCount_ < expectedCount) {
+      var x = this.itemCount_;
+      var input = this.appendValueInputBefore('ELSEIF' + x, 'ELSE')
+                      .setTypeExpr(new Blockly.TypeExpr.BOOL());
+      input.appendField('else if');
+      var input = this.appendValueInputBefore('THEN' + x, 'ELSE')
+                      .setTypeExpr(branch_type);
+      input.appendField('then');
+      this.itemCount_++;
+    }
+  },
+
+  /**
+   * Create XML to represent list inputs.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+  /**
+   * Parse XML to restore the list inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    // xmlElement = <mutation items="n"></mutation>
+    // where n is the number of 'else if's.
+    // returns a list block with n elements
+    var newItemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 0;
+    this.resizeElseIfThen(newItemCount_);
+  },
+  /**
+   * Populate the mutator's dialog with this block's components.
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
+   */
+  decompose: function(workspace) {
+    var containerBlock =
+        workspace.newBlock('if_then_else_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var x = 0; x < this.itemCount_; x++) {
+      var itemBlock = workspace.newBlock('else_if_then_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  /**
+   * Reconfigure this block based on the mutator dialog's components.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  compose: function(containerBlock) {
+    var itemCount = containerBlock.getItemCount();
+    this.resizeElseIfThen(itemCount);
   },
 
   infer: function(ctx) {

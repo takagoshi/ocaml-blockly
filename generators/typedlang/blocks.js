@@ -219,10 +219,17 @@ Blockly.TypedLang['logic_ternary_typed'] = function(block) {
       Blockly.TypedLang.ORDER_EXPR) || '?';
   var value_then = Blockly.TypedLang.valueToCode(block, 'THEN',
       Blockly.TypedLang.ORDER_THEN) || '?';
+  var code = 'if ' + value_if + ' then ' + value_then;
+  for (var i = 0; i < block.itemCount_; i++) {
+    var value_elseif = Blockly.TypedLang.valueToCode(block, 'ELSEIF' + i,
+        Blockly.TypedLang.ORDER_EXPR) || '?';
+    var value_then = Blockly.TypedLang.valueToCode(block, 'THEN' + i,
+        Blockly.TypedLang.ORDER_EXPR) || '?';
+    code += '\n  else if ' + value_elseif + ' then ' + value_then;
+  }
   var value_else = Blockly.TypedLang.valueToCode(block, 'ELSE',
       Blockly.TypedLang.ORDER_ELSE) || '?';
-  var code = 'if ' + value_if + ' then ' + value_then + '\n  else ' +
-      value_else;
+  code += '\n  else ' + value_else;
   return [code, Blockly.TypedLang.ORDER_EXPR];
 };
 
