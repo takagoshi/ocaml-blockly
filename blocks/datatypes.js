@@ -160,7 +160,7 @@ Blockly.Blocks['big_bang_typed'] = {
       connection.connect(mouseBlock.previousConnection);
       connection = mouseBlock.nextConnection;
     }
-    if (this.world_keypress_itemCount_) {
+    if (this.keypressCount_) {
       var keypressBlock = workspace.newBlock('world_keypress_item');
       keypressBlock.initSvg();
       connection.connect(keypressBlock.previousConnection);
