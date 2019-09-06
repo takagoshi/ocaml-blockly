@@ -562,6 +562,8 @@ Blockly.Blocks['logic_operator_typed'] = {
     var OPERATORS =
         [['&&', 'AND'],
          ['||', 'OR']];
+    // Assign 'this' to a variable for use in the closures below.
+    var thisBlock = this;
     this.setColour(Blockly.Msg['LOGIC_HUE']);
     this.setOutput(true, 'Boolean');
     this.setOutputTypeExpr(new Blockly.TypeExpr.BOOL());
@@ -569,10 +571,21 @@ Blockly.Blocks['logic_operator_typed'] = {
         .setTypeExpr(new Blockly.TypeExpr.BOOL());
     this.appendValueInput('B')
         .setTypeExpr(new Blockly.TypeExpr.BOOL())
-        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP_BOOL');
+        .appendField(new Blockly.FieldDropdown(OPERATORS, function (name) {
+          var NAMES = {
+            'AND': '&&',
+            'OR': '||',
+          };
+          var op_name = NAMES[name];
+          for (var x = 2; x < thisBlock.itemCount_; x++) {
+            var input = thisBlock.getInput('C' + x)
+            input.removeField('OP' + x);
+            input.appendField(op_name, 'OP' + x);
+          }
+          return name;
+        }), 'OP_BOOL');
     this.setInputsInline(true);
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
+    this.setMutator(new Blockly.Mutator(['operand_item']));
     this.setTooltip(function() {
       var mode = thisBlock.getFieldValue('OP_BOOL');
       var TOOLTIPS = {
@@ -581,17 +594,113 @@ Blockly.Blocks['logic_operator_typed'] = {
       };
       return TOOLTIPS[mode];
     });
+    this.itemCount_ = 2;
+  },
+
+  removeConnectedBlock: function (name) {
+    var input = this.getInput(name);
+    var connection = input.connection;
+    var block = connection.targetBlock();
+    if (block) {
+      connection.disconnect();
+      block.dispose();
+    }
+  },
+
+  resizeOperands: function(expectedCount) {
+    while (expectedCount < this.itemCount_) {
+      var index = this.itemCount_ - 1;
+      // Decrement the size of items first. The function this.removeInput()
+      // might disconnect some blocks from this block, and disconnecting blocks
+      // triggers type inference, which causes a null pointer exception. To
+      // avoid the type inference for the removed input, update the size of
+      // items first.
+      this.removeConnectedBlock('C' + index);
+      this.itemCount_--;
+      this.removeInput('C' + index);
+    }
+    var OPERATORS = {
+      'AND': '&&',
+      'OR': '||',
+    };
+    var op_name = OPERATORS[this.getFieldValue('OP_BOOL')];
+    while (this.itemCount_ < expectedCount) {
+      var x = this.itemCount_;
+      var input = this.appendValueInput('C' + x)
+                      .setTypeExpr(new Blockly.TypeExpr.BOOL());
+      input.appendField(op_name, 'OP' + x);
+      this.itemCount_++;
+    }
+  },
+
+  /**
+   * Create XML to represent list inputs.
+   * @return {Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+  /**
+   * Parse XML to restore the list inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    // xmlElement = <mutation items="n"></mutation>
+    // where n is the number of 'else if's.
+    // returns a list block with n elements
+    var newItemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 2;
+    this.resizeOperands(newItemCount_);
+  },
+  /**
+   * Populate the mutator's dialog with this block's components.
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
+   */
+  decompose: function(workspace) {
+    var containerBlock =
+        workspace.newBlock('operand_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var x = 0; x < this.itemCount_; x++) {
+      var itemBlock = workspace.newBlock('operand_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  /**
+   * Reconfigure this block based on the mutator dialog's components.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  compose: function(containerBlock) {
+    var itemCount = containerBlock.getItemCount();
+    if (itemCount < 2) {
+      itemCount = 2;
+    }
+    this.resizeOperands(itemCount);
   },
 
   infer: function(ctx) {
-    var expected_left = new Blockly.TypeExpr.BOOL();
+    var expected = new Blockly.TypeExpr.BOOL();
     var left = this.callInfer('A', ctx);
     var right = this.callInfer('B', ctx);
     if (left)
-      left.unify(expected_left);
+      left.unify(expected);
     if (right)
-      right.unify(expected_left);
-    return expected_left;
+      right.unify(expected);
+    for (var x = 2; x < this.itemCount_; x++) {
+      var c_type = this.callInfer('C' + x, ctx);
+      if (c_type)
+        c_type.unify(expected);
+    }
+    return expected;
   }
 }
 
