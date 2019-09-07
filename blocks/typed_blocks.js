@@ -22,9 +22,9 @@ Blockly.Blocks['empty_scene_typed'] = {
     this.setTooltip(Blockly.Msg.EMPTY_SCENE_TOOLTIP);
   },
     infer: function(ctx) {
-    var argument1_typed     = this.callInfer('PARAM0', ctx);
+    var argument1_typed    = this.callInfer('PARAM0', ctx);
     var argument2_typed    = this.callInfer('PARAM1', ctx);
-    var expected          = this.outputConnection.typeExpr;
+    var expected           = this.outputConnection.typeExpr;
     var argument1_expected = this.getInput('PARAM0').connection.typeExpr;
     var argument2_expected = this.getInput('PARAM1').connection.typeExpr;
     if (argument1_typed)
@@ -123,13 +123,15 @@ Blockly.Blocks['overlay_typed'] = {
     var img_typed = this.callInfer('PARAM0', ctx);
     var pair_typed = this.callInfer('PARAM1', ctx);
     var scene_typed = this.callInfer('PARAM2', ctx);
+    var img_expected = this.getInput('PARAM0').connection.typeExpr;
     var pair_expected = this.getInput('PARAM1').connection.typeExpr;
+    var scene_expected = this.getInput('PARAM2').connection.typeExpr;
     if (img_typed)
-      img_typed.unify(img_typed);
+      img_typed.unify(img_expected);
     if (pair_typed)
       pair_typed.unify(pair_expected);
     if (scene_typed)
-      scene_typed.unify(expected);
+      scene_typed.unify(scene_expected);
     return expected;
   }
 };
@@ -160,13 +162,15 @@ Blockly.Blocks['place_image_typed'] = {
     var img_typed = this.callInfer('PARAM0', ctx);
     var pair_typed = this.callInfer('PARAM1', ctx);
     var scene_typed = this.callInfer('PARAM2', ctx);
+    var img_expected = this.getInput('PARAM0').connection.typeExpr;
     var pair_expected = this.getInput('PARAM1').connection.typeExpr;
+    var scene_expected = this.getInput('PARAM2').connection.typeExpr;
     if (img_typed)
-      img_typed.unify(img_typed);
+      img_typed.unify(img_expected);
     if (pair_typed)
       pair_typed.unify(pair_expected);
     if (scene_typed)
-      scene_typed.unify(expected);
+      scene_typed.unify(scene_expected);
     return expected;
   }
 };
@@ -309,10 +313,11 @@ Blockly.Blocks['circle_typed'] = {
     var arg_type1 = this.callInfer('PARAM0', ctx);
     var color_typed = this.callInfer('PARAM1', ctx);
     var a_expected = this.getInput('PARAM0').connection.typeExpr;
+    var color_expected = this.getInput('PARAM1').connection.typeExpr;
     if (arg_type1)
       arg_type1.unify(a_expected);
     if (color_typed)
-      color_typed.unify(color_typed);
+      color_typed.unify(color_expected);
     return expected;
   }
 };
@@ -340,8 +345,8 @@ Blockly.Blocks['line_typed'] = {
       var pairlist_typed    = this.callInfer('PARAM0', ctx);
       var color_typed       = this.callInfer('PARAM1', ctx);
       var expected          = this.outputConnection.typeExpr;
-      var color_expected    = this.getInput('PARAM1').connection.typeExpr;
       var pairlist_expected = this.getInput('PARAM0').connection.typeExpr;
+      var color_expected    = this.getInput('PARAM1').connection.typeExpr;
       if (pairlist_typed)
           pairlist_typed.unify(pairlist_expected);
       if (color_typed)
@@ -386,8 +391,8 @@ Blockly.Blocks['polygon_typed'] = {
     var pairlist_typed    = this.callInfer('PARAM0', ctx);
     var color_typed       = this.callInfer('PARAM1', ctx);
     var expected          = this.outputConnection.typeExpr;
-    var color_expected    = this.getInput('PARAM1').connection.typeExpr;
     var pairlist_expected = this.getInput('PARAM0').connection.typeExpr;
+    var color_expected    = this.getInput('PARAM1').connection.typeExpr;
     if (pairlist_typed)
       pairlist_typed.unify(pairlist_expected);
     if (color_typed)
@@ -456,10 +461,10 @@ Blockly.Blocks['make_color2_typed'] = {
     this.setTooltip(Blockly.Msg.MAKE_COLOR2_TOOLTIP);
   },
   infer: function(ctx) {
-    var a_typed    = this.callInfer('PARAM3', ctx);
     var r_typed    = this.callInfer('PARAM0', ctx);
     var g_typed    = this.callInfer('PARAM1', ctx);
     var b_typed    = this.callInfer('PARAM2', ctx);
+    var a_typed    = this.callInfer('PARAM3', ctx);
     var expected   = this.outputConnection.typeExpr;
     var r_expected = this.getInput('PARAM0').connection.typeExpr;
     var g_expected = this.getInput('PARAM1').connection.typeExpr;
@@ -518,16 +523,17 @@ Blockly.Blocks['text_typed'] = {
   infer: function(ctx) {
     var expected = this.outputConnection.typeExpr;
     var arg_type1 = this.callInfer('PARAM0', ctx);
-    var arg_type2 = this.callInfer('PARAM0', ctx);
+    var arg_type2 = this.callInfer('PARAM1', ctx);
     var color_typed = this.callInfer('PARAM2', ctx);
     var a_expected = this.getInput('PARAM0').connection.typeExpr;
-    var b_expected = this.getInput('PARAM0').connection.typeExpr;
+    var b_expected = this.getInput('PARAM1').connection.typeExpr;
+    var color_expected = this.getInput('PARAM2').connection.typeExpr;
     if (arg_type1)
       arg_type1.unify(a_expected);
     if (arg_type2)
       arg_type2.unify(b_expected);
     if (color_typed)
-      color_typed.unify(color_typed);
+      color_typed.unify(color_expected);
     return expected;
   }
 };
