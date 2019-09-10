@@ -104,6 +104,7 @@ Blockly.TypeWorkbench.prototype.acceptBlock = function(block, opt_collector) {
  */
 Blockly.TypeWorkbench.prototype.blocksForFlyout_ = function(flyoutWorkspace) {
   var blocks = [];
+  // standard types
   blocks.push(flyoutWorkspace.newBlock('int_type_typed'));
   blocks.push(flyoutWorkspace.newBlock('float_type_typed'));
   blocks.push(flyoutWorkspace.newBlock('bool_type_typed'));
@@ -115,9 +116,35 @@ Blockly.TypeWorkbench.prototype.blocksForFlyout_ = function(flyoutWorkspace) {
   blocks.push(flyoutWorkspace.newBlock('color_type_typed'));
   blocks.push(flyoutWorkspace.newBlock('image_type_typed'));
   blocks.push(flyoutWorkspace.newBlock('scene_type_typed'));
+  // initialize
   for (var i = 0, block; block = blocks[i]; i++) {
     if (goog.isFunction(block.initSvg)) {
       block.initSvg();
+    }
+  }
+  // user-defined types
+  var parentConnection = this.block_.previousConnection ?
+      this.block_.previousConnection.targetConnection : null;
+  var parentBlock = parentConnection &&
+      parentConnection.getSourceBlock();
+  if (parentBlock && parentConnection) {
+    var ctx = parentBlock.allVisibleVariables(parentConnection);
+    var variables = ctx.getAllVariables();
+    for (var i = 0, variable; variable = variables[i]; i++) {
+      if (variable.isRecord()) {
+        var getterBlock = flyoutWorkspace.newBlock('user_record_type_typed');
+        var field = getterBlock.getField('TYPENAME');
+        if (goog.isFunction(getterBlock.initSvg)) {
+          getterBlock.initSvg();
+        }
+        field.initModel();
+        field.setVariableName(variable.getVariableName());
+        field.setBoundValue(variable);
+        blocks.push(getterBlock);
+      } else if (variable.isConstructor()) {
+        // not yet implemented
+        continue;
+      }
     }
   }
   return blocks;

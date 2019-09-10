@@ -1603,6 +1603,47 @@ Blockly.Blocks['aoption_type_constructor_typed'] = {
   }
 };
 
+Blockly.Blocks['user_record_type_typed'] = {
+  // user-defined types
+  init: function() {
+    this.setColour(Blockly.Msg['TYPES_HUE']);
+
+    // The block of this type should have the record connector.
+    var A = new Blockly.TypeExpr.RECORD(null);
+    var variable = Blockly.FieldBoundVariable.newReferenceRecord(A, 'a');
+    this.appendDummyInput()
+        .appendField(variable, 'TYPENAME') // Why is this not displayed?
+        .appendField('none', 'NAME');
+    this.setOutput(true);
+    var typeCtrType = new Blockly.TypeExpr.TYPE_CONSTRUCTOR();
+    this.setOutputTypeExpr(typeCtrType);
+  },
+
+  updateStructure: function() {
+    var reference = this.getField('TYPENAME').getVariable();
+    var value = reference.getBoundValue();
+    var name = value.getVariableName();
+    var field = this.getField('NAME');
+    field.setText(name);
+    if (goog.isFunction(this.initSvg)) {
+      this.initSvg();
+    }
+  },
+
+  getTypeCtor: function() {
+    var reference = this.getField('TYPENAME').getVariable();
+    var value = reference.getBoundValue();
+    var name = value.getVariableName();
+    var id = value.getTypeExpr().id;
+    return new Blockly.TypeExpr.RECORD(id);
+  },
+
+  searchFieldNameAndRemoveSpecifiedBlocks: function () {
+    Blockly.Blocks['int_type_typed']
+        .searchFieldNameAndRemoveSpecifiedBlocks.call(this);
+  }
+};
+
 Blockly.Blocks['color_type_typed'] = {
   init: function() {
     this.setColour(Blockly.Msg['TYPES_HUE']);

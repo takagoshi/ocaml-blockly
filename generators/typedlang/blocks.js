@@ -940,6 +940,11 @@ Blockly.TypedLang['aoption_type_constructor_typed'] = function(block) {
   return [param + ' option', Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['user_record_type_typed'] = function(block) {
+  var code = block.getField('NAME').getText();
+  return [code, Blockly.TypedLang.ORDER_ATOMIC];
+};
+
 Blockly.TypedLang['variable_pattern_typed'] = function(block) {
   var code = block.getField('VAR').getVariableName();
   return [code, Blockly.TypedLang.ORDER_ATOMIC];
