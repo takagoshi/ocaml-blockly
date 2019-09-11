@@ -245,7 +245,7 @@ Typed.getAndLoadCode = function(url) {
 }
 
 Typed.selectProgram = function () {
-  const url = 'http://pllab.is.ocha.ac.jp/~asai/book2-data/programs/';
+  const url = 'http://pllab.is.ocha.ac.jp/~asai/book2/programs/';
   const file = document.getElementById('program').value;
   Typed.getAndLoadCode(url + file + '.ml');
 }
