@@ -154,7 +154,7 @@ Blockly.Blocks['place_image_typed'] = {
         .setTypeExpr(scene);
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.SCENE());
-    this.setInputsInline(true);
+    this.setInputsInline(false);
     this.setTooltip(Blockly.Msg.PLACE_IMAGE_TOOLTIP);
   },
   infer: function(ctx) {
@@ -195,7 +195,7 @@ Blockly.Blocks['place_images_typed'] = {
         .setTypeExpr(scene);
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.SCENE());
-    this.setInputsInline(true);
+    this.setInputsInline(false);
     this.setTooltip(Blockly.Msg.PLACE_IMAGES_TOOLTIP);
   },
   infer: function(ctx) {

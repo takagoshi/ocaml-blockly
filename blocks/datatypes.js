@@ -947,7 +947,7 @@ Blockly.Blocks['create_record_typed'] = {
         .appendField('}');
     this.setOutput(true);
     this.setOutputTypeExpr(recordType);
-    this.setInputsInline(true);
+    this.setInputsInline(false);
 
     this.fieldCount_ = 0;
   },
@@ -2042,7 +2042,7 @@ Blockly.Blocks['record_pattern_typed'] = {
         .appendField('}');
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.PATTERN(recordType));
-    this.setInputsInline(true);
+    this.setInputsInline(false);
 
     this.fieldCount_ = 0;
   },
