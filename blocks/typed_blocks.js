@@ -279,6 +279,30 @@ Blockly.Blocks['ormap_typed'] = {
   }
 };
 
+Blockly.Blocks['sum_typed'] = {
+  // sum : int list -> int
+  init: function() {
+    var A      = new Blockly.TypeExpr.INT();
+    var A_list = new Blockly.TypeExpr.LIST(A);
+    this.setColour(Blockly.Msg['INT_HUE']);
+    this.appendValueInput('PARAM0')
+        .setTypeExpr(A_list)
+        .appendField('sum ');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.SUM_TOOLTIP);
+  },
+  infer: function(ctx) {
+    var Alist_typed   = this.callInfer('PARAM0', ctx);
+    var expected      = this.outputConnection.typeExpr;
+    var Alist_expected = this.getInput('PARAM0').connection.typeExpr;
+    if (Alist_typed)
+      Alist_typed.unify(Alist_expected);
+    return expected;
+  }
+};
+
 Blockly.Blocks['circle_typed'] = {
   // circle : int -> Color.t -> Image.t
   init: function() {

@@ -87,6 +87,13 @@ Blockly.TypedLang['ormap_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['sum_typed'] = function(block) {
+  var list = Blockly.TypedLang.valueToCode(block, 'PARAM0',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'sum ' + list;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['circle_typed'] = function(block) {
   // circle or circle_outline.
  var a = Blockly.TypedLang.valueToCode(block, 'PARAM0',
