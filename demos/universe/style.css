@@ -81,6 +81,10 @@ textarea.ocamlCode, textarea.generatedCode {
   width: 30px;
 }
 
+.select {
+  width: 62px;
+}
+
 .box {
   background-color: #eeeeee;
   width: 200px;
