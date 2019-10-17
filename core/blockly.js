@@ -116,6 +116,18 @@ Blockly.clipboardSource_ = null;
  */
 Blockly.cache3dSupported_ = null;
 
+ /**
+   * @type {!Array.<!Blockly.Events.Abstract>} WS型
+   * @protected
+   */
+Blockly.globalUndoStack = [];
+
+  /**
+   * @type {!Array.<!Blockly.Events.Abstract>} WS型
+   * @protected
+   */
+Blockly.globalRedoStack = [];
+
 /**
  * Convert a hue (HSV model) into an RGB hex triplet.
  * @param {number} hue Hue on a colour wheel (0-360).
@@ -246,8 +258,8 @@ Blockly.onKeyDown_ = function(e) {
       // TODO(harukam): Support undo events in the proper workspace. Due to
       // implementation of workbench and workspace transferring, there is need
       // to undo events on other workspaces (not the main workspace.)
-      // Blockly.hideChaff();
-      // Blockly.mainWorkspace.undo(e.shiftKey);
+	Blockly.hideChaff();
+	Blockly.undo(e.shiftKey);
     }
   }
   // Common code for delete and cut.
@@ -338,6 +350,22 @@ Blockly.hideChaff = function(opt_allowToolbox) {
       workspace.toolbox_.clearSelection();
     }
   }
+};
+
+/**
+ * Undo or redo the previous action.
+ * @param {boolean} redo False if undo, true if redo.
+ */
+Blockly.undo = function(redo) {
+    var inputStack = redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
+    var outputStack = redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
+    var inputWorkspace = inputStack.pop();
+    if (!inputWorkspace) {
+	return;
+    }
+
+    inputWorkspace.undo(redo);
+    outputStack.push(inputWorkspace);
 };
 
 /**
