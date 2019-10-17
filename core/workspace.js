@@ -635,7 +635,9 @@ Blockly.Workspace.prototype.removeChangeListener = function(func) {
 Blockly.Workspace.prototype.fireChangeListener = function(event) {
   if (event.recordUndo) {
     this.undoStack_.push(event);
+    Blockly.globalUndoStack.push(this);
     this.redoStack_.length = 0;
+    Blockly.globalRedoStack = 0;
     if (this.undoStack_.length > this.MAX_UNDO) {
       this.undoStack_.unshift();
     }
