@@ -579,14 +579,26 @@ Blockly.Workspace.prototype.undo = function(redo) {
     return;
   }
   var events = [inputEvent];
+  var workspaces = [];
   // Do another undo/redo if the next one is of the same group.
   while (inputStack.length && inputEvent.group &&
       inputEvent.group == inputStack[inputStack.length - 1].group) {
     events.push(inputStack.pop());
   }
+  for (var i = 0, v; v = Blockly.globalUndoStack[i]; i++) {
+    if (v.groupid === inputEvent.group && v.workspace.id === inputEvent.workspaceId) {
+      workspaces.push(v);
+    }
+  }
+  Blockly.globalUndoStack = Blockly.globalUndoStack.filter(function(item) {
+    return item.groupid !== inputEvent.group || item.workspace.id !== inputEvent.workspaceId;
+  });
   // Push these popped events on the opposite stack.
   for (var i = 0, event; event = events[i]; i++) {
     outputStack.push(event);
+  }
+  for (var i = 0, workspace; workspace = workspaces[i]; i++) {
+    Blockly.globalRedoStack.push(workspace);
   }
   events = Blockly.Events.filter(events, redo);
   Blockly.Events.recordUndo = false;
@@ -634,10 +646,15 @@ Blockly.Workspace.prototype.removeChangeListener = function(func) {
  */
 Blockly.Workspace.prototype.fireChangeListener = function(event) {
   if (event.recordUndo) {
+    if (event.group !== "") {
+      var stack = [];
+      stack['groupid'] = event.group;
+      stack['workspace'] = this;
+      Blockly.globalUndoStack.push(stack);
+    }
     this.undoStack_.push(event);
-    Blockly.globalUndoStack.push(this);
     this.redoStack_.length = 0;
-    Blockly.globalRedoStack = 0;
+    Blockly.globalRedoStack.length = 0;
     if (this.undoStack_.length > this.MAX_UNDO) {
       this.undoStack_.unshift();
     }

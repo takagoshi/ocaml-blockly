@@ -359,12 +359,21 @@ Blockly.hideChaff = function(opt_allowToolbox) {
 Blockly.undo = function(redo) {
     var inputStack = redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
     var outputStack = redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
-    var inputWorkspace = inputStack.pop();
+    var inputWorkspace = inputStack.slice(-1)[0];
     if (!inputWorkspace) {
-	return;
+      return;
     }
-
-    inputWorkspace.undo(redo);
+    var groupid = inputWorkspace.groupid;
+    inputWorkspace.workspace.undo(redo);
+    if (Blockly.globalUndoStack.length > 0) {
+      if (Blockly.globalUndoStack.slice(-1)[0].groupid === groupid) {
+        var inputWorkspace2 = Blockly.globalUndoStack.slice(-1)[0];
+        if (!inputWorkspace2) {
+          return;
+        }
+        inputWorkspace2.workspace.undo(redo);
+      }
+    }
     outputStack.push(inputWorkspace);
 };
 
