@@ -269,6 +269,7 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
     // No change.
     return;
   }
+  // Fire a create event.
   Blockly.Events.fire(
       new Blockly.Events.Ui(this.block_, 'mutatorOpen', !visible, visible));
   if (visible) {
