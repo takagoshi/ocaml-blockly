@@ -134,7 +134,7 @@ Blockly.Events.UiWithUndo.prototype.run = function(forward) {
       if (this.element === 'mutatorOpen') {
         var mutator = block.mutator;
       } else if (this.element === 'workbenchOpen') {
-        var mutator = block.mutator;
+        var mutator = block.workbenches[0];
       } else {
         throw 'Not implemented';
       }

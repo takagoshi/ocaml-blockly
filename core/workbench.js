@@ -334,8 +334,18 @@ Blockly.Workbench.prototype.setVisible = function(visible) {
     this.init_();
   }
   if (Blockly.Events.isEnabled()) {
-    Blockly.Events.fire(new Blockly.Events.UiWithUndo(this.block_,
-      'workbenchOpen', !visible, visible));
+    var existingGroup = Blockly.Events.getGroup();
+    if (!existingGroup) {
+      Blockly.Events.setGroup(true);
+    }
+    try {
+      Blockly.Events.fire(new Blockly.Events.UiWithUndo(this.block_,
+        'workbenchOpen', !visible, visible));
+    } finally {
+      if (!existingGroup) {
+        Blockly.Events.setGroup(false);
+      }
+    }
   }
 
   // Show or hide the bubble. It also shows/hides the workbench because the
