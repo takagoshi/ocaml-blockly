@@ -258,8 +258,8 @@ Blockly.onKeyDown_ = function(e) {
       // TODO(harukam): Support undo events in the proper workspace. Due to
       // implementation of workbench and workspace transferring, there is need
       // to undo events on other workspaces (not the main workspace.)
-	Blockly.hideChaff();
-	Blockly.undo(e.shiftKey);
+      Blockly.hideChaff();
+      Blockly.undo(e.shiftKey);
     }
   }
   // Common code for delete and cut.
@@ -361,20 +361,21 @@ Blockly.undo = function(redo) {
     var outputStack = redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
     var inputWorkspace = inputStack.slice(-1)[0];
     if (!inputWorkspace) {
-	     return;
+      return;
     }
     var groupid = inputWorkspace.groupid;
     inputWorkspace.workspace.undo(redo);
-    if (Blockly.globalUndoStack.length > 0) {
-      if (Blockly.globalUndoStack.slice(-1)[0].groupid === groupid) {
-        var inputWorkspace2 = Blockly.globalUndoStack.slice(-1)[0];
-        if (!inputWorkspace2) {
-          return;
-        }
-        inputWorkspace2.workspace.undo(redo);
+
+    var globalInputStack =
+      redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
+    var globalOutputStack =
+      redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
+    if (globalInputStack.length > 0) {
+      if (globalInputStack.slice(-1)[0].groupid === groupid) {
+        Blockly.undo(redo);
       }
     }
-    outputStack.push(inputWorkspace);
+    // outputStack = Blockly.globalRedoStack;
 };
 
 /**
