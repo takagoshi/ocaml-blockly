@@ -576,8 +576,18 @@ Blockly.Field.prototype.setValue = function(newValue) {
     return;
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+    var existingGroup = Blockly.Events.getGroup();
+    if (!existingGroup) {
+      Blockly.Events.setGroup(true);
+    }
+    try {
     Blockly.Events.fire(new Blockly.Events.BlockChange(
         this.sourceBlock_, 'field', this.name, oldValue, newValue));
+      } finally {
+    if (!existingGroup) {
+      Blockly.Events.setGroup(false);
+    }
+  }
   }
   this.setText(newValue);
 };
