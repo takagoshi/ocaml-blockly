@@ -587,7 +587,7 @@ Blockly.Workspace.prototype.undo = function(redo) {
       inputEvent.group == inputStack[inputStack.length - 1].group) {
     events.push(inputStack.pop());
   }
-  for (var i = 0, v; v = Blockly.globalUndoStack[i]; i++) {
+  for (var i = 0, v; v = globalInputStack[i]; i++) {
     if (v.groupid === inputEvent.group && v.workspace.id === inputEvent.workspaceId) {
       workspaces.push(v);
     }
@@ -607,7 +607,7 @@ Blockly.Workspace.prototype.undo = function(redo) {
     });
     // Push these popped events on the opposite stack.
     for (var i = 0, workspace; workspace = workspaces[i]; i++) {
-      Blockly.globalRedoStack.push(workspace);
+      Blockly.globalUndoStack.push(workspace);
     }
   }
   // Push these popped events on the opposite stack.
