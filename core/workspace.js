@@ -574,6 +574,8 @@ Blockly.Workspace.prototype.remainingCapacity = function() {
 Blockly.Workspace.prototype.undo = function(redo) {
   var inputStack = redo ? this.redoStack_ : this.undoStack_;
   var outputStack = redo ? this.undoStack_ : this.redoStack_;
+  var globalInputStack = redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
+  var globalOutputStack = redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
   var inputEvent = inputStack.pop();
   if (!inputEvent) {
     return;
@@ -590,15 +592,27 @@ Blockly.Workspace.prototype.undo = function(redo) {
       workspaces.push(v);
     }
   }
-  Blockly.globalUndoStack = Blockly.globalUndoStack.filter(function(item) {
-    return item.groupid !== inputEvent.group || item.workspace.id !== inputEvent.workspaceId;
-  });
-  // Push these popped events on the opposite stack.
-  for (var i = 0, event; event = events[i]; i++) {
-    outputStack.push(event);
+
+  if(!redo){
+    Blockly.globalUndoStack = Blockly.globalUndoStack.filter(function(item) {
+      return item.groupid !== inputEvent.group || item.workspace.id !== inputEvent.workspaceId;
+    });
+    // Push these popped events on the opposite stack.
+    for (var i = 0, workspace; workspace = workspaces[i]; i++) {
+      Blockly.globalRedoStack.push(workspace);
+    }
+  } else {
+    Blockly.globalRedoStack = Blockly.globalRedoStack.filter(function(item) {
+      return item.groupid !== inputEvent.group || item.workspace.id !== inputEvent.workspaceId;
+    });
+    // Push these popped events on the opposite stack.
+    for (var i = 0, workspace; workspace = workspaces[i]; i++) {
+      Blockly.globalRedoStack.push(workspace);
+    }
   }
-  for (var i = 0, workspace; workspace = workspaces[i]; i++) {
-    Blockly.globalRedoStack.push(workspace);
+  // Push these popped events on the opposite stack.
+  for (var i = 0, event; event = events[i]; i++){
+    outputStack.push(event);
   }
   events = Blockly.Events.filter(events, redo);
   Blockly.Events.recordUndo = false;

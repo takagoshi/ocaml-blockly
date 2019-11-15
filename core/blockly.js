@@ -258,8 +258,8 @@ Blockly.onKeyDown_ = function(e) {
       // TODO(harukam): Support undo events in the proper workspace. Due to
       // implementation of workbench and workspace transferring, there is need
       // to undo events on other workspaces (not the main workspace.)
-	Blockly.hideChaff();
-	Blockly.undo(e.shiftKey);
+      Blockly.hideChaff();
+      Blockly.undo(e.shiftKey);
     }
   }
   // Common code for delete and cut.
