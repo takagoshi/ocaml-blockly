@@ -397,8 +397,18 @@ Blockly.FieldDropdown.prototype.setValue = function(newValue) {
     return;  // No change if null.
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
-    Blockly.Events.fire(new Blockly.Events.BlockChange(
+    var existingGroup = Blockly.Events.getGroup();
+    if (!existingGroup) {
+      Blockly.Events.setGroup(true);
+    }
+    try {
+      Blockly.Events.fire(new Blockly.Events.BlockChange(
         this.sourceBlock_, 'field', this.name, this.value_, newValue));
+      } finally {
+        if (!existingGroup) {
+          Blockly.Events.setGroup(false);
+        }
+      }
   }
   this.value_ = newValue;
   // Look up and display the human-readable text.
