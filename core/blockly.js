@@ -366,18 +366,20 @@ Blockly.undo = function(redo) {
     var groupid = inputWorkspace.groupid;
     inputWorkspace.workspace.undo(redo);
 
-    var globalInputStack = redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
-    var globalOutputStack = redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
+    var globalInputStack =
+      redo ? Blockly.globalRedoStack : Blockly.globalUndoStack;
+    var globalOutputStack =
+      redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
     if (globalInputStack.length > 0) {
       if (globalInputStack.slice(-1)[0].groupid === groupid) {
-        //var inputWorkspace2 = Blockly.globalUndoStack.slice(-1)[0];
-        //if (!inputWorkspace2) {
-          //return;
-        //}
+        var inputWorkspace2 = globalInputStack.slice(-1)[0];
+        if (!inputWorkspace2) {
+          return;
+        }
         Blockly.undo(redo);
       }
     }
-    outputStack.push(inputWorkspace);
+    // outputStack = Blockly.globalRedoStack;
 };
 
 /**

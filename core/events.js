@@ -120,6 +120,7 @@ Blockly.Events.VAR_DELETE = 'var_delete';
  */
 Blockly.Events.VAR_RENAME = 'var_rename';
 
+Blockly.Events.BOUND_VAR_RENAME = 'bound_var_rename';
 /**
  * Name of event that records a UI change.
  * @const
@@ -361,6 +362,9 @@ Blockly.Events.fromJson = function(json, workspace) {
       break;
     case Blockly.Events.VAR_RENAME:
       event = new Blockly.Events.VarRename(null, '');
+      break;
+    case Blockly.Events.BOUND_VAR_RENAME:
+      event = new Blockly.Events.BoundVarRename(null, '');
       break;
     case Blockly.Events.UI:
       event = new Blockly.Events.Ui(null);
