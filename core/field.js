@@ -583,11 +583,11 @@ Blockly.Field.prototype.setValue = function(newValue) {
     try {
       Blockly.Events.fire(new Blockly.Events.BlockChange(
         this.sourceBlock_, 'field', this.name, oldValue, newValue));
-    } finally {
-      if (!existingGroup) {
-        Blockly.Events.setGroup(false);
+      } finally {
+        if (!existingGroup) {
+          Blockly.Events.setGroup(false);
+        }
       }
-    }
   }
   this.setText(newValue);
 };

@@ -404,11 +404,11 @@ Blockly.FieldDropdown.prototype.setValue = function(newValue) {
     try {
       Blockly.Events.fire(new Blockly.Events.BlockChange(
         this.sourceBlock_, 'field', this.name, this.value_, newValue));
-    } finally {
-      if (!existingGroup) {
-        Blockly.Events.setGroup(false);
+      } finally {
+        if (!existingGroup) {
+          Blockly.Events.setGroup(false);
+        }
       }
-    }
   }
   this.value_ = newValue;
   // Look up and display the human-readable text.
