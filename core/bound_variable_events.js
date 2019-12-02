@@ -88,7 +88,6 @@ Blockly.Events.BoundVarRename = function(variable, newName) {
   Blockly.Events.BoundVarRename.superClass_.constructor.call(this, variable);
   this.oldName = variable.getVariableName();
   this.newName = newName;
-  console.log("constructor");
 };
 goog.inherits(Blockly.Events.BoundVarRename, Blockly.Events.BoundVarBase);
 
@@ -106,7 +105,6 @@ Blockly.Events.BoundVarRename.prototype.toJson = function() {
   var json = Blockly.Events.BoundVarRename.superClass_.toJson.call(this);
   json['oldName'] = this.oldName;
   json['newName'] = this.newName;
-  console.log("toJson");
   return json;
 };
 
@@ -118,7 +116,6 @@ Blockly.Events.BoundVarRename.prototype.fromJson = function(json) {
   Blockly.Events.BoundVarRename.superClass_.fromJson.call(this, json);
   this.oldName = json['oldName'];
   this.newName = json['newName'];
-  console.log("fromJson");
 };
 
 /**
@@ -127,7 +124,6 @@ Blockly.Events.BoundVarRename.prototype.fromJson = function(json) {
  */
 Blockly.Events.BoundVarRename.prototype.run = function(forward) {
   var workspace = this.getEventWorkspace_();
-  console.log("renaming");
   if (forward) {
     var changed = Blockly.BoundVariables.renameVariableImpl_(this.variable,
         this.newName);
@@ -136,7 +132,6 @@ Blockly.Events.BoundVarRename.prototype.run = function(forward) {
           var msg = 'Invalid variable name!';
           Blockly.alert(msg, promptAndCheckWithAlert.bind(null, defaultName));
         }
-        console.log("rename variable");
     //workspace.renameVariableById(this.varId, this.newName);
   } else {
     var changed = Blockly.BoundVariables.renameVariableImpl_(this.variable,
