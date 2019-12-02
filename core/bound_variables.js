@@ -10,6 +10,7 @@
  **/
 goog.provide('Blockly.BoundVariables');
 
+goog.require('Blockly.Events.BoundVarRename');
 goog.require('Blockly.BoundVariableValue');
 goog.require('Blockly.BoundVariableValueReference');
 goog.require('Blockly.Workspace');
@@ -611,6 +612,20 @@ Blockly.BoundVariables.renameVariable = function(variable) {
           if (!newName) {
             // NOP. User canceled prompt.
           } else {
+            if (Blockly.Events.isEnabled()) {
+                 var existingGroup = Blockly.Events.getGroup();
+                 if (!existingGroup) {
+                   Blockly.Events.setGroup(true);
+                 }
+                 try {
+                   Blockly.Events.fire(new Blockly.Events.BoundVarRename(variable,
+                   newName));
+                 } finally {
+                    if (!existingGroup) {
+                      Blockly.Events.setGroup(false);
+                    }
+                  }
+                }
             var changed = Blockly.BoundVariables.renameVariableImpl_(variable,
                 newName);
             if (!changed) {

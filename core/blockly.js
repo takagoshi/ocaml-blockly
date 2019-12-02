@@ -372,6 +372,10 @@ Blockly.undo = function(redo) {
       redo ? Blockly.globalUndoStack : Blockly.globalRedoStack;
     if (globalInputStack.length > 0) {
       if (globalInputStack.slice(-1)[0].groupid === groupid) {
+        var inputWorkspace2 = globalInputStack.slice(-1)[0];
+        if (!inputWorkspace2) {
+          return;
+        }
         Blockly.undo(redo);
       }
     }
