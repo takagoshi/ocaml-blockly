@@ -40,6 +40,20 @@ Blockly.TypedLang['read_image_typed'] = function(block) {
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
+Blockly.TypedLang['image_width_typed'] = function(block) {
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'image_width ' + param;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
+Blockly.TypedLang['image_height_typed'] = function(block) {
+  var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'image_height ' + param;
+  return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
+};
+
 Blockly.TypedLang['overlay_typed'] = function(block) {
   var img = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';

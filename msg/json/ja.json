@@ -405,6 +405,8 @@
 	"PAIR_GET_SECOND_TOOLTIP": "ペアの二つ目を取得する",
 	"INT_OF_STRING_TOOLTIP": "string型をint型にします。",
 	"READ_IMAGE_TOOLTIP": "画像ファイルを指定した大きさで読み込む",
+	"IMAGE_WIDTH_TOOLTIP": "画像の横幅を返す",
+	"IMAGE_HEIGHT_TOOLTIP": "画像の縦幅を返す",
 	"PLACE_IMAGE_TOOLTIP": "元の画像の上に新たな画像を指定した位置に重ねる",
 	"PLACE_IMAGES_TOOLTIP": "元の画像の上に複数の新たな画像を指定した位置に重ねる",
 	"ANDMAP_TOOLTIP": "リスト中の要素が全て条件を満たすかを調べる",

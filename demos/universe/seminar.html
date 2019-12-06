@@ -100,10 +100,22 @@
       </block>
     </category>
     <category name="画像" colour="%{BKY_IMAGE_HUE}">
+      <block type="image_width_typed"> </block>
+      <block type="image_height_typed"> </block>
       <block type="read_image_typed">
         <value name="PARAM0">
           <block type="string_typed">
             <field name="STRING">http://pllab.is.ocha.ac.jp/~asai/picture/images/background.png</field>
+          </block>
+        </value>
+        <value name="PARAM1">
+          <block type="int_typed">
+            <field name="INT">100</field>
+          </block>
+        </value>
+        <value name="PARAM2">
+          <block type="int_typed">
+            <field name="INT">100</field>
           </block>
         </value>
       </block>
@@ -157,6 +169,7 @@
           <block type="color_typed"></block>
         </value>
       </block>
+      <block type="overlay_typed"> </block>
     </category>
     <category name="背景" colour="%{BKY_SCENE_HUE}">
       <block type="empty_scene_typed"></block>
