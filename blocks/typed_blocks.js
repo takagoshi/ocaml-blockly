@@ -85,16 +85,26 @@ Blockly.Blocks['rectangle_typed'] = {
 };
 
 Blockly.Blocks['read_image_typed'] = {
-  // read_image : string -> Image.t
+  // read_image : string -> int -> int -> Image.t
   init: function() {
     this.setColour(Blockly.Msg['IMAGE_HUE']);
     this.appendValueInput('PARAM0')
         .setTypeExpr(new Blockly.TypeExpr.STRING())
         .appendField('read_image ');
+    this.appendValueInput('PARAM1')
+        .setTypeExpr(new Blockly.TypeExpr.INT());
+    this.appendValueInput('PARAM2')
+        .setTypeExpr(new Blockly.TypeExpr.INT());
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.IMAGE());
-    this.setInputsInline(true);
+    this.setInputsInline(false);
     this.setTooltip(Blockly.Msg.READ_IMAGE_TOOLTIP);
+  },
+  infer: function(ctx) {
+    this.inferChild('PARAM0', ctx);
+    this.inferChild('PARAM1', ctx);
+    this.inferChild('PARAM2', ctx);
+    return this.outputConnection.typeExpr;
   }
 };
 

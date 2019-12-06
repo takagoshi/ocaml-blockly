@@ -32,7 +32,11 @@ Blockly.TypedLang['rectangle_typed'] = function(block) {
 Blockly.TypedLang['read_image_typed'] = function(block) {
   var param = Blockly.TypedLang.valueToCode(block, 'PARAM0',
       Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
-  var code = 'read_image ' + param;
+  var width = Blockly.TypedLang.valueToCode(block, 'PARAM1',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var height = Blockly.TypedLang.valueToCode(block, 'PARAM2',
+      Blockly.TypedLang.ORDER_FUNCTION_CALL) || '?';
+  var code = 'read_image ' + param + ' ' + width + ' ' + height;
   return [code, Blockly.TypedLang.ORDER_FUNCTION_CALL];
 };
 
