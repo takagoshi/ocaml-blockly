@@ -128,6 +128,9 @@ Blockly.globalUndoStack = [];
    */
 Blockly.globalRedoStack = [];
 
+// Where to highlight.
+Blockly.selectedConnection = null;
+
 /**
  * Convert a hue (HSV model) into an RGB hex triplet.
  * @param {number} hue Hue on a colour wheel (0-360).
@@ -203,6 +206,8 @@ Blockly.onKeyDown_ = function(e) {
     return;
   }
   var deleteBlock = false;
+  var workspace = Blockly.mainWorkspace;
+  var blocks = workspace.getAllBlocks(true);
   if (e.keyCode == 27) {
     // Pressing esc closes the context menu.
     Blockly.hideChaff();
@@ -219,6 +224,9 @@ Blockly.onKeyDown_ = function(e) {
     if (Blockly.selected && Blockly.selected.isDeletable()) {
       deleteBlock = true;
     }
+  } else if (e.keyCode == 9) {
+    // tabKey = 9
+    Blockly.processTab();
   } else if (e.altKey || e.ctrlKey || e.metaKey) {
     // Don't use meta keys during drags.
     if (Blockly.mainWorkspace.isDragging()) {
@@ -260,6 +268,17 @@ Blockly.onKeyDown_ = function(e) {
       // to undo events on other workspaces (not the main workspace.)
       Blockly.hideChaff();
       Blockly.undo(e.shiftKey);
+    } else if (e.keyCode == 73) {
+      if (Blockly.selectedConnection == null) {
+        return;
+      }
+      var input = Blockly.selectedConnection;
+      workspace.redoStack_ = [];
+      Blockly.globalRedoStack = [];
+      var xml = goog.dom.createDom('block',{'type':'logic_ternary_typed'});
+      var block = Blockly.Xml.domToBlock(xml, workspace);
+      //block.moveBy(100,100);
+      block.outputConnection.connect(input.connection);
     }
   }
   // Common code for delete and cut.
@@ -352,6 +371,34 @@ Blockly.hideChaff = function(opt_allowToolbox) {
   }
 };
 
+// Highlight connection with tabKey.
+Blockly.processTab = function() {
+  var workspace = Blockly.mainWorkspace;
+  var blocks = workspace.getAllBlocks(true);
+  if(blocks.length === 0){
+    return;
+  }
+  for (var i = 0, block; block = blocks[i]; i++) {
+    for (var j = 0, input; input = block.inputList[j]; j++) {
+      if (input.type == Blockly.DUMMY_INPUT) {
+        continue;
+      } else if (input.type == Blockly.NEXT_STATEMENT) {
+        continue;
+      }
+      // input.type == Blockly.INPUT_VALUE
+      if (Blockly.selectedConnection == null) {
+        input.connection.highlight();
+        Blockly.selectedConnection = input;
+        return;
+      }
+      if (Blockly.selectedConnection == input) {
+        Blockly.selectedConnection = null;
+        input.connection.unhighlight();
+        continue;
+      }
+    }
+  }
+}
 /**
  * Undo or redo the previous action.
  * @param {boolean} redo False if undo, true if redo.
