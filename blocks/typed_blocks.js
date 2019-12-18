@@ -85,16 +85,62 @@ Blockly.Blocks['rectangle_typed'] = {
 };
 
 Blockly.Blocks['read_image_typed'] = {
-  // read_image : string -> Image.t
+  // read_image : string -> int -> int -> Image.t
   init: function() {
     this.setColour(Blockly.Msg['IMAGE_HUE']);
     this.appendValueInput('PARAM0')
         .setTypeExpr(new Blockly.TypeExpr.STRING())
         .appendField('read_image ');
+    this.appendValueInput('PARAM1')
+        .setTypeExpr(new Blockly.TypeExpr.INT());
+    this.appendValueInput('PARAM2')
+        .setTypeExpr(new Blockly.TypeExpr.INT());
     this.setOutput(true);
     this.setOutputTypeExpr(new Blockly.TypeExpr.IMAGE());
-    this.setInputsInline(true);
+    this.setInputsInline(false);
     this.setTooltip(Blockly.Msg.READ_IMAGE_TOOLTIP);
+  },
+  infer: function(ctx) {
+    this.inferChild('PARAM0', ctx);
+    this.inferChild('PARAM1', ctx);
+    this.inferChild('PARAM2', ctx);
+    return this.outputConnection.typeExpr;
+  }
+};
+
+Blockly.Blocks['image_width_typed'] = {
+  // image_width : Image.t -> int
+  init: function() {
+    this.setColour(Blockly.Msg['INT_HUE']);
+    this.appendValueInput('PARAM0')
+        .setTypeExpr(new Blockly.TypeExpr.IMAGE())
+        .appendField('image_width ');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.IMAGE_WIDTH_TOOLTIP);
+  },
+  infer: function(ctx) {
+    this.inferChild('PARAM0', ctx);
+    return this.outputConnection.typeExpr;
+  }
+};
+
+Blockly.Blocks['image_height_typed'] = {
+  // image_height : Image.t -> int
+  init: function() {
+    this.setColour(Blockly.Msg['INT_HUE']);
+    this.appendValueInput('PARAM0')
+        .setTypeExpr(new Blockly.TypeExpr.IMAGE())
+        .appendField('image_height ');
+    this.setOutput(true);
+    this.setOutputTypeExpr(new Blockly.TypeExpr.INT());
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg.IMAGE_WIDTH_TOOLTIP);
+  },
+  infer: function(ctx) {
+    this.inferChild('PARAM0', ctx);
+    return this.outputConnection.typeExpr;
   }
 };
 

@@ -2080,6 +2080,20 @@ Blockly.Block.prototype.callInfer = function(name, ctx) {
   return childBlock.inferTypes(ctx);
 };
 
+/**
+ * Infer the type of the child and unify it with the expected one.
+ * @param {string|Blockly.Connection} name The name of the input or
+ *     connection.
+ * @param {!Blockly.Block.typeInferenceContext} ctx Context of type inference.
+ */
+Blockly.Block.prototype.inferChild = function(name, ctx) {
+  var inferred_type = this.callInfer(name, ctx);
+  var expected_type = this.getInput(name).connection.typeExpr;
+  if (inferred_type) {
+    inferred_type.unify(expected_type);
+  }
+};
+
 /* End functions related type inference. */
 
 /**
