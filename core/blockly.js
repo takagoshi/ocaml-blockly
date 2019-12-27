@@ -206,6 +206,7 @@ Blockly.createByKey = function(workspace, type) {
   Blockly.Events.setGroup(true);
   var block = Blockly.Xml.domToBlock(xml, workspace);
   block.outputConnection.connect(input.connection);
+  Blockly.Events.setGroup(false);
 }
 
 /**
@@ -240,7 +241,7 @@ Blockly.onKeyDown_ = function(e) {
     }
   } else if (e.keyCode == 39) {
     // → = 39
-    Blockly.processTab();
+    Blockly.processTab(workspace, blocks);
   }
   // Create block by key operation.
   else if (e.keyCode == 48) {
@@ -345,17 +346,6 @@ Blockly.onKeyDown_ = function(e) {
       // to undo events on other workspaces (not the main workspace.)
       Blockly.hideChaff();
       Blockly.undo(e.shiftKey);
-    } else if (e.keyCode == 73) {
-      if (Blockly.selectedConnection == null) {
-        return;
-      }
-      var input = Blockly.selectedConnection;
-      workspace.redoStack_ = [];
-      Blockly.globalRedoStack = [];
-      var xml = goog.dom.createDom('block',{'type':'logic_ternary_typed'});
-      var block = Blockly.Xml.domToBlock(xml, workspace);
-      //block.moveBy(100,100);
-      block.outputConnection.connect(input.connection);
     }
   }
   // Common code for delete and cut.
@@ -449,9 +439,7 @@ Blockly.hideChaff = function(opt_allowToolbox) {
 };
 
 // Highlight connection with tabKey.
-Blockly.processTab = function() {
-  var workspace = Blockly.mainWorkspace;
-  var blocks = workspace.getAllBlocks(true);
+Blockly.processTab = function(workspace, blocks) {
   if(blocks.length === 0){
     return;
   }
@@ -476,6 +464,7 @@ Blockly.processTab = function() {
     }
   }
 }
+
 /**
  * Undo or redo the previous action.
  * @param {boolean} redo False if undo, true if redo.
