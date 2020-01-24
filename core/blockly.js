@@ -321,9 +321,11 @@ Blockly.onKeyDown_ = function(e) {
     if (e.shiftKey) {
       Blockly.createByKey(workspace, 'string_typed');
     }
-  } else if (e.keyCode == 222){
-    // ^ key = 222
-    Blockly.createByKey(workspace, 'concat_string_typed');
+  } else if (e.keyCode == 67){
+    // ^ key = 67
+    if (e.shiftKey) {
+      Blockly.createByKey(workspace, 'concat_string_typed');
+    }
   } else if (e.keyCode == 188){
     // = key = 189
       Blockly.createByKey(workspace, 'logic_compare_typed');
