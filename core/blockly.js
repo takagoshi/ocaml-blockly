@@ -251,7 +251,6 @@ Blockly.onKeyDown_ = function(e) {
   }
   var deleteBlock = false;
   var workspace = Blockly.mainWorkspace;
-  var blocks = workspace.getAllBlocks(true);
   var block;
   if (!Blockly.selectedBlock) {
     block = workspace.getTopBlocks(true)[0];
@@ -268,11 +267,29 @@ Blockly.onKeyDown_ = function(e) {
     // Do this first to prevent an error in the delete code from resulting in
     // data loss.
     e.preventDefault();
-    // Don't delete while dragging.  Jeez.
+;    // Don't delete while dragging.  Jeez.
     if (Blockly.mainWorkspace.isDragging()) {
       return;
     }
     if (Blockly.selected && Blockly.selected.isDeletable()) {
+      if (Blockly.selectedBlock.parentBlock_) {
+        var connection;
+        if (Blockly.selectedBlock.outputConnection) {
+          connection = block.outputConnection.targetConnection;
+          connection.highlight();
+          Blockly.selectedConnection = connection;
+        } else if (Blockly.selectedBlock.previousConnection) {
+          connection = block.previousConnection.targetConnection;
+          connection.highlight();
+          Blockly.selectedNextConnection = connection;
+        }
+        Blockly.selectedBlock = block.parentBlock_;
+      } else {
+        Blockly.selectedConnection = null;
+        Blockly.selectedNextConnection = null;
+        Blockly.selectedBlock = null;
+        Blockly.childBlock_ = null;
+      }
       deleteBlock = true;
     }
   } else if (e.keyCode == 39) {
@@ -281,6 +298,7 @@ Blockly.onKeyDown_ = function(e) {
       Blockly.highlightReset();
       Blockly.processRL(childBlock);
     } else {
+      console.log(block);
       Blockly.processRL(block);
     }
   } else if (e.keyCode == 37) {
@@ -512,12 +530,14 @@ Blockly.processRL = function(block) {
     return;
   }
     Blockly.selectedBlock = block;
+    block.unselect();
     for (var j = 0, input; input = block.inputList[j]; j++) {
       if (input.type == Blockly.INPUT_VALUE) {
         if (Blockly.selectedConnection == null) {
           if (Blockly.selectedNextConnection) {
             Blockly.selectedNextConnection.unhighlight();
             Blockly.selectedNextConnection = null;
+            block.select();
           }
           input.connection.highlight();
           Blockly.selectedConnection = input.connection;
@@ -527,6 +547,9 @@ Blockly.processRL = function(block) {
         if (Blockly.selectedConnection == input.connection) {
           Blockly.selectedConnection = null;
           input.connection.unhighlight();
+          if (j == block.inputList.length -1) {
+            block.select();
+          }
           continue;
         }
       }
@@ -538,13 +561,19 @@ Blockly.processUD = function(block,getBlock) {
   if(block.length === 0){
     return;
   }
+  block.unselect();
   if (Blockly.selectedConnection || !Blockly.selectedBlock) {
     Blockly.highlightReset();
     Blockly.selectedBlock = block;
-  } else if (Blockly.selectedNextConnection) {
+    block.select();
+    return;
+  }
+  if (Blockly.selectedNextConnection) {
     Blockly.selectedNextConnection.unhighlight();
     Blockly.selectedNextConnection == null;
     Blockly.selectedBlock = getBlock;
+  } else {
+    Blockly.selectedBlock = block;
   }
   var next = Blockly.selectedBlock.nextConnection;
   if (next.type == Blockly.NEXT_STATEMENT) {
